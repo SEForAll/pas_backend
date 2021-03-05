@@ -6,7 +6,7 @@ class User(Model):
     Client_id = CharField()
     Client_secret = CharField()
     Email = CharField()
-    Administrator = 0
+    Administrator = IntegerField(default=0)
 
     class Meta:
         database = SqliteDatabase('Users.db')
@@ -25,10 +25,10 @@ class Oauth_Token(Model):
 
 class Given_Assignment(Model):
     Assignment_Name = CharField()
-    Due_at = CharField()
-    End_at = CharField()
-    Visible_at = CharField()
-    Start_at = CharField()
+    Due_at = DateTimeField()
+    End_at = DateTimeField()
+    Visible_at = DateTimeField(default=dt.now())
+    Start_at = DateTimeField()
 
     class Meta:
         database = SqliteDatabase('Given_Assignment_information')
@@ -37,10 +37,10 @@ class Student_Assignment(Model):
     Key = CharField()
     Client_id = CharField()
     Assignment_Name = CharField()
-    Submission_time = dt.now()
+    Submission_time = DateTimeField(default=dt.now())
     Filename = CharField()
     File_address = CharField()
-    Score = -1
+    Score = FloatField(default=-1)
 
     class Meta:
         database = SqliteDatabase('Student_Assignment_information.db')
