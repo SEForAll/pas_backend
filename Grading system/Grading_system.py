@@ -9,7 +9,7 @@ if (compile_bool == 0):         # If the input is not compile able, final grade 
   
 # Diff
 
-hwNum = 1  # homework number
+hwNum = 1  # homework number, need from database
 subPath = '/Users/liang/PycharmProjects/pythonProject/research/diffs/'  # this is for testing, need from database
 diff(hwNum, subPath)  # homework number, path of files need diff
 
