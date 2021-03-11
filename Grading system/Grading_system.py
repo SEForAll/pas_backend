@@ -1,20 +1,28 @@
-from compileable import *
-from diff import diff
+# input: student file pass
+# output: grade, a string about feedback
 
-# Compileable
-compile_bool = compileable_fun('/home/tony/research/test.c')
+def grade_a_file_fun(inputfilepass):
+    from compileable import *
+    from diff import diff
 
-if (compile_bool == 0):         # If the input is not compile able, final grade = 0
-  grade_final = 0
-  
-# Diff
+    # Compileable
+    compile_bool = compileable_fun('/home/tony/research/test.c')
 
-hwNum = 1  # homework number, need from database
-subPath = '/Users/liang/PycharmProjects/pythonProject/research/diffs/'  # this is for testing, need from database
-diff(hwNum, subPath)  # homework number, path of files need diff
+    if (compile_bool == 0):  # If the input is not compile able, final grade = 0
+        print("not compileable")
+        grade_final = 0
+        return grade_final
 
-# Check memory
+    # Diff
+    hwNum = 1  # homework number, need from database
+    subPath = '/Users/liang/PycharmProjects/pythonProject/research/diffs/'  # this is for testing, need from database
+    diff(hwNum, subPath)  # homework number, path of files need diff
 
-# Store final grade
+    # Check memory
 
-# clean the work space
+    # Store final grade
+        # front end will deal with storing final grade
+
+    # clean the work space
+
+    return grade_final
