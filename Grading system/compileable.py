@@ -11,9 +11,8 @@ def compileable_fun(inputfilepass):
     try:
         compiler.compile([inputfilepass])
         compiler.link_executable(['test.o'], 'test')
-        print("True1")
+        #print("True1")
         return 1
     except:
-        print("False1")
+        #print("False1")
         return 0
-
