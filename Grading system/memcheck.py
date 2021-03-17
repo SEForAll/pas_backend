@@ -4,12 +4,12 @@ import os
 # file --> a file that has all the valgrind information on it (not verbose)
 # returns how many bytes are in use and in how many blocks at the end of the program
 def memcheck(makefile_dir, path_to_test_case, name_of_test_case):
-    os.chdir("../../../../../../../..")
+    os.chdir("../../../../../../../../../../../../../../../../../..")
     os.chdir(path_to_test_case)
     with open(name_of_test_case) as f:
         testcase = f.read()
 
-    os.chdir("../../../../../../../..")
+    os.chdir("../../../../../../../../../../../../../../../../../..")
     os.chdir(makefile_dir)
 
     with open("makefile", 'r') as f:
