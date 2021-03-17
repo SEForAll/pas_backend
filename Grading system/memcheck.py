@@ -55,9 +55,9 @@ testcase = "input1.txt"
 
 bytes, blocks = memcheck(makefile_dir, path_to_test_case, testcase) # opens the file and sends it to the memcheck funciton to get integer values
 
-if bytes != -1 and bytes != -2:
+if bytes >= 0:
     print(f'you have {bytes} bytes of memory leak')
 elif bytes == -1:
     print('the name of the executable could not be found')
-else:
+elif bytes == -2:
     print('valgrind did not output to the correct file')
