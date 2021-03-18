@@ -13,16 +13,17 @@ def memcheck(makefile_dir, path_of_testcase):
     # path_to_testcase is simply the path to the test case, which does not include the testcase file at the end
         # an example of this could be this/is/a/path/to/the/test/case
 
-    t = re.compile(r'/(\w+.\w+)$')  # regex that will get the testcase file name
+    if path_of_testcase != 0:
+        t = re.compile(r'/(\w+.\w+)$')  # regex that will get the testcase file name
 
-    name_of_test_case = t.search(path_of_testcase).group(1)  # get the filename of the testcase
-    path_to_test_case = path_of_testcase.replace('/' + name_of_test_case, '')
-    # remove the filename from the path to just get the path
+        name_of_test_case = t.search(path_of_testcase).group(1)  # get the filename of the testcase
+        path_to_test_case = path_of_testcase.replace('/' + name_of_test_case, '')
+        # remove the filename from the path to just get the path
 
-    os.chdir("../../../../../../../../../../../../../../../../../..")  # this should be enough to get to the root folder
-    os.chdir(path_to_test_case)  # go to the folder where the test case is
-    with open(name_of_test_case) as f:  # open the specified test case
-        testcase = f.read()  # read the test case and store the data for later
+        os.chdir("../../../../../../../../../../../../../../../../../..")  # this should be enough to get to the root folder
+        os.chdir(path_to_test_case)  # go to the folder where the test case is
+        with open(name_of_test_case) as f:  # open the specified test case
+            testcase = f.read()  # read the test case and store the data for later
 
     os.chdir("../../../../../../../../../../../../../../../../../..")  # again, hoping to get to the root folder
     os.chdir(makefile_dir)  # go to the folder where the makefile and other files are (essentially the project folder)
@@ -38,13 +39,17 @@ def memcheck(makefile_dir, path_of_testcase):
 
     os.system("make")  # compiles the code according to the makefile
 
-    testfile = "testcase.txt"
-    with open(testfile, 'w') as f:
-        f.write(testcase)  # writes the testcase into a file in the current directory
-
     tempfile = "tempfile.txt"  # name of the tempfile which will store the valgrind output
-    os.system("valgrind ./" + executable + " " + testfile + " > " + tempfile + " 2>&1")
-    # previous statement executes valgrind on the executable and writes the output to the tempfile
+
+    if path_of_testcase != 0:
+        testfile = "testcase.txt"
+        with open(testfile, 'w') as f:
+            f.write(testcase)  # writes the testcase into a file in the current directory
+
+        os.system("valgrind ./" + executable + " " + testfile + " > " + tempfile + " 2>&1")
+        # previous statement executes valgrind on the executable and writes the output to the tempfile
+    else:
+        os.system("valgrind ./" + executable + " > " + tempfile + " 2>&1")
 
     p = re.compile(r'in use at exit: (\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
 
