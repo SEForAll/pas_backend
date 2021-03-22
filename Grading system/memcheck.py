@@ -26,9 +26,9 @@ def memcheck(makefile_dir, path_of_testcase):
     os.system("make")  # compiles the code according to the makefile
 
     tempfile = "tempfile.txt"  # name of the tempfile which will store the valgrind output
+    testfile = "testcase.txt"
 
     if path_of_testcase != 0:
-        testfile = "testcase.txt"
         with open(testfile, 'w') as f:
             f.write(testcase)  # writes the testcase into a file in the current directory
 
@@ -53,7 +53,7 @@ def memcheck(makefile_dir, path_of_testcase):
     return bytesInUse, blocks
 
 
-### EXAMPLE CODE THAT WORKS ON ALEX'S COMPUTER (macOS Big Sur)
+# EXAMPLE CODE THAT WORKS ON ALEX'S COMPUTER (macOS Big Sur)
 if __name__ == "__main__":
     makefile_dir = "/Users/alexgieson/Desktop/hw14"  # the directory of the makefile starting at the root
     path_of_test_case = "/Users/alexgieson/Desktop/hw14/inputs/input1.txt"  # the path to the test case from root
