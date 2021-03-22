@@ -1,10 +1,9 @@
-# input: a string which is student file pass
-# output: a tuple that has <grade, a list about feedback(each element is a string)>
-
 import os
 from os import path
 from distutils.ccompiler import new_compiler
 
+# input: a string which is student file pass
+# output: a tuple that has <grade, a list about feedback(each element is a string)>
 def grade_a_file_fun(inputfilepass):
     from diff import diff
     # inputfilepass = '/home/tony/research/test.c'    # student submission path in database
