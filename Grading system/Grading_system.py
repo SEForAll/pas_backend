@@ -10,12 +10,14 @@ def grade_a_file_fun(inputfilepass):
     
     # Compileable
     compile_bool = compileable_fun(inputfilepass)
+    list_final = []
     
     if (compile_bool == 0):  # If the input is not compile able, final grade = 0
-        list_final = []
         list_final.append = 'Your code is not compile able, please check gcc errors.'
         grade_final = 0
         return grade_final, list_final
+    if (compile_bool == 1):  # If the input is compile able
+        list_final.append = 'Your code compiles, good job.'
 
     # Diff
     hwNum = 1  # homework number, need from database
