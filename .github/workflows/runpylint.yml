@@ -32,7 +32,8 @@ jobs:
     - name: Check
       run: |
         cd ${{github.workspace}}/depsfolder/ourfiles
-        ls    
+        ls
+        find xargs
     - name: Run Pylint
       run: |
-        args: find ${{github.workspace}}/depsfolder/ourfiles -type f -name "*.py" | xargs pylint
+        find ${{github.workspace}}/depsfolder/ourfiles -type f -name "*.py" | xargs pylint
