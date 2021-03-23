@@ -18,6 +18,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+          path: depsfolder/ourfiles
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -30,4 +32,4 @@ jobs:
     - name: Pylint
       uses: fylein/python-pylint-github-action@v1
       with:
-        args: find ${{github.workspace}} -type f -name "*.py" | xargs pylint
+        args: find ${{github.workspace}}/depsfolder/ourfiles -type f -name "*.py" | xargs pylint
