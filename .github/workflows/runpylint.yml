@@ -33,7 +33,7 @@ jobs:
       run: |
         cd ${{github.workspace}}/depsfolder/ourfiles
         ls
-        find xargs
+        which xargs
     - name: Run Pylint
       run: |
         find ${{github.workspace}}/depsfolder/ourfiles -type f -name "*.py" | xargs pylint
