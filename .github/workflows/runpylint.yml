@@ -27,9 +27,7 @@ jobs:
         sudo python -m pip install --upgrade pip
         sudo python -m pip install flake8 pytest
         pip install pylint
-        find ${{github.workspace}} -type f -name "*.py" | xargs pylint
     - name: Pylint
-      uses: kolonialno/pylint-action@v0.0.8
+      uses: fylein/python-pylint-github-action@v1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        paths: ${{github.workspace}}
+        args: find ${{github.workspace}} -type f -name "*.py" | xargs pylint
