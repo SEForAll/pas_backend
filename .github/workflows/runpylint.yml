@@ -29,6 +29,10 @@ jobs:
         sudo python -m pip install --upgrade pip
         sudo python -m pip install flake8 pytest
         pip install pylint
+    - name: Check
+      run: |
+        cd ${{github.workspace}}/depsfolder/ourfiles
+        ls    
     - name: Pylint
       uses: fylein/python-pylint-github-action@v1
       with:
