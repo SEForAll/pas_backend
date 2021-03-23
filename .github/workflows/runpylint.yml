@@ -33,7 +33,6 @@ jobs:
       run: |
         cd ${{github.workspace}}/depsfolder/ourfiles
         ls    
-    - name: Pylint
-      uses: fylein/python-pylint-github-action@v1
-      with:
+    - name: Run Pylint
+      run: |
         args: find ${{github.workspace}}/depsfolder/ourfiles -type f -name "*.py" | xargs pylint
