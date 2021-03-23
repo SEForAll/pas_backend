@@ -2,6 +2,17 @@ from datetime import datetime as dt
 from database import *
 
 def addUser(clientID, clientSecret, email, admin):
+    """
+    :param clientID: client ID
+    :type clientID str
+    :param clientSecret: client Secret
+    :type clientSecret str
+    :param email: email
+    :type email str
+    :param admin: admin? (0 for no, 1 for yes)
+    :type admin int
+    :return:
+    """
 
     newUser = User.create(client_id=clientID, Client_secret=clientSecret, Email=email, Admin=admin)
 
@@ -10,6 +21,23 @@ def addUser(clientID, clientSecret, email, admin):
     return 0
 
 def addOauth(clientID, clientSecret, authCodeID, authCode, accessToken, refreshToken, userInfo):
+    """
+    :param clientID: client ID
+    :type clientID str
+    :param clientSecret: client Secret
+    :type clientSecret str
+    :param authCodeID: auth code ID
+    :type authCodeID str
+    :param authCode: auth code
+    :type authCode str
+    :param accessToken: access token
+    :type accessToken str
+    :param refreshToken: refresh token
+    :type refreshToken str
+    :param userInfo: user info
+    :type userInfo str
+    :return:
+    """
 
     newTokens = Oauth.create(client_id=clientID, Client_secret=clientSecret,
                                    Authorization_code_id=authCodeID, Authorization_code=authCode,
@@ -21,6 +49,25 @@ def addOauth(clientID, clientSecret, authCodeID, authCode, accessToken, refreshT
 
 
 def addAssignment(name, start, due, end, visible, expectedIn, expectedOut, makefile):
+    """
+    :param name: name
+    :type name str
+    :param start: start date
+    :type start datetime
+    :param due: due date
+    :type due datetime
+    :param end: end date
+    :type end datetime
+    :param visible: visible date
+    :type visible datetime
+    :param expectedIn: path of expected inputs
+    :type expectedIn str
+    :param expectedOut: path of expected outputs
+    :type expectedOut str
+    :param makefile: path of makefile
+    :type makefile str
+    :return:
+    """
 
     newAssignment = Assignment.create(Assignment_Name=name, Due=due, End=end,
                                       Start=start, Visible_date=visible, Expected_output_file=expectedOut,
@@ -32,6 +79,15 @@ def addAssignment(name, start, due, end, visible, expectedIn, expectedOut, makef
 
 
 def addSubmission(id, assignmentName, file):
+    """
+    :param id: client id
+    :type id str
+    :param assignmentName: assignment name
+    :type assignmentName str
+    :param file: path of file
+    :type file str
+    :return:
+    """
 
     path, filename = saveFile(file) #assumes there is a saveFile method that returns the
                                     # path of the file as well as the name of the file

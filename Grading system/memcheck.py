@@ -1,12 +1,22 @@
 import re
 import os
 
+# check example code at the bottom !
 
-# file --> a file that has all the valgrind information on it (not verbose)
-# returns how many bytes are in use and in how many blocks at the end of the program
-# if the output is -1, -1: the name of the executable cannot be found
-# if the output is -2, -2: valgrind was not run correctly (make sure it's installed and working on your computer first)
 def memcheck(makefile_dir, path_of_testcase):
+    """
+    :param makefile_dir: full directory to the makefile (doarts with a '/' and does not include the makfile)
+    :type makefile_dir: str
+        example: /users/alex/desktop/project14
+    :param path_of_testcase: the full path of the testcase (starts with a '/' and includes the file)
+    :type path_of_testcase: str
+        example: users/alex/desktop/project14/inputs/test1.txt
+    :return bytes: bytes of code leaked in the program
+    :return blocks: blocks of code that leaked memory
+
+    if the output is -1, -1: the name of the executable cannot be found
+    if the output is -2, -2: valgrind was not run correctly (make sure it's installed and working on your computer first)
+    """
 
     if path_of_testcase != 0:
         with open(path_of_testcase) as f:  # open the specified test case
