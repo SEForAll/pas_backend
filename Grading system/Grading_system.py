@@ -89,8 +89,8 @@ def grade(path, pathin, pathout, makefile):
         if bytesLeaked < 0:
             list_final.append('error when executing makefile...')
             return 0, list_final
-        else:
-            list_final.append('makefile executed correctly!')
+        # else:
+        #     list_final.append('makefile executed correctly!')
 
     if bytesLeaked > 0:
         list_final.append(f'{bytesLeaked} byte(s) of memory leak was present in the program')
