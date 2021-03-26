@@ -88,7 +88,7 @@ def addSubmission(id, assignmentName, file):
     :type id str
     :param assignmentName: assignment name
     :type assignmentName str
-    :param file: path of file
+    :param file: path of file (MUST BE A ZIP FILE)
     :type file file
     :return: grade, feedback
     """
@@ -96,6 +96,8 @@ def addSubmission(id, assignmentName, file):
     assignmentID = uuid.uuid1()
 
     path = f'/root/submissions/{id}/{assignmentName}/{assignmentID}'
+    if os.path.isdir(f'/root/submissions/{id}/{assignmentName}') is False:
+        os.makedirs(f'/root/submissions/{id}/{assignmentName}')
 
     data = file.read()
 
