@@ -1,5 +1,4 @@
 import os
-from os import path
 from distutils.ccompiler import new_compiler
 import filecmp
 import re

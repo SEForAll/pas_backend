@@ -1,7 +1,7 @@
 from datetime import datetime as dt
 from .database import User, Oauth, Assignment, Submission
 import uuid
-from Grading_system import grade
+from .Grading_system import grade
 import os
 from zipfile import ZipFile
 
@@ -105,15 +105,15 @@ def addSubmission(id, assignmentName, file):
             zip.extractall(f'{assignmentID}')
 
     newSubmission = Submission.create(Assignment_id=assignmentID, Client_id=id, Assignment_Name=assignmentName,
-                                      Submission_time=dt.now(), Filename=filename,
+                                      Submission_time=dt.now(), Filename=assignmentID,
                                       Fileadd=path, Score=-1)
     expected_inputs_path = Assignment.get(Assignment.name == assignmentName).expectedIn
     expected_output_path = Assignment.get(Assignment.name == assignmentName).expectedOut
     makefile_path = Assignment.get(Assignment.name == assignmentName).makefile
 
-    grade, feedback = grade(path, expected_inputs_path, expected_output_path, makefile_path)
+    finalgrade, feedback = grade(path, expected_inputs_path, expected_output_path, makefile_path)
 
-    newSubmission.Score = grade
+    newSubmission.Score = finalgrade
 
     newSubmission.save()
 
