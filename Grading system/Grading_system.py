@@ -9,6 +9,7 @@ import re
 # 4. where do you run the programe
 # 5. we need to set timeout for any os or make
 # 6. change function name to grade_fun
+# 7. what if there are multiple inputfiles and outputfiles. what if there are no outputfile. 
 
 # input: path to the project, path to the expected input files,
 #        path to the expected output files, path to the expected makefile
