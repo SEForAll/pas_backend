@@ -1,5 +1,4 @@
 import os
-from os import path
 from distutils.ccompiler import new_compiler
 import filecmp
 import re
@@ -78,6 +77,7 @@ def grade(path, pathin, pathout, makefile):
             list_final.append("Test case " + str(i + 1) + " is wrong...")
 
     grade_final -= 100/len(inputfiles) * (len(inputfiles) - passed)
+    list_final.append(f'{passed}/{len(inputfiles)} test cases passed!')
 
     print('diff finished\nstarting memcheck')
 
