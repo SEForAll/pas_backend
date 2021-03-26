@@ -3,10 +3,17 @@ from distutils.ccompiler import new_compiler
 import filecmp
 import re
 
+# 1. we can not use student makefile
+# 2. we can not use print, because we are backend
+# 3. compilefun, where is the linkprocess?
+# 4. where do you run the programe
+# 5. we need to set timeout for any os or make
+# 6. change function name to grade_fun
 
-# input: a string which is student file pass
+# input: path to the project, path to the expected input files,
+#        path to the expected output files, path to the expected makefile
 # output: a tuple that has <grade, a list about feedback(each element is a string)>
-def grade(path, pathin, pathout, makefile):
+def grade_fun(path, pathin, pathout, makefile):
     """
     :param path: path to the project. ex) /users/alex/myfiles/project
     :type path: str
@@ -108,7 +115,8 @@ def grade(path, pathin, pathout, makefile):
 
     return grade_final, list_final
 
-
+# input: full directory to the makefile, the full path of the testcase
+# output: bytes of code leaked in the program, blocks of code that leaked memory
 def memcheck(makefile_dir, path_of_testcase):
     """
     :param makefile_dir: full directory to the makefile (doarts with a '/' and does not include the makfile)
