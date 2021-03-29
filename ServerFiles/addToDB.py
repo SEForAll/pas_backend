@@ -1,7 +1,7 @@
 from datetime import datetime as dt
 from .database import User, Oauth, Assignment, Submission
 import uuid
-from .Grading_system import grade
+from .Grading_system import grade_fun
 import os
 from zipfile import ZipFile
 
@@ -88,7 +88,7 @@ def addSubmission(id, assignmentName, file):
     :type id str
     :param assignmentName: assignment name
     :type assignmentName str
-    :param file: path of file (MUST BE A ZIP FILE)
+    :param file: zipfile file (MUST BE A ZIP FILE)
     :type file file
     :return: grade, feedback
     """
@@ -115,13 +115,13 @@ def addSubmission(id, assignmentName, file):
     expected_output_path = assignment.expectedOut
     makefile_path = assignment.makefile
 
-    finalgrade, feedback = grade(path, expected_inputs_path, expected_output_path, makefile_path)
+    finalgrade, feedback = grade_fun(path, expected_inputs_path, expected_output_path, makefile_path)
 
     newSubmission.Score = finalgrade
 
     newSubmission.save()
 
-    return grade, feedback
+    return finalgrade, feedback
 
 
 
