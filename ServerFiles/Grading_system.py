@@ -26,7 +26,7 @@ def grade_fun(path, pathin, pathout, makefile):
     list_final = []
     grade_final = 100
 
-    debugging = True  # enable debugging print statements
+    debugging = False  # enable debugging print statements
 
     with open(makefile, 'r') as make:
         makefiletext = make.read()  # read the makefile from the professor
@@ -34,7 +34,7 @@ def grade_fun(path, pathin, pathout, makefile):
     os.chdir(path)
     with open('makefile', 'w+') as make:
         make.write(makefiletext)  # write the makefile from the professor into the hw directory
-    os.system('make clean 2>&1')
+    os.system('make clean >/dev/null 2>&1')
 
     if debugging:
         print('starting compile')
@@ -110,11 +110,12 @@ def grade_fun(path, pathin, pathout, makefile):
         #print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')
         os.system('make >/dev/null 2>&1')
-        os.system(f'make testcase{i}')  # PROF MUST SEND THE OUTPUT OF THE DIFF COMMAND TO temp.txt !!!!!!
+        os.system(f'make testcase{i} >/dev/null 2>&1')  # PROF MUST SEND THE OUTPUT OF THE DIFF COMMAND TO grade.txt !!!!!!
                                         # i can't route the output of the diff command, only the output of the testcase command
                                         # this must be done by the professor
+                                        # ex) diff output1.txt expected1.txt > grade.txt
 
-        comp = filecmp.cmp(f'temp.txt', 'empty.txt', shallow=False)
+        comp = filecmp.cmp(f'grade.txt', 'empty.txt', shallow=False)
         if comp is True:
             list_final.append("Test case " + str(i) + " is correct!")
             passed += 1
@@ -131,7 +132,7 @@ def grade_fun(path, pathin, pathout, makefile):
     # Check memory
 
     bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)
-    print(bytesLeaked)
+
     if bytesLeaked < 0:
         list_final.append('error when executing makefile... contact your professor about this issue')
         return 0, list_final
@@ -150,8 +151,8 @@ def grade_fun(path, pathin, pathout, makefile):
     if grade_final < 0:
         grade_final = 0
 
-    #os.system('make clean >/dev/null 2>&1')
-    #os.remove('temp.txt')
+    os.system('make clean >/dev/null 2>&1')
+    os.remove('grade.txt')
 
     return grade_final, list_final
 
@@ -194,6 +195,6 @@ def memcheck(makefile_dir, valgrindstatements):
             bytesInUse += int(match.group(1))  # put regex groups from the match into variables and cast to integers
             blocks += int(match.group(2))
 
-    #os.remove(tempfile)  # remove the files we created as they only pertain to this function
+    os.remove(tempfile)  # remove the files we created as they only pertain to this function
 
     return bytesInUse, blocks
