@@ -7,7 +7,7 @@ import re
 # 4. where do you run the program
 # 5. we need to set timeout for any os or make !!!!!!!!!
 # 7. what if there are multiple inputfiles and outputfiles. what if there are no outputfile.
-
+# pathin and pathout are not being used at all, so we need to look into whether we really need them or not.
 
 # input: a string which is student file pass
 # output: a tuple that has <grade, a list about feedback(each element is a string)>
@@ -67,7 +67,7 @@ def grade_fun(path, pathin, pathout, makefile):
             return 0, list_final
         num = re.compile(r'testcase(\d+):')
         match = num.findall(text)
-        if match is not None:
+        if len(match) != 0:
             numberoftestcases = int(match[-1])
         else:
             list_final.append('error when executing makefile... contact your professor about this issue (number of test cases could not be found)')
@@ -90,9 +90,10 @@ def grade_fun(path, pathin, pathout, makefile):
     with open('empty.txt', 'w+') as f:
         f.write('')
     for i in range(1, numberoftestcases + 1):
+        print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')
         os.system('make >/dev/null 2>&1')
-        os.system(f'make testcase{i} > temp.txt 2>&1')
+        os.system(f'make testcase{i}')
 
         comp = filecmp.cmp('temp.txt', 'empty.txt', shallow=False)
         if comp is True:
