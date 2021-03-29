@@ -107,10 +107,10 @@ def grade_fun(path, pathin, pathout, makefile):
     with open('empty.txt', 'w+') as f:
         f.write('')
     for i in range(1, numberoftestcases + 1):
-        print(f'i is {i}')
+        #print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')
         os.system('make >/dev/null 2>&1')
-        os.system(f'make testcase{i}')
+        os.system(f'make testcase{i} > temp.txt')
 
         comp = filecmp.cmp('temp.txt', 'empty.txt', shallow=False)
         if comp is True:
