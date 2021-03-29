@@ -26,24 +26,26 @@ def grade_fun(path, pathin, pathout, makefile):
     list_final = []
     grade_final = 100
 
-    debugging = True
+    debugging = True  # enable debugging print statements
 
     with open(makefile, 'r') as make:
-        makefiletext = make.read()
+        makefiletext = make.read()  # read the makefile from the professor
 
     os.chdir(path)
     with open('makefile', 'w+') as make:
-        make.write(makefiletext)
+        make.write(makefiletext)  # write the makefile from the professor into the hw directory
     os.system('make clean 2>&1')
 
     if debugging:
         print('starting compile')
+
+    # ---------------------------------
     # check that everything can compile
     compiler = new_compiler()
-    for filename in os.listdir(path):
-        if filename.endswith(".c"):  # suppose c file
+    for filename in os.listdir(path):  # for all files in the directory
+        if filename.endswith(".c"):  # that end with .c
             try:
-                compiler.compile([filename])
+                compiler.compile([filename])  # check to see that it compiles
                 list_final.append(f'{filename} compiled correctly!')
 
             except:
@@ -51,13 +53,20 @@ def grade_fun(path, pathin, pathout, makefile):
                 return 0, list_final
         else:
             continue
+
     if debugging:
         print('compile finished\nstarting diff')
+
+    # this is the setup for the next few parts
 
     numberoftestcases = 0
 
     with open("makefile", 'r') as f:  # open the makefile
         text = f.read()
+
+        # -----------------------
+        # get the name of the executable
+
         ex = re.compile(r'-o (\w+)')  # use regex to get the name of the executable made from the makefile
         match = ex.search(text)
         if match is not None:
@@ -65,6 +74,10 @@ def grade_fun(path, pathin, pathout, makefile):
         else:
             list_final.append('error when executing makefile... contact your professor about this issue (name of executable can not be found)')
             return 0, list_final
+
+        # ------------------------
+        # get the number of test cases to run
+
         num = re.compile(r'testcase(\d+):')
         match = num.findall(text)
         if len(match) != 0:
@@ -77,14 +90,18 @@ def grade_fun(path, pathin, pathout, makefile):
             list_final.append('error when executing makefile... contact your professor about this issue (number of test cases is not correct)')
             return 0, list_final
 
+        # ------------------------
+        # get the valgrind statements to run
+
         valgrindstatements = []
         val = re.compile(r'(\./.+)')
         reglist = val.findall(text)
         for elem in reglist:
             valgrindstatements.append(elem.split('>')[0])
-        #print(valgrindstatements)
 
+    # -------------------------
     # Check diff
+
     passed = 0
     os.chdir(path)
     with open('empty.txt', 'w+') as f:
@@ -108,7 +125,9 @@ def grade_fun(path, pathin, pathout, makefile):
     if debugging:
         print('diff finished\nstarting memcheck')
 
+    # ----------------------------
     # Check memory
+
     bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)
     print(bytesLeaked)
     if bytesLeaked < 0:
