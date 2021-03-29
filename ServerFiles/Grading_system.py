@@ -110,9 +110,11 @@ def grade_fun(path, pathin, pathout, makefile):
         #print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')
         os.system('make >/dev/null 2>&1')
-        os.system(f'make testcase{i} > temp.txt')
+        os.system(f'make testcase{i}')  # PROF MUST SEND THE OUTPUT OF THE DIFF COMMAND TO temp.txt !!!!!!
+                                        # i can't route the output of the diff command, only the output of the testcase command
+                                        # this must be done by the professor
 
-        comp = filecmp.cmp('temp.txt', 'empty.txt', shallow=False)
+        comp = filecmp.cmp(f'temp.txt', 'empty.txt', shallow=False)
         if comp is True:
             list_final.append("Test case " + str(i) + " is correct!")
             passed += 1
