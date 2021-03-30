@@ -10,7 +10,7 @@ def memcheck(makefile_dir, path_of_testcase):
         example: /users/alex/desktop/project14
     :param path_of_testcase: the full path of the testcase (starts with a '/' and includes the file)
     :type path_of_testcase: str
-        example: users/alex/desktop/project14/inputs/test1.txt
+        example: /users/alex/desktop/project14/inputs/test1.txt
     :return bytes: bytes of code leaked in the program
     :return blocks: blocks of code that leaked memory
 
