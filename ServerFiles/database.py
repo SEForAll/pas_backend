@@ -55,6 +55,7 @@ class Submission(Model):
     Filename = CharField()
     Fileadd = CharField()
     Score = IntegerField()
+    Feedback = CharField()
 
     class Meta:
         database = db

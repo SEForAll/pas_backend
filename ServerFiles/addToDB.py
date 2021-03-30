@@ -109,7 +109,7 @@ def addSubmission(id, assignmentName, file):
 
     newSubmission = Submission.create(Assignment_id=assignmentID, Client_id=id, Assignment_Name=assignmentName,
                                       Submission_time=dt.now(), Filename=assignmentID,
-                                      Fileadd=path, Score=-1)
+                                      Fileadd=path, Score=-1, Feedback='None')
 
     assignment = Assignment.get(Assignment.name == assignmentName)
     expected_inputs_path = assignment.expectedIn
@@ -119,6 +119,12 @@ def addSubmission(id, assignmentName, file):
     finalgrade, feedback = grade_fun(path, expected_inputs_path, expected_output_path, makefile_path)
 
     newSubmission.Score = finalgrade
+
+    feedbackstr = ''
+    for elem in feedback:
+        feedbackstr += elem + '\n'
+
+    newSubmission.Feedback = feedbackstr
 
     newSubmission.save()
 
