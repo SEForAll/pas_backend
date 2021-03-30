@@ -103,7 +103,8 @@ def addSubmission(id, assignmentName, file):
 
     with open(f'{path}.zip', 'w+') as file:
         file.write(data)
-        with ZipFile(f'{path}.zip', 'r') as zip:
+
+    with ZipFile(f'{path}.zip', 'r') as zip:
             zip.extractall(f'{assignmentID}')
 
     newSubmission = Submission.create(Assignment_id=assignmentID, Client_id=id, Assignment_Name=assignmentName,
