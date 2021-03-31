@@ -88,7 +88,7 @@ def addSubmission(id, assignmentName, file):
     :type id str
     :param assignmentName: assignment name
     :type assignmentName str
-    :param file: zipfile file (MUST BE A ZIP FILE)
+    :param file: zipfile file (MUST BE A ZIP FILE and must be opened
     :type file file
     :return: grade, feedback
     """
