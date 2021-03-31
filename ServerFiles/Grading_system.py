@@ -106,6 +106,8 @@ def grade_fun(path, pathin, pathout, makefile):
     os.chdir(path)
     with open('empty.txt', 'w+') as f:
         f.write('')
+    with open('grade.txt', 'w+') as f:
+        f.write('')
     for i in range(1, numberoftestcases + 1):
         #print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')
@@ -115,7 +117,7 @@ def grade_fun(path, pathin, pathout, makefile):
                                         # this must be done by the professor
                                         # ex) diff output1.txt expected1.txt > grade.txt
 
-        comp = filecmp.cmp(f'grade.txt', 'empty.txt', shallow=False)
+        comp = filecmp.cmp('grade.txt', 'empty.txt', shallow=False)
         if comp is True:
             list_final.append("Test case " + str(i) + " is correct!")
             passed += 1
@@ -153,6 +155,7 @@ def grade_fun(path, pathin, pathout, makefile):
 
     os.system('make clean >/dev/null 2>&1')
     os.remove('grade.txt')
+    os.remove('empty.txt')
 
     return grade_final, list_final
 
