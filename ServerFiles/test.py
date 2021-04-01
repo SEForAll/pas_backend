@@ -2,7 +2,7 @@ from addToDB import *
 import os
 
 if __name__ == '__main__':
-    path = '/root/agieson/git/pas_backend/testingfiles/'
+    path = '/home/agieson/git/pas_backend/testingfiles/'
     studentpath = f'{path}testAssignmentStudent'
     profpath = f'{path}testAssignmentProf'
 
