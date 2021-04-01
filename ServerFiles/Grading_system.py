@@ -111,8 +111,10 @@ def grade_fun(path, pathin, pathout, makefile):
     os.chdir(path)
     with open('empty.txt', 'w+') as f:
         f.write('')
+   
     with open('grade.txt', 'w+') as f:
-        f.write('0')
+       f.write('')
+
     for i in range(1, numberoftestcases + 1):
         #print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')
