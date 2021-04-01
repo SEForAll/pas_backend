@@ -1,7 +1,7 @@
 from datetime import datetime as dt
-from .database import User, Oauth, Assignment, Submission
+from database import User, Oauth, Assignment, Submission
 import uuid
-from .Grading_system import grade_fun
+from Grading_system import grade_fun
 import os
 from zipfile import ZipFile
 
