@@ -93,28 +93,31 @@ def addSubmission(id, assignmentName, file):
     :return: grade, feedback
     """
 
-    assignmentID = uuid.uuid1()
+    assignmentID = uuid.uuid4()
 
-    path = f'/root/submissions/{id}/{assignmentName}/{assignmentID}'
-    if os.path.isdir(f'/root/submissions/{id}/{assignmentName}') is False:
-        os.makedirs(f'/root/submissions/{id}/{assignmentName}')
+    path = f'/home/agieson/submissions/{id}/{assignmentName}/{assignmentID}'
+    if os.path.isdir(f'/home/agieson/submissions/{id}/{assignmentName}') is False:
+        os.makedirs(f'/home/agieson/submissions/{id}/{assignmentName}')
 
     data = file.read()
 
-    with open(f'{path}.zip', 'w+') as file:
-        file.write(data)
+    with open(f'{path}.zip', 'wb+') as newfile:
+        newfile.write(data)
 
     with ZipFile(f'{path}.zip', 'r') as zip:
-            zip.extractall(f'{assignmentID}')
+        zip.extractall(f'{path}')
 
-    newSubmission = Submission.create(Assignment_id=assignmentID, Client_id=id, Assignment_Name=assignmentName,
+    for filename in os.listdir(path):
+        os.system(f'mv {path}/{filename}/* {path}')
+
+    newSubmission = Submission.create(Assignment_id=assignmentID, Client_id=id, Assignment_name=assignmentName,
                                       Submission_time=dt.now(), Filename=assignmentID,
                                       Fileadd=path, Score=-1, Feedback='None')
 
-    assignment = Assignment.get(Assignment.name == assignmentName)
-    expected_inputs_path = assignment.expectedIn
-    expected_output_path = assignment.expectedOut
-    makefile_path = assignment.makefile
+    assignment = Assignment.get(Assignment.Assignment_name == assignmentName)
+    expected_inputs_path = assignment.Expected_input_file
+    expected_output_path = assignment.Expected_output_file
+    makefile_path = assignment.Makefile
 
     finalgrade, feedback = grade_fun(path, expected_inputs_path, expected_output_path, makefile_path)
 

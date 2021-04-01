@@ -19,7 +19,7 @@ if __name__ == '__main__':
     addAssignment(assignmentname, datetime.now(), weekfromnow, weekfromnow, datetime.now(), expectedIn, expectedOut, makefile)
 
     with open(submissionfile, 'rb') as file:
-        grade, feedback = addSubmission('random ID', assignmentname, file)
+        grade, feedback = addSubmission('randomID', assignmentname, file)
 
     for line in feedback:
         print(line)

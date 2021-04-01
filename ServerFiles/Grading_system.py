@@ -42,6 +42,11 @@ def grade_fun(path, pathin, pathout, makefile):
     # ---------------------------------
     # check that everything can compile
     compiler = new_compiler()
+
+    if len(os.listdir(path)) == 0:
+        list_final.append('no files submitted')
+        return 0, list_final
+
     for filename in os.listdir(path):  # for all files in the directory
         if filename.endswith(".c"):  # that end with .c
             try:
@@ -107,7 +112,7 @@ def grade_fun(path, pathin, pathout, makefile):
     with open('empty.txt', 'w+') as f:
         f.write('')
     with open('grade.txt', 'w+') as f:
-        f.write('')
+        f.write('0')
     for i in range(1, numberoftestcases + 1):
         #print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')
