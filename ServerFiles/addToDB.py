@@ -73,7 +73,7 @@ def addAssignment(name, start, due, end, visible, expectedIn, expectedOut, makef
     :return:
     """
 
-    newAssignment = Assignment.create(Assignment_Name=name, Due=due, End=end,
+    newAssignment = Assignment.create(Assignment_name=name, Due=due, End=end,
                                       Start=start, Visible_date=visible, Expected_output_file=expectedOut,
                                       Expected_input_file=expectedIn, Makefile=makefile)
 
