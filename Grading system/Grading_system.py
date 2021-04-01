@@ -3,14 +3,13 @@ from distutils.ccompiler import new_compiler
 import filecmp
 import re
 
-# 1. we can not use student makefile
-# 2. we can not use print, because we are backend
-# 4. where do you run the programe
-# 5. we need to set timeout for any os or make !!!!!!!!!
-# 7. what if there are multiple inputfiles and outputfiles. what if there are no outputfile. 
 
-# input: path to the project, path to the expected input files,
-#        path to the expected output files, path to the expected makefile
+# 4. where do you run the program
+# 5. we need to set timeout for any os or make !!!!!!!!!
+# 7. what if there are multiple inputfiles and outputfiles. what if there are no outputfile.
+# pathin and pathout are not being used at all, so we need to look into whether we really need them or not.
+
+# input: a string which is student file pass
 # output: a tuple that has <grade, a list about feedback(each element is a string)>
 def grade_fun(path, pathin, pathout, makefile):
     """
@@ -27,23 +26,31 @@ def grade_fun(path, pathin, pathout, makefile):
     list_final = []
     grade_final = 100
 
-    # if a makefile is not specified, then it is assumed that the student has made one
-    # if a make file is specified, then it writes the makefile into the folder
-    if makefile != 0:
-        with open(makefile, 'r') as make:
-            makefiletext = make.read()
+    debugging = False  # enable debugging print statements
 
-        os.chdir(path)
-        with open('makefile', 'w+') as make:
-            make.write(makefiletext)
+    with open(makefile, 'r') as make:
+        makefiletext = make.read()  # read the makefile from the professor
 
-    print('starting compile')
+    os.chdir(path)
+    with open('makefile', 'w+') as make:
+        make.write(makefiletext)  # write the makefile from the professor into the hw directory
+    os.system('make clean >/dev/null 2>&1')
+
+    if debugging:
+        print('starting compile')
+
+    # ---------------------------------
     # check that everything can compile
     compiler = new_compiler()
-    for filename in os.listdir(path):
-        if filename.endswith(".c"):  # suppose c file
+
+    if len(os.listdir(path)) == 0:
+        list_final.append('no files submitted')
+        return 0, list_final
+
+    for filename in os.listdir(path):  # for all files in the directory
+        if filename.endswith(".c"):  # that end with .c
             try:
-                compiler.compile([filename])
+                compiler.compile([filename])  # check to see that it compiles
                 list_final.append(f'{filename} compiled correctly!')
 
             except:
@@ -51,52 +58,95 @@ def grade_fun(path, pathin, pathout, makefile):
                 return 0, list_final
         else:
             continue
-    print('compile finished\nstarting diff')
 
-    # Check diff
-    inputfiles = os.listdir(pathin)
-    inputfiles.sort()
-    outputfiles = os.listdir(pathout)
-    outputfiles.sort()
+    if debugging:
+        print('compile finished\nstarting diff')
+
+    # this is the setup for the next few parts
+
+    numberoftestcases = 0
 
     with open("makefile", 'r') as f:  # open the makefile
         text = f.read()
+
+        # -----------------------
+        # get the name of the executable
+
         ex = re.compile(r'-o (\w+)')  # use regex to get the name of the executable made from the makefile
         match = ex.search(text)
         if match is not None:
             executable = match.group(1)  # set the name of the executable as long as it is able to find it
         else:
-            list_final.append('name of executable could not be found')
+            list_final.append('error when executing makefile... contact your professor about this issue (name of executable can not be found)')
             return 0, list_final
+
+        # ------------------------
+        # get the number of test cases to run
+
+        num = re.compile(r'testcase(\d+):')
+        match = num.findall(text)
+        if len(match) != 0:
+            numberoftestcases = int(match[-1])
+        else:
+            list_final.append('error when executing makefile... contact your professor about this issue (number of test cases could not be found)')
+            return 0, list_final
+
+        if numberoftestcases == 0:
+            list_final.append('error when executing makefile... contact your professor about this issue (number of test cases is not correct)')
+            return 0, list_final
+
+        # ------------------------
+        # get the valgrind statements to run
+
+        valgrindstatements = []
+        val = re.compile(r'(\./.+)')
+        reglist = val.findall(text)
+        for elem in reglist:
+            valgrindstatements.append(elem.split('>')[0])
+
+    # -------------------------
+    # Check diff
 
     passed = 0
-    for i in range(len(inputfiles)):
-        os.chdir(path)
+    os.chdir(path)
+    with open('empty.txt', 'w+') as f:
+        f.write('')
+   
+    with open('grade.txt', 'w+') as f:
+       f.write('')
+
+    for i in range(1, numberoftestcases + 1):
+        #print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')
         os.system('make >/dev/null 2>&1')
-        os.system(f'./{executable} {pathin}/{inputfiles[i]} > temp.txt')
-        comp = filecmp.cmp('temp.txt', f'{pathout}/{outputfiles[i]}', shallow=False)
+        os.system(f'make testcase{i} >/dev/null 2>&1')  # PROF MUST SEND THE OUTPUT OF THE DIFF COMMAND TO grade.txt !!!!!!
+                                        # i can't route the output of the diff command, only the output of the testcase command
+                                        # this must be done by the professor
+                                        # ex) diff output1.txt expected1.txt > grade.txt
+
+        comp = filecmp.cmp('grade.txt', 'empty.txt', shallow=False)
         if comp is True:
-            list_final.append("Test case " + str(i + 1) + " is correct!")
+            list_final.append("Test case " + str(i) + " is correct!")
             passed += 1
         else:
-            list_final.append("Test case " + str(i + 1) + " is wrong...")
+            list_final.append("Test case " + str(i) + " is wrong...")
 
-    grade_final -= 100/len(inputfiles) * (len(inputfiles) - passed)
-    list_final.append(f'{passed}/{len(inputfiles)} test cases passed!')
+    grade_final -= 100/numberoftestcases * (numberoftestcases - passed)
+    list_final.append(f'{passed}/{numberoftestcases} test cases passed!')
 
-    print('diff finished\nstarting memcheck')
+    if debugging:
+        print('diff finished\nstarting memcheck')
 
+    # ----------------------------
     # Check memory
-    for inputfile in inputfiles:
-        os.system('make clean >/dev/null 2>&1')
-        bytesLeaked, blocksLeaked = memcheck(path, f'{pathin}/{inputfile}')
 
-        if bytesLeaked < 0:
-            list_final.append('error when executing makefile...')
-            return 0, list_final
-        # else:
-        #     list_final.append('makefile executed correctly!')
+    bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)
+
+    if bytesLeaked < 0:
+        list_final.append('error when executing makefile... contact your professor about this issue')
+        return 0, list_final
+    # else:
+    #     list_final.append('makefile executed correctly!')
 
     if bytesLeaked > 0:
         list_final.append(f'{bytesLeaked} byte(s) of memory leak was present in the program')
@@ -104,73 +154,56 @@ def grade_fun(path, pathin, pathout, makefile):
     if bytesLeaked == 0:
         list_final.append('No memory leak!')
 
-    print('memcheck finished')
+    if debugging:
+        print('memcheck finished')
 
     if grade_final < 0:
         grade_final = 0
 
     os.system('make clean >/dev/null 2>&1')
-    os.remove('temp.txt')
+    os.remove('grade.txt')
+    os.remove('empty.txt')
 
     return grade_final, list_final
 
-# input: full directory to the makefile, the full path of the testcase
-# output: bytes of code leaked in the program, blocks of code that leaked memory
-def memcheck(makefile_dir, path_of_testcase):
+
+def memcheck(makefile_dir, valgrindstatements):
     """
     :param makefile_dir: full directory to the makefile (doarts with a '/' and does not include the makfile)
     :type makefile_dir: str
         example: /users/alex/desktop/project14
-    :param path_of_testcase: the full path of the testcase (starts with a '/' and includes the file)
-    :type path_of_testcase: str
-        example: users/alex/desktop/project14/inputs/test1.txt
+    :param path_of_testcase: list containing the statements to run valgrind on
+    :type path_of_testcase: list
+        example: ['./hw14 inputs/input1', ./hw14 inputs/input2]
     :return bytes: bytes of code leaked in the program
     :return blocks: blocks of code that leaked memory
-
     if the output is -1, -1: the name of the executable cannot be found
     if the output is -2, -2: valgrind was not run correctly (make sure it's installed and working on your computer first)
     """
 
-    if path_of_testcase != 0:
-        with open(path_of_testcase) as f:  # open the specified test case
-            testcase = f.read()  # read the test case and store the data for later
-
     os.chdir(makefile_dir)  # go to the folder where the makefile and other files are (essentially the project folder)
-
-    with open("makefile", 'r') as f:  # open the makefile
-        text = f.read()
-        ex = re.compile(r'-o (\w+)')  # use regex to get the name of the executable made from the makefile
-        match = ex.search(text)
-        if match is not None:
-            executable = match.group(1)  # set the name of the executable as long as it is able to find it
-        else:
-            return -1, -1  # happens when the name of the executable cannot be found from the makefile
 
     os.system("make >/dev/null 2>&1")  # compiles the code according to the makefile
 
     tempfile = "tempfile.txt"  # name of the tempfile which will store the valgrind output
-    testfile = "testcase.txt"
 
-    if path_of_testcase != 0:
-        with open(testfile, 'w') as f:
-            f.write(testcase)  # writes the testcase into a file in the current directory
+    bytesInUse = 0
+    blocks = 0
 
-        os.system("valgrind ./" + executable + " " + testfile + " > " + tempfile + " 2>&1")
+    for statement in valgrindstatements:
+        os.system(f'valgrind {statement} > {tempfile} 2>&1')
         # previous statement executes valgrind on the executable and writes the output to the tempfile
-    else:
-        os.system("valgrind ./" + executable + " > " + tempfile + " 2>&1")
 
-    p = re.compile(r'in use at exit: (\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
+        p = re.compile(r'in use at exit: (\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
 
-    with open(tempfile, 'r') as f:
-        text = f.read()
-        match = p.search(text)  # use regex to get number of bytes leaked and in how many blocks
-        if match is None:
-            return -2, -2  # return this if the valgrind is not called properly (might happen bc i wrote this on mac)
-        bytesInUse = int(match.group(1))  # put regex groups from the match into variables and cast to integers
-        blocks = int(match.group(2))
+        with open(tempfile, 'r') as f:
+            text = f.read()
+            match = p.search(text)  # use regex to get number of bytes leaked and in how many blocks
+            if match is None:
+                return -2, -2  # return this if the valgrind is not called properly (might happen bc i wrote this on mac)
+            bytesInUse += int(match.group(1))  # put regex groups from the match into variables and cast to integers
+            blocks += int(match.group(2))
 
     os.remove(tempfile)  # remove the files we created as they only pertain to this function
-    os.remove(testfile)
 
     return bytesInUse, blocks
