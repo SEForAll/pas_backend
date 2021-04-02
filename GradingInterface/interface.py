@@ -1,4 +1,7 @@
 
+# This is a python module. Outside of this directory:
+# from GradingInterface import interface
+
 class GradedSubmission:
     """
     Holds all information and methods related to the completed grading of an assignment
