@@ -1,7 +1,7 @@
 from datetime import datetime as dt
-from .database import User, Oauth, Assignment, Submission
+from database import User, Oauth, Assignment, Submission
 import uuid
-from .Grading_system import grade_fun
+from Grading_system import grade_fun
 import os
 from zipfile import ZipFile
 
@@ -73,7 +73,7 @@ def addAssignment(name, start, due, end, visible, expectedIn, expectedOut, makef
     :return:
     """
 
-    newAssignment = Assignment.create(Assignment_Name=name, Due=due, End=end,
+    newAssignment = Assignment.create(Assignment_name=name, Due=due, End=end,
                                       Start=start, Visible_date=visible, Expected_output_file=expectedOut,
                                       Expected_input_file=expectedIn, Makefile=makefile)
 
@@ -93,31 +93,41 @@ def addSubmission(id, assignmentName, file):
     :return: grade, feedback
     """
 
-    assignmentID = uuid.uuid1()
+    assignmentID = uuid.uuid4()
 
-    path = f'/root/submissions/{id}/{assignmentName}/{assignmentID}'
-    if os.path.isdir(f'/root/submissions/{id}/{assignmentName}') is False:
-        os.makedirs(f'/root/submissions/{id}/{assignmentName}')
+    path = f'/home/agieson/submissions/{id}/{assignmentName}/{assignmentID}'
+    if os.path.isdir(f'/home/agieson/submissions/{id}/{assignmentName}') is False:
+        os.makedirs(f'/home/agieson/submissions/{id}/{assignmentName}')
 
     data = file.read()
 
-    with open(f'{path}.zip', 'w+') as file:
-        file.write(data)
-        with ZipFile(f'{path}.zip', 'r') as zip:
-            zip.extractall(f'{assignmentID}')
+    with open(f'{path}.zip', 'wb+') as newfile:
+        newfile.write(data)
 
-    newSubmission = Submission.create(Assignment_id=assignmentID, Client_id=id, Assignment_Name=assignmentName,
+    with ZipFile(f'{path}.zip', 'r') as zip:
+        zip.extractall(f'{path}')
+
+    for filename in os.listdir(path):
+        os.system(f'mv {path}/{filename}/* {path}')
+
+    newSubmission = Submission.create(Assignment_id=assignmentID, Client_id=id, Assignment_name=assignmentName,
                                       Submission_time=dt.now(), Filename=assignmentID,
-                                      Fileadd=path, Score=-1)
+                                      Fileadd=path, Score=-1, Feedback='None')
 
-    assignment = Assignment.get(Assignment.name == assignmentName)
-    expected_inputs_path = assignment.expectedIn
-    expected_output_path = assignment.expectedOut
-    makefile_path = assignment.makefile
+    assignment = Assignment.get(Assignment.Assignment_name == assignmentName)
+    expected_inputs_path = assignment.Expected_input_file
+    expected_output_path = assignment.Expected_output_file
+    makefile_path = assignment.Makefile
 
     finalgrade, feedback = grade_fun(path, expected_inputs_path, expected_output_path, makefile_path)
 
     newSubmission.Score = finalgrade
+
+    feedbackstr = ''
+    for elem in feedback:
+        feedbackstr += elem + '\n'
+
+    newSubmission.Feedback = feedbackstr
 
     newSubmission.save()
 

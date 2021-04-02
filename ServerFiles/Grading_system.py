@@ -23,10 +23,16 @@ def grade_fun(path, pathin, pathout, makefile):
     :type makefile str
     :return: grade, feedback
     """
+
     list_final = []
     grade_final = 100
 
     debugging = False  # enable debugging print statements
+
+    os.chdir(makefile[0:-len('makefile')])
+
+    for file in os.listdir(makefile[0:-len('makefile')]):
+        os.system(f'cp -r {file} {path}')
 
     with open(makefile, 'r') as make:
         makefiletext = make.read()  # read the makefile from the professor
@@ -42,6 +48,11 @@ def grade_fun(path, pathin, pathout, makefile):
     # ---------------------------------
     # check that everything can compile
     compiler = new_compiler()
+
+    if len(os.listdir(path)) == 0:
+        list_final.append('no files submitted')
+        return 0, list_final
+
     for filename in os.listdir(path):  # for all files in the directory
         if filename.endswith(".c"):  # that end with .c
             try:
@@ -106,6 +117,10 @@ def grade_fun(path, pathin, pathout, makefile):
     os.chdir(path)
     with open('empty.txt', 'w+') as f:
         f.write('')
+   
+    with open('grade.txt', 'w+') as f:
+        f.write('')
+
     for i in range(1, numberoftestcases + 1):
         #print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')
@@ -115,7 +130,7 @@ def grade_fun(path, pathin, pathout, makefile):
                                         # this must be done by the professor
                                         # ex) diff output1.txt expected1.txt > grade.txt
 
-        comp = filecmp.cmp(f'grade.txt', 'empty.txt', shallow=False)
+        comp = filecmp.cmp('grade.txt', 'empty.txt', shallow=False)
         if comp is True:
             list_final.append("Test case " + str(i) + " is correct!")
             passed += 1
@@ -140,7 +155,7 @@ def grade_fun(path, pathin, pathout, makefile):
     #     list_final.append('makefile executed correctly!')
 
     if bytesLeaked > 0:
-        list_final.append(f'{bytesLeaked} byte(s) of memory leak was present in the program')
+        list_final.append(f'{bytesLeaked} byte(s) of memory leak present in the program')
         grade_final -= bytesLeaked
     if bytesLeaked == 0:
         list_final.append('No memory leak!')
@@ -153,6 +168,7 @@ def grade_fun(path, pathin, pathout, makefile):
 
     os.system('make clean >/dev/null 2>&1')
     os.remove('grade.txt')
+    os.remove('empty.txt')
 
     return grade_final, list_final
 
