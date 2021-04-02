@@ -33,6 +33,7 @@ if __name__ == '__main__':
     with open(submissionfile, 'rb') as file:
         grade, feedback = addSubmission('randomID', assignmentname, file)
 
+    print('\nstart grade feedback\n-------------------------------------------------\n')
     for line in feedback:
         print(line)
 
