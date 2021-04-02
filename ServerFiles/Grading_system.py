@@ -23,10 +23,16 @@ def grade_fun(path, pathin, pathout, makefile):
     :type makefile str
     :return: grade, feedback
     """
+
     list_final = []
     grade_final = 100
 
     debugging = False  # enable debugging print statements
+
+    os.chdir(makefile[0:-len('makefile')])
+
+    for file in os.listdir(makefile[0:-len('makefile')]):
+        os.system(f'cp -r {file} {path}')
 
     with open(makefile, 'r') as make:
         makefiletext = make.read()  # read the makefile from the professor
@@ -113,7 +119,7 @@ def grade_fun(path, pathin, pathout, makefile):
         f.write('')
    
     with open('grade.txt', 'w+') as f:
-       f.write('')
+        f.write('')
 
     for i in range(1, numberoftestcases + 1):
         #print(f'i is {i}')
@@ -149,7 +155,7 @@ def grade_fun(path, pathin, pathout, makefile):
     #     list_final.append('makefile executed correctly!')
 
     if bytesLeaked > 0:
-        list_final.append(f'{bytesLeaked} byte(s) of memory leak was present in the program')
+        list_final.append(f'{bytesLeaked} byte(s) of memory leak present in the program')
         grade_final -= bytesLeaked
     if bytesLeaked == 0:
         list_final.append('No memory leak!')
