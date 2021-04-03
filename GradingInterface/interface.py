@@ -1,3 +1,7 @@
+from zipfile import ZipFile
+import re
+import os
+from .gradingsystem import grade
 
 # This is a python module. Outside of this directory:
 # from GradingInterface import interface
@@ -50,7 +54,18 @@ class Submission:
 
         :return: None
         """
-        pass
+
+        p = re.compile(r'^(.+).zip$')
+        match = p.search(self.submission_zip_path)
+        self.submission_folder_path = match.group(1)
+
+        if os.path.isdir(self.submission_folder_path) is False:
+            os.makedirs(self.submission_folder_path)
+
+        with ZipFile(self.submission_zip_path, 'r') as submission:
+            submission.extractall(self.submission_folder_path)
+
+        return
 
     def clean_up(self):
         """
@@ -67,26 +82,52 @@ class TestCase:
     """
     A compilation of actions related to file operations a test case path
 
-    :param test_case_path: path to the folder containing test casses
+    :param test_case_path: path to the folder containing test cases
     """
 
     def __init__(self, test_case_path: str):
-        self.test_case_path = test_case_path
+        """
 
-    # Add any functions related to test case here that may need to be called by grade_submission
+        :param test_case_path: path to the folder that the professor uploaded
+        """
+        self.test_case_path = test_case_path
+        self.files = os.listdir(test_case_path)
+
+    def copyfiles(self, submission_dir):
+        os.chdir(self.test_case_path)
+        for file in self.files:
+            os.system(f'cp -r {file} {submission_dir}')
+
+    def removefiles(self, submission_dir):
+        os.chdir(submission_dir)
+        for file in self.files:
+            os.system(f'rm -r {file}')
 
     def __str__(self):
         return self.test_case_path
 
 
 def grade_submission(submission: str, test_case: str) -> GradedSubmission:
+    """
+    grade the submission and return a GradedSubmission object with all info stored inside
+
+    :param submission: path to the submission zipfile
+    :type submission: str
+    :param test_case: path to the test case
+    :type test_case: str
+    :return:
+    """
 
     user_grade = 0
 
-    user_submission = Submission(submission)
-    submission_test = TestCase(test_case)
-    user_submission.setup()
+    user_submission = Submission(submission)  # this holds the path to the zip file
+    submission_testcases = TestCase(test_case)
+    user_submission.setup()  # unzips submission into a folder and sets folder path
 
-    # Necessary grading code
+    submission_testcases.copyfiles(user_submission.submission_folder_path)
 
-    return GradedSubmission(user_grade)
+    user_grade, user_feedback = grade(user_submission.submission_folder_path)
+
+    submission_testcases.removefiles(user_submission.submission_folder_path)
+
+    return GradedSubmission(user_grade, user_feedback)
