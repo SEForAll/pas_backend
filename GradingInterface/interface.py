@@ -73,6 +73,9 @@ class Submission:
 
         :return: None
         """
+        os.system(f'rm -r {self.submission_folder_path}')
+
+        return
 
     def __str__(self):
         return self.submission_folder_path
@@ -128,6 +131,6 @@ def grade_submission(submission: str, test_case: str) -> GradedSubmission:
 
     user_grade, user_feedback = grade(user_submission.submission_folder_path)
 
-    submission_testcases.removefiles(user_submission.submission_folder_path)
+    user_submission.clean_up()
 
     return GradedSubmission(user_grade, user_feedback)
