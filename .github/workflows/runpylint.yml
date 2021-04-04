@@ -28,6 +28,7 @@ jobs:
       run: |
         sudo python -m pip install --upgrade pip
         sudo python -m pip install flake8 pytest
+        sudo python -m pip install peewee
         pip install pylint
     - name: Check
       run: |
