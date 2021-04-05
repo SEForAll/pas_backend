@@ -4,10 +4,9 @@ import filecmp
 import re
 
 
-# 4. where do you run the program
+# 4. where do you run the program <-- line 132 of interface.py
 # 5. we need to set timeout for any os or make !!!!!!!!!
-# 7. what if there are multiple inputfiles and outputfiles. what if there are no outputfile.
-# pathin and pathout are not being used at all, so we need to look into whether we really need them or not.
+# 7. what if there are multiple inputfiles and outputfiles. what if there are no outputfile. <-- handled my makefile if you use the template
 
 # input: a string which is student file pass
 # output: a tuple that has <grade, a list about feedback(each element is a string)>
