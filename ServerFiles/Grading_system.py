@@ -31,7 +31,9 @@ def grade_fun(path, pathin, pathout, makefile):
 
     os.chdir(makefile[0:-len('makefile')])
 
-    for file in os.listdir(makefile[0:-len('makefile')]):
+    professorfiles = os.listdir(makefile[0:-len('makefile')])
+
+    for file in professorfiles:
         os.system(f'cp -r {file} {path}')
 
     with open(makefile, 'r') as make:
@@ -47,21 +49,24 @@ def grade_fun(path, pathin, pathout, makefile):
 
     # ---------------------------------
     # check that everything can compile
-    compiler = new_compiler()
+    #compiler = new_compiler()
 
     if len(os.listdir(path)) == 0:
         list_final.append('no files submitted')
         return 0, list_final
 
+    compiler = new_compiler()
+    
     for filename in os.listdir(path):  # for all files in the directory
         if filename.endswith(".c"):  # that end with .c
             try:
-                compiler.compile([filename])  # check to see that it compiles
+                compiler.compile([filename])  # check to see that it compiled
                 list_final.append(f'{filename} compiled correctly!')
 
             except:
                 list_final.append(f'{filename} did not compile correctly...')
-                return 0, list_final
+                return 0, list_final 
+
         else:
             continue
 
@@ -147,7 +152,7 @@ def grade_fun(path, pathin, pathout, makefile):
     # Check memory
 
     bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)
-
+    #print(bytesLeaked)
     if bytesLeaked < 0:
         list_final.append('error when executing makefile... contact your professor about this issue')
         return 0, list_final
@@ -169,6 +174,9 @@ def grade_fun(path, pathin, pathout, makefile):
     os.system('make clean >/dev/null 2>&1')
     os.remove('grade.txt')
     os.remove('empty.txt')
+    for file in professorfiles:
+        #print(file)
+        os.system(f'rm -r {file}')
 
     return grade_final, list_final
 
@@ -211,6 +219,6 @@ def memcheck(makefile_dir, valgrindstatements):
             bytesInUse += int(match.group(1))  # put regex groups from the match into variables and cast to integers
             blocks += int(match.group(2))
 
-    os.remove(tempfile)  # remove the files we created as they only pertain to this function
+        os.remove(tempfile)  # remove the files we created as they only pertain to this function
 
     return bytesInUse, blocks
