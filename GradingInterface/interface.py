@@ -116,12 +116,10 @@ def grade_submission(submission: str, test_case: str) -> GradedSubmission:
 
     :param submission: path to the submission zipfile
     :type submission: str
-    :param test_case: path to the test case
+    :param test_case: path to the test case (unzipped folder)
     :type test_case: str
     :return:
     """
-
-    user_grade = 0
 
     user_submission = Submission(submission)  # this holds the path to the zip file
     submission_testcases = TestCase(test_case)
