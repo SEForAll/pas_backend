@@ -31,4 +31,4 @@ jobs:
     - name: Test with unittest
       run: |
         cd TestCases
-        python -m unittest testGradingInterface.py
+        python testGradingInterface.py
