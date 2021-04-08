@@ -1,5 +1,21 @@
 # pas_backend
-Backend
+Backend has all the functionality code for program analysis. There are three main chunk of code in this repository. 
+1. Database (located in 'databasefiles' folder)
+2. Grading system code (located in 'grading_system_helper' folder)
+3. Grading system interface (located in 'TestCases' folder)
+
+## Table of contents
+* [Database](#Database)
+* [Grading system code](#grading_system_helper)
+* [Grading system interface](#TestCases)
+
+## Database
+
+
+## grading_system_helper
+
+
+## TestCases
 
 
 # Todo
