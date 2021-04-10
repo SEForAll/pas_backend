@@ -129,7 +129,7 @@ def grade_submission(submission: str, test_case: str) -> GradedSubmission:
 
     user_grade, user_feedback = grade(user_submission.submission_folder_path)
 
-    user_submission.clean_up()
+    user_submission.clean_up()  # deletes copied files
 
     return GradedSubmission(user_grade, user_feedback)
 
