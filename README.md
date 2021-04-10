@@ -35,3 +35,5 @@ related to OAUTH and have just one table to store user ID.
 - Consider consolidating databases and filesystem with frontend--this may make submission processing easier.
 
 aaa
+
+This is Jon's addition
