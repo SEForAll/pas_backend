@@ -15,11 +15,11 @@ def grade(path):
     :param path: path to the project. ex) /users/alex/myfiles/project
     :type path: str
 
-    :return: grade, feedback
+    :return: pointslist ([testcases, testcases passed, bytes leaked]), feedback
     """
 
     list_final = []
-    grade_final = 100
+    pointslist = []
 
     debugging = False  # enable debugging print statements
 
@@ -35,7 +35,7 @@ def grade(path):
 
     if len(os.listdir(path)) == 0:
         list_final.append('no files submitted')
-        return 0, list_final
+        return None, list_final
 
     compiler = new_compiler()
 
@@ -47,7 +47,7 @@ def grade(path):
 
             except:
                 list_final.append(f'{filename} did not compile correctly...')
-                return 0, list_final
+                return None, list_final
 
         else:
             continue
@@ -72,7 +72,7 @@ def grade(path):
         else:
             list_final.append(
                 'error when executing Makefile... contact your professor about this issue (name of executable can not be found)')
-            return 0, list_final
+            return None, list_final
 
         # ------------------------
         # get the number of test cases to run
@@ -84,12 +84,12 @@ def grade(path):
         else:
             list_final.append(
                 'error when executing Makefile... contact your professor about this issue (number of test cases could not be found)')
-            return 0, list_final
+            return None, list_final
 
         if numberoftestcases == 0:
             list_final.append(
                 'error when executing Makefile... contact your professor about this issue (number of test cases is not correct)')
-            return 0, list_final
+            return None, list_final
 
         # ------------------------
         # get the valgrind statements to run
@@ -128,7 +128,8 @@ def grade(path):
         else:
             list_final.append("Test case " + str(i) + " is wrong...")
 
-    grade_final -= 100 / numberoftestcases * (numberoftestcases - passed)
+    pointslist.append(numberoftestcases)
+    pointslist.append(passed)
     list_final.append(f'{passed}/{numberoftestcases} test cases passed!')
 
     if debugging:
@@ -147,21 +148,19 @@ def grade(path):
 
     if bytesLeaked > 0:
         list_final.append(f'{bytesLeaked} byte(s) of memory leak present in the program')
-        grade_final -= bytesLeaked
     if bytesLeaked == 0:
         list_final.append('No memory leak!')
 
+    pointslist.append(bytesLeaked)
+
     if debugging:
         print('memcheck finished')
-
-    if grade_final < 0:
-        grade_final = 0
 
     os.system('make clean >/dev/null 2>&1')
     os.remove('grade.txt')
     os.remove('empty.txt')
 
-    return grade_final, list_final
+    return pointslist, list_final
 
 
 def memcheck(makefile_dir, valgrindstatements):

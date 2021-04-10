@@ -2,6 +2,7 @@ from zipfile import ZipFile
 import re
 import os
 from .gradingsystem import grade
+from .equation import calculate_grade
 
 # This is a python module. Outside of this directory:
 # from GradingInterface import interface
@@ -110,7 +111,7 @@ class TestCase:
         return self.test_case_path
 
 
-def grade_submission(submission: str, test_case: str) -> GradedSubmission:
+def grade_submission(submission: str, test_case: str, equation="100*(p/t)-m-10*l") -> GradedSubmission:
     """
     grade the submission and return a GradedSubmission object with all info stored inside
 
@@ -127,9 +128,11 @@ def grade_submission(submission: str, test_case: str) -> GradedSubmission:
 
     submission_testcases.copyfiles(user_submission.submission_folder_path)
 
-    user_grade, user_feedback = grade(user_submission.submission_folder_path)
+    pointslist, user_feedback = grade(user_submission.submission_folder_path)
+
+    pointslist.append(0)  # pointslist.append(dayslate) --> this will get added when we figure that out
 
     user_submission.clean_up()  # deletes copied files
 
-    return GradedSubmission(user_grade, user_feedback)
+    return GradedSubmission(calculate_grade(pointslist, equation), user_feedback)
 
