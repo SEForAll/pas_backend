@@ -1,6 +1,6 @@
 import re
 
-
+# keep in mind this is for professors grading stuff, so it shouldn't be too complicated
 def calculate_equation(equation):
     """
     takes a string equation and calculates the value
@@ -10,6 +10,12 @@ def calculate_equation(equation):
     :return: float
     """
 
+    whitelistedchars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                        '.', '+', '-', '*', '/', '^', '(', ')', ' ', '\t']
+    for letter in equation:
+        if letter not in whitelistedchars:
+            raise AttributeError(f"equation contains illegal characters: {letter}")
+
     parenthesis = re.compile(r'\([0-9.+\-*/^\s]+\)')  # regex pattern for parenthesis
 
     for match in parenthesis.finditer(equation):  # for each parenthesis match in the equation
@@ -17,13 +23,13 @@ def calculate_equation(equation):
         equation = equation.replace(match.group(0), str(calculate_equation(replace)))  # reduce using recursion
 
 
-    exponent = re.compile(r'(\d+\.?\d*)+\s*\^\s*(\d+\.?\d*)+')  # regex pattern for exponents
+    exponent = re.compile(r'(-?\d+\.?\d*)+\s*\^\s*(-?\d+\.?\d*)+')  # regex pattern for exponents
     while '^' in equation: # while there is still a ^ in the equation
         for match in exponent.finditer(equation):  # for each exponent match in the equation
             equation = equation.replace(str(match.group(0)), f'{float(match.group(1)) ** float(match.group(2))}')
             #  reduce the exponent to a number
 
-    multdiv = re.compile(r'(\d+\.?\d*)+\s*(\*|/)\s*(\d+\.?\d*)+')  # regex pattern for multiplication or division
+    multdiv = re.compile(r'(-?\d+\.?\d*)+\s*(\*|/)\s*(-?\d+\.?\d*)+')  # regex pattern for multiplication or division
 
     while '/' in equation or '*' in equation:  # while there is a * or / in the equation
         for match in multdiv.finditer(equation):  # for each multiplication or division match
@@ -34,7 +40,7 @@ def calculate_equation(equation):
                 equation = equation.replace(match.group(0), f'{float(match.group(1)) / float(match.group(3))}')
                 # reduce the division to a number
 
-    addsub = re.compile(r'(\d+\.?\d*)+\s*(\+|\-)\s*(\d+\.?\d*)+')  # regex pattern for addition or subtraction
+    addsub = re.compile(r'(-?\d+\.?\d*)+\s*(\+|\-)\s*(-?\d+\.?\d*)+')  # regex pattern for addition or subtraction
 
     for match in addsub.finditer(equation):  # for each multiplication or division match
         if match.group(2) == '+':  # if it's addition
@@ -54,6 +60,8 @@ def calculate_equation(equation):
                 except RecursionError:  # handle too many recursion calls
                     raise AttributeError("Equation not entered correctly, cannot reduce")
                     # it only happens when the equation is not irreducible
+            else:  # if it is a negative number, use the eval equation to reduce
+                equation = str(eval(equation))
 
     return float(equation)  # return a float
 
@@ -81,7 +89,7 @@ def calculate_grade(values, equation="100*(p/t)-m-10*l"):
 
 #  testing code
 if __name__ == '__main__':
-    print(calculate_grade([5, 4, 2, 1], '100*(p/t) - m - l'))
+    print(calculate_grade([5, 4, 2, 1], '100*(-p/t) - m - l'))
 
 
 
