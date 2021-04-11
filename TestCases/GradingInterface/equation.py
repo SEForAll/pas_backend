@@ -74,7 +74,7 @@ def calculate_grade(values, equation="100*(p/t)-m-10*l"):
 
 #  testing code
 if __name__ == '__main__':
-    print(calculate_grade([2, 1, 2, 1]))
+    print(calculate_grade([2, 1, 2, 1], '2*4'))
 
 
 
