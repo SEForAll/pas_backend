@@ -116,7 +116,7 @@ def grade(path):
         # this must be done by the professor
         # ex) diff output1.txt expected1.txt > grade.txt
         try:
-            checkfortimeout(os.system, args='make >/dev/null 2>&1')
+            checkfortimeout(os.system, args=[f'make testcase{i} >/dev/null 2>&1'])
         except TimeoutError:
             list_final.append(f'program timed out')
             return None, list_final
@@ -191,8 +191,7 @@ def memcheck(makefile_dir, valgrindstatements):
 
     for statement in valgrindstatements:  # run through the valgrind statements
         #os.system(f'valgrind {statement} > {tempfile} 2>&1')
-        checkfortimeout(os.system, args=f'valgrind {statement} > {tempfile} 2>&1')
-
+        checkfortimeout(os.system, args=[f'valgrind {statement} > {tempfile} 2>&1'])
         # previous statement executes valgrind on the executable and writes the output to the tempfile
 
         p = re.compile(r'in use at exit: (\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
@@ -214,15 +213,19 @@ def checkfortimeout(func, args=None, timeout=5):
     """
     runs a function and raises TimeoutError if the specified time limit is reached
     :param func: funciton that could timeout
+    :type func: function
     :param args: arguments to pass to the function (defaults to None)
+    :type args: list
     :param timeout: number of seconds to trigger a timeout (defaults to 5)
+    :type timeout: int
     :return:
     """
+
     process1 = multiprocessing.Process(target=time.sleep, args=[timeout])  # sets timeout process
     if args is None:  # sets process that might timeout
         process2 = multiprocessing.Process(target=func)
     else:
-        process2 = multiprocessing.Process(target=func, args=[args])
+        process2 = multiprocessing.Process(target=func, args=args)
 
     process1.start()  # start both processes
     process2.start()
