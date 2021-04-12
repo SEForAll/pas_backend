@@ -118,15 +118,15 @@ def grade(path):
         try:
             checkfortimeout(os.system, args=[f'make testcase{i} >/dev/null 2>&1'])
         except TimeoutError:
-            list_final.append(f'program timed out')
-            return None, list_final
+            list_final.append(f'Test case {i} timed out')
+            continue
 
         comp = filecmp.cmp('grade.txt', 'empty.txt', shallow=False)  # compare the files
         if comp is True:  # if the files match
-            list_final.append("Test case " + str(i) + " is correct!")
+            list_final.append(f"Test case {i} is correct!")
             passed += 1
         else:  # if the files don't mach
-            list_final.append("Test case " + str(i) + " is wrong...")
+            list_final.append(f"Test case {i} is wrong...")
 
     pointslist.append(numberoftestcases)  # put numberoftestcases in the correct place in the pointslist
     pointslist.append(passed)  # put passed in the correct place in the pointslist
@@ -137,11 +137,7 @@ def grade(path):
 
     # ----------------------------
     # Check memory
-    try:
-        bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)  # check leaked memory for each testcase
-    except TimeoutError:
-        list_final.append(f'program timed out')
-        return None, list_final
+    bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)  # check leaked memory for each testcase
 
     # print(bytesLeaked)
     if bytesLeaked < 0:  # if bytes leaked is negative that means there was something wrong
@@ -191,8 +187,11 @@ def memcheck(makefile_dir, valgrindstatements):
 
     for statement in valgrindstatements:  # run through the valgrind statements
         #os.system(f'valgrind {statement} > {tempfile} 2>&1')
-        checkfortimeout(os.system, args=[f'valgrind {statement} > {tempfile} 2>&1'])
-        # previous statement executes valgrind on the executable and writes the output to the tempfile
+        try:
+            checkfortimeout(os.system, args=[f'valgrind {statement} > {tempfile} 2>&1'])
+            # previous statement executes valgrind on the executable and writes the output to the tempfile
+        except TimeoutError:
+            continue
 
         p = re.compile(r'in use at exit: (\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
 
