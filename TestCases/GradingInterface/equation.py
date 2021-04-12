@@ -61,7 +61,7 @@ def calculate_equation(equation):
                     raise AttributeError("Equation not entered correctly, cannot reduce")
                     # it only happens when the equation is not irreducible
             else:  # if it is a negative number, use the eval equation to reduce
-                equation = str(eval(equation))
+                equation = str(eval(equation))  # handles negative numbers
 
     return float(equation)  # return a float
 
@@ -84,12 +84,20 @@ def calculate_grade(values, equation="100*(p/t)-m-10*l"):
     for i in range(len(values)):
         equation = equation.replace(variablelist[i], str(values[i]))  # substitute values for variables
 
-    return calculate_equation(equation)  # return the result of the equation
+    whitelistedchars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                        '.', '+', '-', '*', '/', '^', '(', ')', ' ', '\t']
+    for letter in equation:
+        if letter not in whitelistedchars:
+            raise AttributeError(f"equation contains an illegal character: {letter}")
+
+    equation = equation.replace('^', '**')
+
+    return eval(equation)  # return the result of the equation
 
 
 #  testing code
 if __name__ == '__main__':
-    print(calculate_grade([5, 4, 2, 1], '100*(-p/t) - m - l'))
+    print(calculate_grade([5, 4, 2, 1], '100*(-p/t+3) - m - l'))
 
 
 
