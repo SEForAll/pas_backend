@@ -2,6 +2,8 @@ import os
 from distutils.ccompiler import new_compiler
 import filecmp
 import re
+import multiprocessing
+import time
 
 
 # 4. where do you run the program <-- line 132 of interface.py
@@ -109,10 +111,15 @@ def grade(path):
         # print(f'i is {i}')
         os.system('make clean >/dev/null 2>&1')  # get rid of unwanted
         os.system('make >/dev/null 2>&1')  # run 'make' in the console
-        os.system(f'make testcase{i} >/dev/null 2>&1')  # PROF MUST SEND THE OUTPUT OF THE DIFF COMMAND TO grade.txt !!
+        #os.system(f'make testcase{i} >/dev/null 2>&1')  # PROF MUST SEND THE OUTPUT OF THE DIFF COMMAND TO grade.txt !!
         # i can't route the output of the diff command, only the output of the testcase command
         # this must be done by the professor
         # ex) diff output1.txt expected1.txt > grade.txt
+        try:
+            checkfortimeout(os.system, args='make >/dev/null 2>&1')
+        except TimeoutError:
+            list_final.append(f'program timed out')
+            return None, list_final
 
         comp = filecmp.cmp('grade.txt', 'empty.txt', shallow=False)  # compare the files
         if comp is True:  # if the files match
@@ -130,8 +137,12 @@ def grade(path):
 
     # ----------------------------
     # Check memory
+    try:
+        bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)  # check leaked memory for each testcase
+    except TimeoutError:
+        list_final.append(f'program timed out')
+        return None, list_final
 
-    bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)  # check leaked memory for each testcase
     # print(bytesLeaked)
     if bytesLeaked < 0:  # if bytes leaked is negative that means there was something wrong
         list_final.append('error when executing Makefile... contact your professor about this issue')
@@ -179,7 +190,9 @@ def memcheck(makefile_dir, valgrindstatements):
     blocks = 0
 
     for statement in valgrindstatements:  # run through the valgrind statements
-        os.system(f'valgrind {statement} > {tempfile} 2>&1')
+        #os.system(f'valgrind {statement} > {tempfile} 2>&1')
+        checkfortimeout(os.system, args=f'valgrind {statement} > {tempfile} 2>&1')
+
         # previous statement executes valgrind on the executable and writes the output to the tempfile
 
         p = re.compile(r'in use at exit: (\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
@@ -195,3 +208,26 @@ def memcheck(makefile_dir, valgrindstatements):
         os.remove(tempfile)  # remove the files we created as they only pertain to this function
 
     return bytesInUse, blocks
+
+
+def checkfortimeout(func, args=None, timeout=5):
+    """
+    runs a function and raises TimeoutError if the specified time limit is reached
+    :param func: funciton that could timeout
+    :param args: arguments to pass to the function (defaults to None)
+    :param timeout: number of seconds to trigger a timeout (defaults to 5)
+    :return:
+    """
+    process1 = multiprocessing.Process(target=time.sleep, args=[timeout])  # sets timeout process
+    if args is None:  # sets process that might timeout
+        process2 = multiprocessing.Process(target=func)
+    else:
+        process2 = multiprocessing.Process(target=func, args=[args])
+
+    process1.start()  # start both processes
+    process2.start()
+    while process1.is_alive():  # while the timeout process is still running
+        if process2.is_alive() is False:  # if the function is done running, return the function
+            return
+    process2.terminate()  # if the timeout process is finished and the function is not, raise an error
+    raise TimeoutError("the program timed out")
