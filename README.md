@@ -5,11 +5,11 @@ Backend has all the functionality code for program analysis. There are three mai
 3. Grading system interface (located in 'TestCases' folder)
 
 ## Table of contents
-* [Database](#Database)
-* [Grading system code](#grading_system_helper)
-* [Grading system interface](#TestCases)
+* [databasefiles](#databasefiles)
+* [grading_system helper](#grading_system helper)
+* [TestCases](#TestCases)
 
-## Database
+## databasefiles
 
 
 ## grading_system_helper
