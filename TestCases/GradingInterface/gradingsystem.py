@@ -5,12 +5,7 @@ import re
 import multiprocessing
 import time
 
-
 # 4. where do you run the program <-- line 132 of interface.py
-# 5. we need to set timeout for any os or make !!!!!!!!!
-
-# input: a string which is student file pass
-# output: a tuple that has <grade, a list about feedback(each element is a string)>
 def grade(path):
     """
     :param path: path to the project. ex) /users/alex/myfiles/project
