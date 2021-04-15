@@ -1,4 +1,3 @@
-<pre>
 # pas_backend
 Backend has all the functionality code for program analysis. There are three main chunk of code in this repository:  
     1. Database (located in 'databasefiles' folder)  
@@ -28,7 +27,7 @@ This folder stores draft codes of Grading system code and the Makefile template.
 
 ## TestCases
 
-</pre>
+
 # Todo
 
 ## Directory Maintenance
