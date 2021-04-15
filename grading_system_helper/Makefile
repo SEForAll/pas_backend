@@ -24,19 +24,19 @@ VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbo
 .c.o: 
 	$(GCC) $(TESTFALGS) -c $*.c 
 
-testcase1: <NNN>																	# Need modification
+test1: <NNN>																	# Need modification
 	./ <NNN> <Input arguments> <Name of Outputfiles>
 	diff <Name of one of the outputfiles> <Name of one of the expected outputfiles> > grade.txt
 	diff <Name of one of the outputfiles> <Name of one of the expected outputfiles>	>> grade.txt
 	diff <Name of one of the outputfiles> <Name of one of the expected outputfiles> >> grade.txt
 
-testcase2: <NNN>																	# Need modification
+test2: <NNN>																	# Need modification
 	./ <NNN> <Input arguments> <Name of Outputfiles>
 	diff <Name of one of the outputfiles> <Name of one of the expected outputfiles> > grade.txt
 	diff <Name of one of the outputfiles> <Name of one of the expected outputfiles> >> grade.txt
 	diff <Name of one of the outputfiles> <Name of one of the expected outputfiles> >> grade.txt
 
-testcase3: <NNN>																	# Need modification
+test3: <NNN>																	# Need modification
 	./ <NNN> <Input arguments> <Name of Outputfiles>
 	diff <Name of one of the outputfiles> <Name of one of the expected outputfiles> > grade.txt
 	diff <Name of one of the outputfiles> <Name of one of the expected outputfiles> >> grade.txt
@@ -52,7 +52,7 @@ clean: # remove all machine generated files											# Need modification
 
 # If the program output its output to the sdtout, use the template for testcases below. 
 #
-# testcase5: <NNN>																	# Need modification
+# test5: <NNN>																	# Need modification
 #	./ <NNN> <Input arguments> > out.txt
 #	diff out.txt <Name of one of the expected outputfiles> > grade.txt
 #
