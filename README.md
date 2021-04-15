@@ -1,19 +1,29 @@
 # pas_backend
-Backend has all the functionality code for program analysis. There are three main chunk of code in this repository. 
-1. Database (located in 'databasefiles' folder)
-2. Grading system code (located in 'grading_system_helper' folder)
-3. Grading system interface (located in 'TestCases' folder)
+Backend has all the functionality code for program analysis. There are three main chunk of code in this repository:
+    1. Database (located in 'databasefiles' folder)
+    2. Grading system code (located in 'TestCases/GradingInterface' folder)
+    3. Grading system interface (located in 'TestCases/GradingInterface' folder)
+
+There is also a folder called 'grading_system_helper' used to store draft files of Grading system code and the Makefile template.
 
 ## Table of contents
 * [databasefiles](#databasefiles)
-* [grading_system helper](#grading_system helper)
+* [grading_system_helper](#grading_system_helper)
 * [TestCases](#TestCases)
 
 ## databasefiles
-
+This folder stores code related to database. We used peewee(sqlite3) to set up our database. 
+    1. database.py
+        This file contains the peewee code.
+    2. addToDB.py
+        This file contains some helper functions to manage database.
 
 ## grading_system_helper
-
+This folder stores draft codes of Grading system code and the Makefile template.
+    1. grading_system_helper/draftfiles
+        This folder stores draft codes of Grading system code.
+    2. Makefile
+        This is the template for the Makefile that is one of the key elements of the grading system code. Any developer should read this template before modifying gradingsystem.py. Any professor user should read this template to create the corresponding Makefile of an assignment.
 
 ## TestCases
 
