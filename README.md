@@ -12,17 +12,17 @@ There is also a folder called 'grading_system_helper' used to store draft files 
 * [TestCases](#TestCases)
 
 ## databasefiles
-This folder stores code related to database. We used peewee(sqlite3) to set up our database. 
-    - database.py
-        This file contains the peewee code.
-    - addToDB.py
-        This file contains some helper functions to manage database.
+This folder stores code related to database. We used peewee(sqlite3) to set up our database.  
+    - database.py  
+        This file contains the peewee code.  
+    - addToDB.py  
+        This file contains some helper functions to manage database.  
 
 ## grading_system_helper
-This folder stores draft codes of Grading system code and the Makefile template.
-    - grading_system_helper/draftfiles
-        This folder stores draft codes of Grading system code.
-    - Makefile
+This folder stores draft codes of Grading system code and the Makefile template.  
+    - grading_system_helper/draftfiles  
+        This folder stores draft codes of Grading system code.  
+    - Makefile  
         This is the template for the Makefile that is one of the key elements of the grading system code. Any developer should read   this template before modifying gradingsystem.py. Any professor user should read this template to create the corresponding Makefile of an assignment.
 
 ## TestCases
