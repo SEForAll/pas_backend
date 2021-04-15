@@ -12,9 +12,10 @@ There is also a folder called 'grading_system_helper' used to store draft files 
 * [TestCases](#TestCases)
 
 ## databasefiles
-This folder stores code related to database. We used peewee(sqlite3) to set up our database.
+This folder stores code related to database. We used peewee(sqlite3) to set up our database.  
 &emsp;- database.py  
 &emsp;&emsp;This file contains the peewee code.  
+
 &emsp;- addToDB.py  
 &emsp;&emsp;This file contains some helper functions to manage database.  
 
@@ -22,6 +23,7 @@ This folder stores code related to database. We used peewee(sqlite3) to set up o
 This folder stores draft code of grading system and the Makefile template.  
 &emsp;- grading_system_helper/draftfiles  
 &emsp;&emsp;This folder stores draft codes of Grading system code.  
+
 &emsp;- Makefile  
 &emsp;&emsp;This is the template for the Makefile that is one of the key elements of the grading system code. Any developer should read   this template before modifying gradingsystem.py. Any professor user should read this template to create the corresponding Makefile of an assignment.
 
@@ -29,10 +31,13 @@ This folder stores draft code of grading system and the Makefile template.
 This folder stores code of grading system, code of grading system interface, code of changing grading parameters feature, and a test folder of the grading system.  
 &emsp;- TestCases/Sort2Testcases  
 &emsp;&emsp;This folder stores all things needed for testing grading system.  
+
 &emsp;- TestCases/GradingInterface/equation.py  
 &emsp;&emsp;This file contains code of changing grading parameters feature.  
+
 &emsp;- TestCases/GradingInterface/gradingsystem.py  
 &emsp;&emsp;This file contains code of grading system. This is the core file of backend. The grading system will take path to the project as input. The grading system will output pointslist and feedback. The grading system can check: 1. Is the student file compileable? 2. Can the student file output the expected output given the expected input? 3. How many byte does the student file leak? 4. Will the student file get into an infinite loop?  
+
 &emsp;- TestCases/GradingInterface/interface.py  
 &emsp;&emsp;This file contains code of grading system interface. Meaning frontend user can use grading system through calling functions in this file. There is no need to call functions in gradingsystem.py. 
 
