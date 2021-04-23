@@ -173,7 +173,7 @@ def memcheck(makefile_dir, valgrindstatements):
 
     os.chdir(makefile_dir)  # go to the folder where the makefile and other files are (essentially the project folder)
 
-    os.system("make >/dev/null 2>&1")  # compiles the code according to the makefile
+    os.system("make")# >/dev/null 2>&1")  # compiles the code according to the makefile
 
     tempfile = "tempfile.txt"  # name of the tempfile which will store the valgrind output
 
