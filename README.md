@@ -6,7 +6,7 @@ Backend has all the functionality code for program analysis. There are three mai
 
 There is also a folder called 'grading_system_helper' used to store draft files of Grading system code and the Makefile template.
 
-## Table of contents
+## Table of folders
 * [databasefiles](#databasefiles)
 * [grading_system_helper](#grading_system_helper)
 * [TestCases](#TestCases)
@@ -20,7 +20,7 @@ This folder stores code related to database. We used peewee(sqlite3) to set up o
 &emsp;&emsp;This file contains some helper functions to manage database.  
 
 ## grading_system_helper
-This folder stores draft code of grading system and the Makefile template. This folder does not contain any code that is part of the functionality code. If you are looking for functionality code please move to [TestCases](#TestCases).  
+This folder does not contain any code that is part of the functionality code. If you are looking for functionality code please move to [TestCases](#TestCases). This folder stores draft code of grading system and the Makefile template.  
 &emsp;- grading_system_helper/draftfiles  
 &emsp;&emsp;This folder stores draft codes of Grading system code, and it does not contain any code that is part of the functionality code.  
 
