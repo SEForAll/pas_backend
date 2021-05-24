@@ -20,4 +20,4 @@ class TestGradingInterface(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main() # run the unit test
