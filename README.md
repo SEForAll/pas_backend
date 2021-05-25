@@ -40,5 +40,3 @@ This folder stores code of grading system, code of grading system interface, cod
 
 &emsp;- [interface.py](TestCases/GradingInterface/interface.py)   
 &emsp;&emsp;This file contains code of grading system interface. Meaning frontend user can use grading system through calling functions in this file. There is no need to call functions in gradingsystem.py. 
-
-te
