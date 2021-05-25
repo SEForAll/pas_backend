@@ -43,7 +43,7 @@ test3: <NNN>																	# Need modification
 	diff <Name of one of the outputfiles> <Name of one of the expected outputfiles> >> grade.txt
 
 clean: # remove all machine generated files											# Need modification
-	rm -f <NNN> *.o output*
+	rm -f <NNN> *.o output?
 
 
 
