@@ -29,7 +29,7 @@ Then we change the directory to the path of the project.
 
 ## Data_flow
 In order to grade a submission, the grade_submission() function must be called in [interface.py](TestCases/GradingInterface/interface.py). 
-This function takes in a path to the submission zipfile and a path to the test case, and returns a GradedSubmission object, which stores the feedback and grade. 
+This function takes in a path to the submission zipfile and a path to the test case, and returns a GradedSubmission object, which stores the feedback and grade.
 
 ## Code_location
 &emsp;- Database  
