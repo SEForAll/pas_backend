@@ -1,20 +1,21 @@
 ## Introduction
 &emsp;The purpose of this developer manual is to help a developer understand our code in detail and be able to add more functions to our grading system. 
 If you are only interested in how to use our system and do not plan to change any function, please read the [user_manual](User_manual).  
-&emsp;In this developer manual, we will mainly focuse on introducing [Grading System Code](TestCases/GradingInterface/gradingsystem.py) and its 
+&emsp;In this developer manual, we will mainly focus on introducing [Grading System Code](TestCases/GradingInterface/gradingsystem.py) and its 
 corresponding [Grading System Interface](TestCases/GradingInterface/interface.py). Although backend has a database, it is not implemented. Frontend has the actual
 database we are using for our system.
 
 ## Table of contents
 * [How_does_grading_system_interface_work](#How_does_grading_system_interface_work)
 * [How_does_our_code_grade_hw](#How_does_our_code_grade_hw)
-* [Date_flow](#Date_flow)
+* [Data_flow](#Data_flow)
 * [Code_location](#Code_location)
 
 ## How_does_grading_system_interface_work
-First of all, you need to open this file, [interface.py](TestCases/GradingInterface/interface.py). We defined three (classes? objects?). Class GradedSubmission is used to (). Class Submission is used to (). Class TestCase is used to (). 
-
-(Which function we should call. What parameters we need to pass into the function.) 
+First of all, you need to open the file [interface.py](TestCases/GradingInterface/interface.py). We defined three classes which are used to instantiate objects and help simplify the code. 
+A GradedSubmission object is used to store information about a graded submission. It holds the feedback and the score of the submission, and can be modified to hold more information if ever needed. Helper functions are also included.
+A Submission object is used to store information about student submissions. Specifically, it holds the path to the zip file submission and the unzipped folder. Helper functions are also included. 
+A TestCase object is used to instantiate the test cases that need to be used in the grading of the assignment. It holds the path to the test cases and the files inside the path. Helper function are also included.  
 
 ## How_does_our_code_grade_hw
 &emsp;First of all, you need to open this file, [gradingsystem.py](TestCases/GradingInterface/gradingsystem.py). Basically, we use linux terminal commands to grade students' homework. Instead of manually type it out in a terminal, we will let the grading system do it for us. After the function, grade, be called, this is what our code will do.  
@@ -26,9 +27,9 @@ Then we change the directory to the path of the project.
 &emsp; 4. (line 134-203) We will check memory error on every test cases specified in the Makefile. If there is memory leak, we will use regex to get number of bytes leaked and in how many blocks. Then, we will store the feedback in the list_final list and the grade in the pointslist list.  
 &emsp; 5. (line 206-230) For each terminal command we called, we call function, checkfortimeout, to set a timeout for the command to prevent getting into infinite loop.
 
-## Date_flow
-Use(something) call (a function) in [interface.py](TestCases/GradingInterface/interface.py), then 
-
+## Data_flow
+In order to grade a submission, the grade_submission() function must be called in [interface.py](TestCases/GradingInterface/interface.py). 
+This function takes in a path to the submission zipfile and a path to the test case, and returns a GradedSubmission object, which stores the feedback and grade.
 
 ## Code_location
 &emsp;- Database  
