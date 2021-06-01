@@ -23,7 +23,7 @@ A TestCase object is used to instantiate the test cases that need to be used in 
 &emsp; 1. (line 17-23) We will create two lists, one is used to store the feedback for submission. The other one is used to store points for each section. 
 Then we change the directory to the path of the project.  
 &emsp; 2. (line 28-83) We will check if everything can compile. There are enough comments in gradingsystem.py to help you understand how to check if everything can compile.  
-&emsp; 3. (line 94-128) We will run diff command on every test cases specified in the Makefile. Then we will compare the output of the diff commant with an empty file. If the output of the diff commant is not empty, the test case is wrong. Then, We will store the feedback in the list_final list and the grade in the pointslist list.  
+&emsp; 3. (line 94-128) We will run diff command on every test cases specified in the Makefile. Then we will compare the output of the diff command with an empty file. If the output of the diff commant is not empty, the test case is wrong. Then, We will store the feedback in the list_final list and the grade in the pointslist list.  
 &emsp; 4. (line 134-203) We will check memory error on every test cases specified in the Makefile. If there is memory leak, we will use regex to get number of bytes leaked and in how many blocks. Then, we will store the feedback in the list_final list and the grade in the pointslist list.  
 &emsp; 5. (line 206-230) For each terminal command we called, we call function, checkfortimeout, to set a timeout for the command to prevent getting into infinite loop.
 

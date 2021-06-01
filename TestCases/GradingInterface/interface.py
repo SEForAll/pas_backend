@@ -19,7 +19,8 @@ class GradedSubmission:
     def __init__(self, graded_score, error_file=None):
 
         self.graded_score = graded_score
-        self.error_file = error_file
+        self.error_file = None
+        self.error_list = error_file
 
     def get_grade(self):
         return self.graded_score
@@ -36,6 +37,9 @@ class GradedSubmission:
 
         with open(self.error_file) as f:
             return f.readlines()
+
+    def get_error_list(self):
+        return self.error_list
 
 
 class Submission:
