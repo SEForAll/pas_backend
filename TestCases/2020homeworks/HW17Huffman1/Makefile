@@ -7,7 +7,7 @@ GCC = gcc -std=c99 -g $(WARNING) $(ERROR)
 
 TESTFALGS = 
 
-SRCS = 
+SRCS = main.c tree.c
 OBJS = $(SRCS:%.c=%.o)
 VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose
 
