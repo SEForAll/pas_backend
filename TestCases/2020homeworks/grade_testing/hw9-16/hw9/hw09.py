@@ -8,15 +8,15 @@ print(path2)
 
 path1 = os.getcwd()
 
-path1.append('../../../..')
+os.path.join(path1, '../../../..')
 
 os.chdir(path1)
 
-from GradingInterface import interface
-# import Gradinginterface.interface
-
 print(111)
 print(os.getcwd())
+
+from GradingInterface import interface
+# import Gradinginterface.interface
 
 class TestGradingInterface(unittest.TestCase):
 
