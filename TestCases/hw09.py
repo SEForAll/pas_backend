@@ -1,5 +1,5 @@
 import unittest
-import GradingInterface.interface
+from GradingInterface import interface
 import os
 
 path = os.getcwd()
