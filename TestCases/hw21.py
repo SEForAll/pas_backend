@@ -9,7 +9,7 @@ print(path)
 class TestGradingInterface(unittest.TestCase):
 
     def test_grade_submission(self):
-        graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw17-21/hw21/hw21.zip'),
+        graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw17-21/hw21/hw21_memory_leak.zip'),
                                             os.path.join(path, '2020homeworks/HW21Sudoku'))
         print(graded.get_error_list())
         print(graded.get_grade())
