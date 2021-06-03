@@ -4,17 +4,19 @@ import os
 
 path2 = os.getcwd()
 
-print(111)
 print(path2)
-print(111)
 
-'''
-sys.path.append("../../../..")
+path1 = os.getcwd()
 
-print(path)
+path1.append('../../../..')
+
+os.chdir(path1)
 
 from GradingInterface import interface
 # import Gradinginterface.interface
+
+print(111)
+print(os.getcwd())
 
 class TestGradingInterface(unittest.TestCase):
 
@@ -23,7 +25,7 @@ class TestGradingInterface(unittest.TestCase):
                                             os.path.join(path2, '../../../HW09MergeSort'))
         print(graded.get_error_list())
         print(graded.get_grade())
-'''
+
 
 if __name__ == '__main__':
     unittest.main() # run the unit test again ...
