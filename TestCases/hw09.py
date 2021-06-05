@@ -4,7 +4,7 @@ import os
 
 path = os.getcwd()
 
-print(path)
+#print(path)
 
 class TestGradingInterface(unittest.TestCase):
 
