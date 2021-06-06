@@ -56,11 +56,13 @@ def testhw08():
     # ...
 
 if __name__ == '__main__':
-    testhw02()
-    testhw03()
-    testhw04()
-    testhw05()
-    testhw06()
-    testhw07()
-    testhw08()
+    print('Start Testing...')
+    print(testhw02())
+    print(testhw03())
+    print(testhw04())
+    print(testhw05())
+    print(testhw06())
+    print(testhw07())
+    print(testhw08())
+
     # ......
