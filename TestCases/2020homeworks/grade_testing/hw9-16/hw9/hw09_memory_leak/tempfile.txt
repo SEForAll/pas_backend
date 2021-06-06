@@ -1,0 +1,220 @@
+==630405== Memcheck, a memory error detector
+==630405== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==630405== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==630405== Command: ./hw09 inputs/input2 outputs/output2
+==630405== 
+mergeSort(     0,     21,     -1)mergeSort(     0,     10,     -1)mergeSort(     0,      5,     -1)mergeSort(     0,      2,     -1)mergeSort(     0,      1,     -1)mergeSort(     0,      0,     -1)mergeSort(     1,      1,     -1)Merge in(     0,      0,      1)-539
+-4698
+Merge out(     0,      0,      1)-4698
+-539
+mergeSort(     2,      2,     -1)Merge in(     0,      1,      2)-4698
+-539
+-3723
+Merge out(     0,      1,      2)-4698
+-3723
+-539
+mergeSort(     3,      5,     -1)mergeSort(     3,      4,     -1)mergeSort(     3,      3,     -1)mergeSort(     4,      4,     -1)Merge in(     3,      3,      4)3782
+3599
+Merge out(     3,      3,      4)3599
+3782
+mergeSort(     5,      5,     -1)Merge in(     3,      4,      5)3599
+3782
+827
+Merge out(     3,      4,      5)827
+3599
+3782
+Merge in(     0,      2,      5)-4698
+-3723
+-539
+827
+3599
+3782
+Merge out(     0,      2,      5)-4698
+-3723
+-539
+827
+3599
+3782
+mergeSort(     6,     10,     -1)mergeSort(     6,      8,     -1)mergeSort(     6,      7,     -1)mergeSort(     6,      6,     -1)mergeSort(     7,      7,     -1)Merge in(     6,      6,      7)-4166
+488
+Merge out(     6,      6,      7)-4166
+488
+mergeSort(     8,      8,     -1)Merge in(     6,      7,      8)-4166
+488
+463
+Merge out(     6,      7,      8)-4166
+463
+488
+mergeSort(     9,     10,     -1)mergeSort(     9,      9,     -1)mergeSort(    10,     10,     -1)Merge in(     9,      9,     10)-4892
+-3530
+Merge out(     9,      9,     10)-4892
+-3530
+Merge in(     6,      8,     10)-4166
+463
+488
+-4892
+-3530
+Merge out(     6,      8,     10)-4892
+-4166
+-3530
+463
+488
+Merge in(     0,      5,     10)-4698
+-3723
+-539
+827
+3599
+3782
+-4892
+-4166
+-3530
+463
+488
+Merge out(     0,      5,     10)-4892
+-4698
+-4166
+-3723
+-3530
+-539
+463
+488
+827
+3599
+3782
+mergeSort(    11,     21,     -1)mergeSort(    11,     16,     -1)mergeSort(    11,     13,     -1)mergeSort(    11,     12,     -1)mergeSort(    11,     11,     -1)mergeSort(    12,     12,     -1)Merge in(    11,     11,     12)1926
+824
+Merge out(    11,     11,     12)824
+1926
+mergeSort(    13,     13,     -1)Merge in(    11,     12,     13)824
+1926
+-3684
+Merge out(    11,     12,     13)-3684
+824
+1926
+mergeSort(    14,     16,     -1)mergeSort(    14,     15,     -1)mergeSort(    14,     14,     -1)mergeSort(    15,     15,     -1)Merge in(    14,     14,     15)-3014
+-4039
+Merge out(    14,     14,     15)-4039
+-3014
+mergeSort(    16,     16,     -1)Merge in(    14,     15,     16)-4039
+-3014
+2664
+Merge out(    14,     15,     16)-4039
+-3014
+2664
+Merge in(    11,     13,     16)-3684
+824
+1926
+-4039
+-3014
+2664
+Merge out(    11,     13,     16)-4039
+-3684
+-3014
+824
+1926
+2664
+mergeSort(    17,     21,     -1)mergeSort(    17,     19,     -1)mergeSort(    17,     18,     -1)mergeSort(    17,     17,     -1)mergeSort(    18,     18,     -1)Merge in(    17,     17,     18)4784
+4064
+Merge out(    17,     17,     18)4064
+4784
+mergeSort(    19,     19,     -1)Merge in(    17,     18,     19)4064
+4784
+-1646
+Merge out(    17,     18,     19)-1646
+4064
+4784
+mergeSort(    20,     21,     -1)mergeSort(    20,     20,     -1)mergeSort(    21,     21,     -1)Merge in(    20,     20,     21)-4954
+465
+Merge out(    20,     20,     21)-4954
+465
+Merge in(    17,     19,     21)-1646
+4064
+4784
+-4954
+465
+Merge out(    17,     19,     21)-4954
+-1646
+465
+4064
+4784
+Merge in(    11,     16,     21)-4039
+-3684
+-3014
+824
+1926
+2664
+-4954
+-1646
+465
+4064
+4784
+Merge out(    11,     16,     21)-4954
+-4039
+-3684
+-3014
+-1646
+465
+824
+1926
+2664
+4064
+4784
+Merge in(     0,     10,     21)-4892
+-4698
+-4166
+-3723
+-3530
+-539
+463
+488
+827
+3599
+3782
+-4954
+-4039
+-3684
+-3014
+-1646
+465
+824
+1926
+2664
+4064
+4784
+Merge out(     0,     10,     21)-4954
+-4892
+-4698
+-4166
+-4039
+-3723
+-3684
+-3530
+-3014
+-1646
+-539
+463
+465
+488
+824
+827
+1926
+2664
+3599
+3782
+4064
+4784
+==630405== 
+==630405== HEAP SUMMARY:
+==630405==     in use at exit: 1,052 bytes in 63 blocks
+==630405==   total heap usage: 68 allocs, 5 frees, 10,276 bytes allocated
+==630405== 
+==630405== LEAK SUMMARY:
+==630405==    definitely lost: 1,052 bytes in 63 blocks
+==630405==    indirectly lost: 0 bytes in 0 blocks
+==630405==      possibly lost: 0 bytes in 0 blocks
+==630405==    still reachable: 0 bytes in 0 blocks
+==630405==         suppressed: 0 bytes in 0 blocks
+==630405== Rerun with --leak-check=full to see details of leaked memory
+==630405== 
+==630405== For lists of detected and suppressed errors, rerun with: -s
+==630405== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
