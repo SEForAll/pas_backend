@@ -9,8 +9,8 @@ path = os.getcwd()
 class TestGradingInterface(unittest.TestCase):
 
     def test_grade_submission(self):
-        graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw9-16/hw10/hw10.zip'),
-                                            os.path.join(path, '2020homeworks/hw10Cake2'))
+        graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw9-16/hw15/hw15.zip'),
+                                            os.path.join(path, '2020homeworks/HW15BinaryTree1'))
         print('Correct code')
         print(graded.get_error_list())
         print(graded.get_grade())

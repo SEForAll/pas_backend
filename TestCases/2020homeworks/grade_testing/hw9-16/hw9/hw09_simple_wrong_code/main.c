@@ -11,6 +11,6 @@
 #ifdef TEST_MAIN
 int main(int argc, char * * argv)
 {
-  fprintf("111");
+  printf("111");
 }
 #endif

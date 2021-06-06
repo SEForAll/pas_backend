@@ -185,9 +185,11 @@ static void merge(int * arr, int l, int m, int r)
   while (x == m+1 && y<=r ) arr3[z++] = arr2[y++-m-1];
   while (x<m+1 && y==r+1 ) arr3[z++] = arr1[x++-l];
   for(int i=l;i<=r;i++) arr[i] = arr3[i-l];
+  /*
   free(arr1);
   free(arr2);
   free(arr3);
+  */
   // the following should be at the bottom of the function
 
 #ifdef DEBUG
@@ -229,5 +231,3 @@ void mergeSort(int arr[], int l, int r)
 } 
 #endif
 
-int* arr11;
-arr11 = malloc(sizeof(int)*2);
