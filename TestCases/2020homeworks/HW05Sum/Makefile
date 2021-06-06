@@ -23,27 +23,27 @@ testall: test1 test2 test3 test4 test5 test6
 
 test1: hw05
 	./hw05 inputs/input1 output1
-	diff -w output1 expected/expected1
+	diff -w output1 expected/expected1 > grade.txt
 
 test2: hw05
 	./hw05 inputs/input2 output2
-	diff -w output2 expected/expected2
+	diff -w output2 expected/expected2 > grade.txt
 
 test3: hw05
 	./hw05 inputs/input3 output3
-	diff -w output3 expected/expected3
+	diff -w output3 expected/expected3 > grade.txt
 
 test4: hw05
 	./hw05 inputs/input4 output4
-	diff -w output4 expected/expected4
+	diff -w output4 expected/expected4 > grade.txt
 
 test5: hw05
 	./hw05 inputs/input5 output5
-	diff -w output5 expected/expected5
+	diff -w output5 expected/expected5 > grade.txt
 
 test6: hw05
 	./hw05 inputs/input6 output6
-	diff -w output6 expected/expected6
+	diff -w output6 expected/expected6 > grade.txt
 
 
 clean: # remove all machine generated files

@@ -26,19 +26,19 @@ testall: test1 test2 test3 test4
 
 test1: hw07
 	./hw07 inputs/input1 output1
-	diff output1 expected/expected1
+	diff output1 expected/expected1 > grade.txt
 
 test2: hw07
 	./hw07 inputs/input2 output2
-	diff output2 expected/expected2
+	diff output2 expected/expected2 > grade.txt
 
 test3: hw07
 	./hw07 inputs/input3 output3
-	diff output3 expected/expected3
+	diff output3 expected/expected3 > grade.txt
 
 test4: hw07
 	./hw07 inputs/input4 output4
-	diff output4 expected/expected4
+	diff output4 expected/expected4 > grade.txt
 
 clean: # remove all machine generated files
 	rm -f hw07 *.o output?

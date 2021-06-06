@@ -21,15 +21,15 @@ testall: test1 test2 test3
 
 test1: sort
 	./sort inputs/test1 > output1
-	diff output1 expected/expected1
+	diff output1 expected/expected1 > grade.txt
 
 test2: sort
 	./sort inputs/test2 > output2
-	diff output2 expected/expected2
+	diff output2 expected/expected2 > grade.txt
 
 test3: sort
 	./sort inputs/test3 > output3
-	diff output3 expected/expected3
+	diff output3 expected/expected3 > grade.txt
 
 testfor: sort  # same as testall
 	for case in 1 2 3; do \
