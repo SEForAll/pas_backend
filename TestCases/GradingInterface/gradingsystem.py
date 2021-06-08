@@ -35,17 +35,29 @@ def grade(path):
     # TRY THIS: You can run system("gcc -c $file.c") and if it compiles (system returns 0), it likely was a C file.
 
     compiler = new_compiler()  # make the compiler object
-
+    
+    cmd = "gcc "
     for filename in os.listdir(path):  # for all files in the directory
-        if filename.endswith(".c"):  # that end with .c
+        # that end with .c
+        if filename.endswith(".c"):
+            cmd += filename+" "
+            '''
             try:
-                compiler.compile([filename])  # check to see that it compiled
+                compiler.compile([filename])  # check to see that it compile correctly
                 list_final.append(f'{filename} compiled correctly!')
 
             except:  # if it doesn't compile
                 list_final.append(f'{filename} did not compile correctly...')
                 return None, list_final
-
+            '''
+    cmd+="-o new"
+    result = os.system(cmd)
+    if result==0:
+        list_final.append(f'{filename} compiled correctly!')
+    else:
+        list_final.append(f'{filename} did not compile correctly...')
+        return None, list_final
+        exit
     if debugging:
         print('compile finished\nstarting diff')
 
