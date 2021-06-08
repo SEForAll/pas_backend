@@ -32,6 +32,8 @@ def grade(path):
         list_final.append('no files submitted')
         return None, list_final
 
+    # TRY THIS: You can run system("gcc -c $file.c") and if it compiles (system returns 0), it likely was a C file.
+
     compiler = new_compiler()  # make the compiler object
 
     for filename in os.listdir(path):  # for all files in the directory
@@ -89,7 +91,10 @@ def grade(path):
         val = re.compile(r'(\./.+)')
         reglist = val.findall(text)
         for elem in reglist:
-            valgrindstatements.append(elem.split('>')[0])
+            temp = elem.split('>')[0]
+            temp = elem.split('>>')[0]
+            temp = elem.split('|')[0]
+            valgrindstatements.append(temp)
 
     # -------------------------
     # Check diff
@@ -136,7 +141,7 @@ def grade(path):
 
     # print(bytesLeaked)
     if bytesLeaked < 0:  # if bytes leaked is negative that means there was something wrong
-        list_final.append('error when executing Makefile... contact your professor about this issue')
+        list_final.append('error when executing Makefile... contact your professor about this issue (valgrind not called correctly)')
         return None, list_final
     # else:
     #     list_final.append('makefile executed correctly!')
