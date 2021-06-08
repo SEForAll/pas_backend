@@ -111,7 +111,7 @@ def grade(path):
         # this must be done by the professor
         # ex) diff output1.txt expected1.txt > grade.txt
         try:
-            checkfortimeout(os.system, args=[f'make testcase{i} >/dev/null 2>&1'])
+            checkfortimeout(os.system, args=[f'make test{i} >/dev/null 2>&1'])
         except TimeoutError:
             list_final.append(f'Test case {i} timed out')
             continue
