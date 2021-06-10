@@ -53,9 +53,9 @@ def grade(path):
     cmd+="-o new"
     result = os.system(cmd)
     if result==0:
-        list_final.append(f'{filename} compiled correctly!')
+        list_final.append(f'{filename} compiled correctly! going to next step...')
     else:
-        list_final.append(f'{filename} did not compile correctly...')
+        list_final.append(f'{filename} did not compile correctly, please check your files')
         return None, list_final
         exit
     if debugging:
