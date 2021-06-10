@@ -8,11 +8,14 @@ from io import BytesIO
 def run(codeDir, inputDir, outputDir, time):
     client = docker.from_env()
     #container = client.containers.run("aflplusplus/aflandcmake", "bash", detach=True)
-    container = client.containers.run("aflplusplus/aflandcmake", "/bin/bash" , volumes={os.getcwd() + "/copyIn": {'bind':'/root/', 'mode': 'rw'}}, detach=True, tty=True)
+    container = client.containers.run("aflplusplus/aflandcmake", "ls /mnt" , volumes={os.getcwd() + "/copyIn": {'bind':'/mnt', 'mode': 'rw'}}, detach=True, tty=True, name="workingContainer")
     container.start()
     print(container.name)
     #container.exec_run
-    #container.stop()
+    container.stop()
+    print(container.attach(stdout=True))
+    container.remove()
+
     print("Script Complete")
 
 def populateFiles():
