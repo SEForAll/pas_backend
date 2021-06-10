@@ -1,0 +1,114 @@
+-- The C compiler identification is GNU 10.2.0
+-- The CXX compiler identification is GNU 10.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/code
+[ 33%] Building C object CMakeFiles/binary.dir/main.c.o
+[ 66%] Building C object CMakeFiles/binary.dir/sort.c.o
+[100%] Linking C executable binary
+[0;36mafl-llvm-lto++3.13a[0m by Marc "vanHauser" Heuse <mh@mh-sec.de>
+[1;92m[+] [0mInstrumented 24 locations with no collisions (on average 0 collisions would be in afl-gcc/vanilla AFL) (non-hardened mode).[0m
+[100%] Built target binary
+[1;92m[+] [0mLoaded environment variable AFL_SKIP_CPUFREQ with value 1[0m
+[1;92m[+] [0mLoaded environment variable AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES with value 1[0m
+[1;92m[+] [0mLoaded environment variable AFL_NO_UI with value 1[0m
+[0;36mafl-fuzz++3.13a[0m based on afl by Michal Zalewski and a large online community
+[1;92m[+] [0mafl++ is maintained by Marc "van Hauser" Heuse, Heiko "hexcoder" Eißfeldt, Andrea Fioraldi and Dominik Maier[0m
+[1;92m[+] [0mafl++ is open source, get it at https://github.com/AFLplusplus/AFLplusplus[0m
+[1;92m[+] [0mNOTE: This is v3.x which changes defaults and behaviours - see README.md[0m
+[1;92m[+] [0mNo -M/-S set, autoconfiguring for "-S default"[0m
+[1;94m[*] [0mGetting to work...[0m
+[1;92m[+] [0mUsing exponential power schedule (FAST)[0m
+[1;92m[+] [0mEnabled testcache with 50 MB[0m
+[1;92m[+] [0mDisabling the UI because AFL_NO_UI is set.[0m
+[1;94m[*] [0mChecking core_pattern...[0m
+
+[1;91m[-] [0mHmm, your system is configured to send core dump notifications to an
+    external utility. This will cause issues: there will be an extended delay
+    between stumbling upon a crash and having this information relayed to the
+    fuzzer via the standard waitpid() API.
+    If you're just testing, set 'AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1'.
+
+    To avoid having crashes misinterpreted as timeouts, please log in as root
+    and temporarily modify /proc/sys/kernel/core_pattern, like so:
+
+    echo core >/proc/sys/kernel/core_pattern
+[1;92m[+] [0mYou have 8 CPU cores and 2 runnable tasks (utilization: 25%).[0m
+[1;92m[+] [0mTry parallel jobs - see /usr/local/share/doc/afl/parallel_fuzzing.md.[0m
+[1;94m[*] [0mSetting up output directories...[0m
+[1;94m[*] [0mChecking CPU core loadout...[0m
+[1;92m[+] [0mFound a free CPU core, try binding to #0.[0m
+[1;94m[*] [0mScanning '/mnt/inputs'...[0m
+[1;92m[+] [0mLoaded a total of 4 seeds.[0m
+[1;94m[*] [0mCreating hard links for all input files...[0m
+[1;94m[*] [0mValidating target binary...[0m
+[1;94m[*] [0mSpinning up the fork server...[0m
+[1;92m[+] [0mAll right - fork server is up.[0m
+[1;94m[*] [0mTarget map size: 64[0m
+[1;94m[*] [0mNo auto-generated dictionary tokens to reuse.[0m
+[1;94m[*] [0mAttempting dry run with 'id:000000,time:0,orig:test1'...[0m
+[1;90m    len = 21, map size = 15, exec speed = 204 us
+[0m[1;94m[*] [0mAttempting dry run with 'id:000001,time:0,orig:test2'...[0m
+[1;90m    len = 88, map size = 14, exec speed = 180 us
+[0m[1;94m[*] [0mAttempting dry run with 'id:000002,time:0,orig:test3'...[0m
+[1;90m    len = 772, map size = 8, exec speed = 239 us
+[0m[1;94m[*] [0mAttempting dry run with 'id:000003,time:0,orig:test4'...[0m
+[1;90m    len = 292, map size = 6, exec speed = 199 us
+[0m[1;92m[+] [0mAll test cases processed.[0m
+[1;92m[+] [0mHere are some useful stats:
+
+[1;90m    Test case count : [0m1 favored, 0 variable, 0 ignored, 4 total
+[1;90m       Bitmap range : [0m6 to 15 bits (average: 10.75 bits)
+[1;90m        Exec timing : [0m180 to 239 us (average: 205 us)
+[0m
+[1;94m[*] [0mNo -t option specified, so I'll use exec timeout of 20 ms.[0m
+[1;92m[+] [0mAll set and ready to roll![0m
+[1;94m[*] [0mEntering queue cycle 1.[0m
+[1;94m[*] [0mFuzzing test case #0 (4 total, 0 uniq crashes found, perf_score=150, exec_us=204, hits=0, map=15)...[0m
+[1;94m[*] [0mFuzzing test case #10 (20 total, 0 uniq crashes found, perf_score=100, exec_us=173, hits=1535, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #6 (21 total, 0 uniq crashes found, perf_score=50, exec_us=172, hits=6728, map=5)...[0m
+[1;94m[*] [0mFuzzing test case #5 (21 total, 0 uniq crashes found, perf_score=100, exec_us=178, hits=717, map=14)...[0m
+[1;94m[*] [0mFuzzing test case #0 (21 total, 0 uniq crashes found, perf_score=459, exec_us=204, hits=0, map=15)...[0m
+[1;94m[*] [0mFuzzing test case #15 (21 total, 0 uniq crashes found, perf_score=100, exec_us=175, hits=128, map=15)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=1922, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #14 (21 total, 0 uniq crashes found, perf_score=100, exec_us=175, hits=102, map=15)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=2098, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=2237, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=2440, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #6 (21 total, 0 uniq crashes found, perf_score=50, exec_us=172, hits=8652, map=5)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=2519, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=2638, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=2806, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=2883, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #5 (21 total, 0 uniq crashes found, perf_score=100, exec_us=178, hits=919, map=14)...[0m
+[1;94m[*] [0mFuzzing test case #14 (21 total, 0 uniq crashes found, perf_score=100, exec_us=175, hits=144, map=15)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=3116, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=3277, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=3434, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=3588, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=3762, map=12)...[0m
+[1;94m[*] [0mEntering queue cycle 2.[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=3895, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #5 (21 total, 0 uniq crashes found, perf_score=100, exec_us=178, hits=1007, map=14)...[0m
+[1;94m[*] [0mFuzzing test case #6 (21 total, 0 uniq crashes found, perf_score=50, exec_us=172, hits=11038, map=5)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=4110, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=4165, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=4297, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #6 (21 total, 0 uniq crashes found, perf_score=50, exec_us=172, hits=11651, map=5)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=4504, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=4669, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=4842, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #10 (21 total, 0 uniq crashes found, perf_score=114, exec_us=173, hits=4944, map=12)...[0m
+[1;94m[*] [0mFuzzing test case #5 (21 total, 0 uniq crashes found, perf_score=100, exec_us=178, hits=1121, map=14)...[0m
+[1;94m[*] [0mFuzzing test case #5 (21 total, 0 uniq crashes found, perf_score=100, exec_us=178, hits=1132, map=14)...[0m
+[1;94m[*] [0mFuzzing test case #0 (21 total, 0 uniq crashes found, perf_score=459, exec_us=204, hits=0, map=15)...[0m
