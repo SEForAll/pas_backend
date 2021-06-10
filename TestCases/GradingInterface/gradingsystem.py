@@ -32,26 +32,20 @@ def grade(path):
         list_final.append('no files submitted')
         return None, list_final
 
-    # TRY THIS: You can run system("gcc -c $file.c") and if it compiles (system returns 0), it likely was a C file.
-
+    '''
     compiler = new_compiler()  # make the compiler object
-    
+
     cmd = "gcc -std=c99 -g -Wall -Wshadow --pedantic -Wvla -Werror "
-    for filename in os.listdir(path):  # for all files in the directory
-        # that end with .c
+    for filename in os.listdir(path):  # For all files in the directory that end with .c
         if filename.endswith(".c"):
             cmd += filename+" "
-            '''
-            try:
-                compiler.compile([filename])  # check to see that it compile correctly
-                list_final.append(f'{filename} compiled correctly!')
 
-            except:  # if it doesn't compile
-                list_final.append(f'{filename} did not compile correctly...')
-                return None, list_final
-            '''
     cmd+="-o new"
-    result = os.system(cmd)
+    result = os.system(cmd)   # Run the compile command, get the return value
+    '''
+    result = os.system("make")  # Run make
+
+    filename = "hw"
     if result==0:
         list_final.append(f'{filename} compiled correctly! going to next step...')
     else:

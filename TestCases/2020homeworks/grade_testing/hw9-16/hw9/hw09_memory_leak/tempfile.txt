@@ -1,8 +1,8 @@
-==745185== Memcheck, a memory error detector
-==745185== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==745185== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==745185== Command: ./hw09 inputs/input2 outputs/output2
-==745185== 
+==949446== Memcheck, a memory error detector
+==949446== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==949446== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==949446== Command: ./hw09 inputs/input2 outputs/output2
+==949446== 
 mergeSort(     0,     21,     -1)mergeSort(     0,     10,     -1)mergeSort(     0,      5,     -1)mergeSort(     0,      2,     -1)mergeSort(     0,      1,     -1)mergeSort(     0,      0,     -1)mergeSort(     1,      1,     -1)Merge in(     0,      0,      1)-539
 -4698
 Merge out(     0,      0,      1)-4698
@@ -203,18 +203,18 @@ Merge out(     0,     10,     21)-4954
 3782
 4064
 4784
-==745185== 
-==745185== HEAP SUMMARY:
-==745185==     in use at exit: 1,052 bytes in 63 blocks
-==745185==   total heap usage: 68 allocs, 5 frees, 10,276 bytes allocated
-==745185== 
-==745185== LEAK SUMMARY:
-==745185==    definitely lost: 1,052 bytes in 63 blocks
-==745185==    indirectly lost: 0 bytes in 0 blocks
-==745185==      possibly lost: 0 bytes in 0 blocks
-==745185==    still reachable: 0 bytes in 0 blocks
-==745185==         suppressed: 0 bytes in 0 blocks
-==745185== Rerun with --leak-check=full to see details of leaked memory
-==745185== 
-==745185== For lists of detected and suppressed errors, rerun with: -s
-==745185== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==949446== 
+==949446== HEAP SUMMARY:
+==949446==     in use at exit: 1,052 bytes in 63 blocks
+==949446==   total heap usage: 68 allocs, 5 frees, 10,276 bytes allocated
+==949446== 
+==949446== LEAK SUMMARY:
+==949446==    definitely lost: 1,052 bytes in 63 blocks
+==949446==    indirectly lost: 0 bytes in 0 blocks
+==949446==      possibly lost: 0 bytes in 0 blocks
+==949446==    still reachable: 0 bytes in 0 blocks
+==949446==         suppressed: 0 bytes in 0 blocks
+==949446== Rerun with --leak-check=full to see details of leaked memory
+==949446== 
+==949446== For lists of detected and suppressed errors, rerun with: -s
+==949446== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
