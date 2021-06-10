@@ -36,7 +36,7 @@ def grade(path):
 
     compiler = new_compiler()  # make the compiler object
     
-    cmd = "gcc "
+    cmd = "gcc -std=c99 -g -Wall -Wshadow --pedantic -Wvla -Werror "
     for filename in os.listdir(path):  # for all files in the directory
         # that end with .c
         if filename.endswith(".c"):
