@@ -21,7 +21,7 @@ class TestGradingInterface(unittest.TestCase):
         print('Memory leak')
         print(graded.get_error_list())
         print(graded.get_grade())
-    
+'''    
     def test_grade_submission3(self):
         graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw9-16/hw9/hw09_not_compile.zip'),
                                             os.path.join(path, '2020homeworks/hw09MergeSort'))
@@ -35,6 +35,6 @@ class TestGradingInterface(unittest.TestCase):
         print('Simple wrong code')
         print(graded.get_error_list())
         print(graded.get_grade())
-
+'''
 if __name__ == '__main__':
     unittest.main() # run the unit test again ...

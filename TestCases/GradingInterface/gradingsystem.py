@@ -101,7 +101,8 @@ def grade(path):
             temp = elem.split('>>')[0]
             temp = elem.split('|')[0]
             valgrindstatements.append(temp)
-
+        print('111')
+        print(valgrindstatements)
     # -------------------------
     # Check diff
 
@@ -174,6 +175,7 @@ def memcheck(makefile_dir, valgrindstatements):
     :param makefile_dir: full directory to the makefile (starts with a '/' and does not include the makfile)
     :type makefile_dir: str
         example: /users/alex/desktop/project14
+
     :param valgrindstatements: list containing the statements to run valgrind on
     :type valgrindstatements: list
         example: ['./hw14 inputs/input1', ./hw14 inputs/input2]
@@ -183,8 +185,7 @@ def memcheck(makefile_dir, valgrindstatements):
     """
 
     os.chdir(makefile_dir)  # go to the folder where the makefile and other files are (essentially the project folder)
-
-    os.system("make")# >/dev/null 2>&1")  # compiles the code according to the makefile
+    # os.system("make") # >/dev/null 2>&1")  # compiles the code according to the makefile
 
     tempfile = "tempfile.txt"  # name of the tempfile which will store the valgrind output
 
@@ -194,7 +195,7 @@ def memcheck(makefile_dir, valgrindstatements):
     for statement in valgrindstatements:  # run through the valgrind statements
         #os.system(f'valgrind {statement} > {tempfile} 2>&1')
         try:
-            checkfortimeout(os.system, args=[f'valgrind {statement} > {tempfile} 2>&1'])
+            checkfortimeout(os.system, args=[f'valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose {statement} > {tempfile} 2>&1'])
             # previous statement executes valgrind on the executable and writes the output to the tempfile
         except TimeoutError:
             continue
