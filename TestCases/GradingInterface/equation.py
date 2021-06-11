@@ -92,7 +92,13 @@ def calculate_grade(values, equation="100*(p/t)-m-10*l"):
 
     equation = equation.replace('^', '**')
 
-    return eval(equation)  # return the result of the equation
+    value = eval(equation)
+
+    if value > 0:
+        return value # return the result of the equation if it is negative
+    else: 
+        return 0
+
 
 
 #  testing code

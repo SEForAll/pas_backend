@@ -199,15 +199,15 @@ def memcheck(makefile_dir, valgrindstatements):
         except TimeoutError:
             continue
 
-        p = re.compile(r'in use at exit: (\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
+        p = re.compile(r'in use at exit: ((\d*\,)*\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
 
         with open(tempfile, 'r') as f:
             text = f.read()
             match = p.search(text)  # use regex to get number of bytes leaked and in how many blocks
             if match is None:
                 return -1, -1  # return this if valgrind is not called properly (might happen bc i wrote this on mac)
-            bytesInUse += int(match.group(1))  # put regex groups from the match into variables and cast to integers
-            blocks += int(match.group(2))
+            bytesInUse += int(match.group(1).replace(',', ''))  # put regex groups from the match into variables and cast to integers
+            blocks += int(match.group(3))
 
         os.remove(tempfile)  # remove the files we created as they only pertain to this function
 
