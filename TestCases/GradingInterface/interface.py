@@ -144,6 +144,7 @@ def grade_submission(submission: str, test_case: str, equation="100*(p/t)-m-10*l
     pointslist, user_feedback = grade(user_submission.submission_folder_path)  # grades submission and gets point values
 
     if pointslist is None:  # returns none if there was something wrong when grading (student side)
+        user_submission.clean_up()  # deletes copied files
         return GradedSubmission(0, user_feedback)
 
     pointslist.append(hourslate)  # append hourslate to the grading points list
