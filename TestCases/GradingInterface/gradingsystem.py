@@ -101,8 +101,7 @@ def grade(path):
             temp = elem.split('>>')[0]
             temp = elem.split('|')[0]
             valgrindstatements.append(temp)
-        print('111')
-        print(valgrindstatements)
+
     # -------------------------
     # Check diff
 
