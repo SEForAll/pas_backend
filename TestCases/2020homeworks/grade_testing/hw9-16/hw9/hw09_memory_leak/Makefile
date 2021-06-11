@@ -15,8 +15,8 @@ hw09: $(OBJS)
 	$(GCC) $(TESTFALGS) -c $*.c
 
 test1: hw09
-	./hw09 inputs/input1 outputs/output1
-	diff outputs/output1 expected/expected1 > grade.txt
+	./hw09 inputs/input1 out
+	diff out expected/expected1 > grade.txt
 
 test2: hw09
 	./hw09 inputs/input2 outputs/output2

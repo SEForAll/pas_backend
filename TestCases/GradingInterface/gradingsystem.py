@@ -43,7 +43,7 @@ def grade(path):
     cmd+="-o new"
     result = os.system(cmd)   # Run the compile command, get the return value
     '''
-    result = os.system("make")  # Run make
+    result = os.system("make >/dev/null 2>&1")  # Run make
 
     filename = "hw"
     if result==0:
@@ -195,7 +195,7 @@ def memcheck(makefile_dir, valgrindstatements):
     for statement in valgrindstatements:  # run through the valgrind statements
         #os.system(f'valgrind {statement} > {tempfile} 2>&1')
         try:
-            checkfortimeout(os.system, args=[f'valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose {statement} > {tempfile} 2>&1'])
+            checkfortimeout(os.system, args=[f'valgrind --tool=memcheck --log-file="{tempfile}" --leak-check=full --verbose {statement}'])
             # previous statement executes valgrind on the executable and writes the output to the tempfile
         except TimeoutError:
             continue
