@@ -1,0 +1,75 @@
+==25973== Memcheck, a memory error detector
+==25973== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==25973== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==25973== Command: ./hw08 inputs/test5.bin output5
+==25973== Parent PID: 25955
+==25973== 
+--25973-- 
+--25973-- Valgrind options:
+--25973--    --tool=memcheck
+--25973--    --log-file=vallog
+--25973--    --leak-check=full
+--25973--    --verbose
+--25973-- Contents of /proc/version:
+--25973--   Linux version 3.10.0-1127.8.2.el7.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) ) #1 SMP Tue May 12 16:57:42 UTC 2020
+--25973-- 
+--25973-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-rdtscp-sse3-ssse3-avx-f16c-rdrand
+--25973-- Page sizes: currently 4096, max supported 4096
+--25973-- Valgrind library directory: /usr/libexec/valgrind
+--25973-- Reading syms from /home/shay/a/huan1372/Desktop/ECE264/solutions/HW08Struct/hw08
+--25973-- Reading syms from /usr/lib64/ld-2.17.so
+--25973--   Considering /usr/lib/debug/.build-id/27/ffd1fbc69569c776e666474eed723395e6d727.debug ..
+--25973--   .. build-id is valid
+--25973-- Reading syms from /usr/libexec/valgrind/memcheck-amd64-linux
+--25973--    object doesn't have a symbol table
+--25973--    object doesn't have a dynamic symbol table
+--25973-- Scheduler: using generic scheduler lock implementation.
+--25973-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==25973== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-25973-by-huan1372-on-ecegrid-thin5.ecn.purdue.edu
+==25973== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-25973-by-huan1372-on-ecegrid-thin5.ecn.purdue.edu
+==25973== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-25973-by-huan1372-on-ecegrid-thin5.ecn.purdue.edu
+==25973== 
+==25973== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==25973== don't want to do, unless you know exactly what you're doing,
+==25973== or are doing some strange experiment):
+==25973==   /usr/libexec/valgrind/../../bin/vgdb --pid=25973 ...command...
+==25973== 
+==25973== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==25973==   /path/to/gdb ./hw08
+==25973== and then give GDB the following command
+==25973==   target remote | /usr/libexec/valgrind/../../bin/vgdb --pid=25973
+==25973== --pid is optional if only one valgrind process is running
+==25973== 
+--25973-- REDIR: 0x4019e30 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c7ed5 (???)
+--25973-- REDIR: 0x4019c00 (ld-linux-x86-64.so.2:index) redirected to 0x580c7eef (???)
+--25973-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
+--25973-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
+==25973== WARNING: new redirection conflicts with existing -- ignoring it
+--25973--     old: 0x04019e30 (strlen              ) R-> (0000.0) 0x580c7ed5 ???
+--25973--     new: 0x04019e30 (strlen              ) R-> (2007.0) 0x04c2d1b0 strlen
+--25973-- REDIR: 0x4019db0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4c2e300 (strcmp)
+--25973-- REDIR: 0x401aa70 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4c31f90 (mempcpy)
+--25973-- Reading syms from /usr/lib64/libc-2.17.so
+--25973--   Considering /usr/lib/debug/.build-id/d7/8066a9c36f5fd63e2f6ac851ae3515c4c9792a.debug ..
+--25973--   .. build-id is valid
+--25973-- REDIR: 0x4ec7130 (libc.so.6:strcasecmp) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--25973-- REDIR: 0x4ec3eb0 (libc.so.6:strnlen) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--25973-- REDIR: 0x4ec9400 (libc.so.6:strncasecmp) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--25973-- REDIR: 0x4ec6910 (libc.so.6:memset) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--25973-- REDIR: 0x4ec68c0 (libc.so.6:memcpy@GLIBC_2.2.5) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--25973-- REDIR: 0x4ec58a0 (libc.so.6:__GI_strrchr) redirected to 0x4c2cb70 (__GI_strrchr)
+--25973-- REDIR: 0x4ebc6b0 (libc.so.6:malloc) redirected to 0x4c29eec (malloc)
+--25973-- REDIR: 0x4edc920 (libc.so.6:__GI_strstr) redirected to 0x4c32220 (__strstr_sse2)
+--25973-- REDIR: 0x4ecbb40 (libc.so.6:__GI_memcpy) redirected to 0x4c2efb0 (__GI_memcpy)
+--25973-- REDIR: 0x4ec6ae0 (libc.so.6:__GI_mempcpy) redirected to 0x4c31cc0 (__GI_mempcpy)
+--25973-- REDIR: 0x4ebcad0 (libc.so.6:free) redirected to 0x4c2afe6 (free)
+--25973-- REDIR: 0x4ec5fa0 (libc.so.6:memchr) redirected to 0x4c2e3a0 (memchr)
+--25973-- REDIR: 0x4ecd1b0 (libc.so.6:__GI___rawmemchr) redirected to 0x4c31b10 (__GI___rawmemchr)
+==25973== 
+==25973== HEAP SUMMARY:
+==25973==     in use at exit: 0 bytes in 0 blocks
+==25973==   total heap usage: 7 allocs, 7 frees, 218,296 bytes allocated
+==25973== 
+==25973== All heap blocks were freed -- no leaks are possible
+==25973== 
+==25973== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

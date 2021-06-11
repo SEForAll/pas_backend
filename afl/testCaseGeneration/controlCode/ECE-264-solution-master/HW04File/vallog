@@ -1,0 +1,73 @@
+==46335== Memcheck, a memory error detector
+==46335== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==46335== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==46335== Command: ./hw04 inputs/2016
+==46335== Parent PID: 38108
+==46335== 
+--46335-- 
+--46335-- Valgrind options:
+--46335--    --tool=memcheck
+--46335--    --log-file=vallog
+--46335--    --leak-check=full
+--46335--    --verbose
+--46335-- Contents of /proc/version:
+--46335--   Linux version 3.10.0-1127.8.2.el7.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) ) #1 SMP Tue May 12 16:57:42 UTC 2020
+--46335-- 
+--46335-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-rdtscp-sse3-ssse3-avx-f16c-rdrand
+--46335-- Page sizes: currently 4096, max supported 4096
+--46335-- Valgrind library directory: /usr/libexec/valgrind
+--46335-- Reading syms from /home/shay/a/huan1372/Desktop/ECE264/solutions/HW04File/hw04
+--46335-- Reading syms from /usr/lib64/ld-2.17.so
+--46335--   Considering /usr/lib/debug/.build-id/27/ffd1fbc69569c776e666474eed723395e6d727.debug ..
+--46335--   .. build-id is valid
+--46335-- Reading syms from /usr/libexec/valgrind/memcheck-amd64-linux
+--46335--    object doesn't have a symbol table
+--46335--    object doesn't have a dynamic symbol table
+--46335-- Scheduler: using generic scheduler lock implementation.
+--46335-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==46335== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-46335-by-huan1372-on-ecegrid-thin5.ecn.purdue.edu
+==46335== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-46335-by-huan1372-on-ecegrid-thin5.ecn.purdue.edu
+==46335== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-46335-by-huan1372-on-ecegrid-thin5.ecn.purdue.edu
+==46335== 
+==46335== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==46335== don't want to do, unless you know exactly what you're doing,
+==46335== or are doing some strange experiment):
+==46335==   /usr/libexec/valgrind/../../bin/vgdb --pid=46335 ...command...
+==46335== 
+==46335== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==46335==   /path/to/gdb ./hw04
+==46335== and then give GDB the following command
+==46335==   target remote | /usr/libexec/valgrind/../../bin/vgdb --pid=46335
+==46335== --pid is optional if only one valgrind process is running
+==46335== 
+--46335-- REDIR: 0x4019e30 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c7ed5 (???)
+--46335-- REDIR: 0x4019c00 (ld-linux-x86-64.so.2:index) redirected to 0x580c7eef (???)
+--46335-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
+--46335-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
+==46335== WARNING: new redirection conflicts with existing -- ignoring it
+--46335--     old: 0x04019e30 (strlen              ) R-> (0000.0) 0x580c7ed5 ???
+--46335--     new: 0x04019e30 (strlen              ) R-> (2007.0) 0x04c2d1b0 strlen
+--46335-- REDIR: 0x4019db0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4c2e300 (strcmp)
+--46335-- REDIR: 0x401aa70 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4c31f90 (mempcpy)
+--46335-- Reading syms from /usr/lib64/libc-2.17.so
+--46335--   Considering /usr/lib/debug/.build-id/d7/8066a9c36f5fd63e2f6ac851ae3515c4c9792a.debug ..
+--46335--   .. build-id is valid
+--46335-- REDIR: 0x4ec7130 (libc.so.6:strcasecmp) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--46335-- REDIR: 0x4ec3eb0 (libc.so.6:strnlen) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--46335-- REDIR: 0x4ec9400 (libc.so.6:strncasecmp) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--46335-- REDIR: 0x4ec6910 (libc.so.6:memset) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--46335-- REDIR: 0x4ec68c0 (libc.so.6:memcpy@GLIBC_2.2.5) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--46335-- REDIR: 0x4ec58a0 (libc.so.6:__GI_strrchr) redirected to 0x4c2cb70 (__GI_strrchr)
+--46335-- REDIR: 0x4ebc6b0 (libc.so.6:malloc) redirected to 0x4c29eec (malloc)
+--46335-- REDIR: 0x4edc920 (libc.so.6:__GI_strstr) redirected to 0x4c32220 (__strstr_sse2)
+--46335-- REDIR: 0x4ebcad0 (libc.so.6:free) redirected to 0x4c2afe6 (free)
+--46335-- REDIR: 0x4ecd3c0 (libc.so.6:strchrnul) redirected to 0x4c31ab0 (strchrnul)
+--46335-- REDIR: 0x4ec6ae0 (libc.so.6:__GI_mempcpy) redirected to 0x4c31cc0 (__GI_mempcpy)
+==46335== 
+==46335== HEAP SUMMARY:
+==46335==     in use at exit: 0 bytes in 0 blocks
+==46335==   total heap usage: 1 allocs, 1 frees, 568 bytes allocated
+==46335== 
+==46335== All heap blocks were freed -- no leaks are possible
+==46335== 
+==46335== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

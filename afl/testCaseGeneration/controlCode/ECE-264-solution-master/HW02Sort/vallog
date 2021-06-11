@@ -1,0 +1,73 @@
+==24095== Memcheck, a memory error detector
+==24095== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==24095== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==24095== Command: ./sort inputs/test5
+==24095== Parent PID: 24073
+==24095== 
+--24095-- 
+--24095-- Valgrind options:
+--24095--    --tool=memcheck
+--24095--    --log-file=vallog
+--24095--    --leak-check=full
+--24095--    --verbose
+--24095-- Contents of /proc/version:
+--24095--   Linux version 3.10.0-1127.8.2.el7.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) ) #1 SMP Tue May 12 16:57:42 UTC 2020
+--24095-- 
+--24095-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-rdtscp-sse3-ssse3-avx-f16c-rdrand
+--24095-- Page sizes: currently 4096, max supported 4096
+--24095-- Valgrind library directory: /usr/libexec/valgrind
+--24095-- Reading syms from /home/shay/a/huan1372/Desktop/ECE264/solutions/HW02Sort/sort
+--24095-- Reading syms from /usr/lib64/ld-2.17.so
+--24095--   Considering /usr/lib/debug/.build-id/27/ffd1fbc69569c776e666474eed723395e6d727.debug ..
+--24095--   .. build-id is valid
+--24095-- Reading syms from /usr/libexec/valgrind/memcheck-amd64-linux
+--24095--    object doesn't have a symbol table
+--24095--    object doesn't have a dynamic symbol table
+--24095-- Scheduler: using generic scheduler lock implementation.
+--24095-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==24095== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-24095-by-huan1372-on-ecegrid-thin5.ecn.purdue.edu
+==24095== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-24095-by-huan1372-on-ecegrid-thin5.ecn.purdue.edu
+==24095== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-24095-by-huan1372-on-ecegrid-thin5.ecn.purdue.edu
+==24095== 
+==24095== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==24095== don't want to do, unless you know exactly what you're doing,
+==24095== or are doing some strange experiment):
+==24095==   /usr/libexec/valgrind/../../bin/vgdb --pid=24095 ...command...
+==24095== 
+==24095== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==24095==   /path/to/gdb ./sort
+==24095== and then give GDB the following command
+==24095==   target remote | /usr/libexec/valgrind/../../bin/vgdb --pid=24095
+==24095== --pid is optional if only one valgrind process is running
+==24095== 
+--24095-- REDIR: 0x4019e30 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c7ed5 (???)
+--24095-- REDIR: 0x4019c00 (ld-linux-x86-64.so.2:index) redirected to 0x580c7eef (???)
+--24095-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
+--24095-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
+==24095== WARNING: new redirection conflicts with existing -- ignoring it
+--24095--     old: 0x04019e30 (strlen              ) R-> (0000.0) 0x580c7ed5 ???
+--24095--     new: 0x04019e30 (strlen              ) R-> (2007.0) 0x04c2d1b0 strlen
+--24095-- REDIR: 0x4019db0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4c2e300 (strcmp)
+--24095-- REDIR: 0x401aa70 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4c31f90 (mempcpy)
+--24095-- Reading syms from /usr/lib64/libc-2.17.so
+--24095--   Considering /usr/lib/debug/.build-id/d7/8066a9c36f5fd63e2f6ac851ae3515c4c9792a.debug ..
+--24095--   .. build-id is valid
+--24095-- REDIR: 0x4ec7130 (libc.so.6:strcasecmp) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--24095-- REDIR: 0x4ec3eb0 (libc.so.6:strnlen) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--24095-- REDIR: 0x4ec9400 (libc.so.6:strncasecmp) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--24095-- REDIR: 0x4ec6910 (libc.so.6:memset) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--24095-- REDIR: 0x4ec68c0 (libc.so.6:memcpy@GLIBC_2.2.5) redirected to 0x4a247a0 (_vgnU_ifunc_wrapper)
+--24095-- REDIR: 0x4ec58a0 (libc.so.6:__GI_strrchr) redirected to 0x4c2cb70 (__GI_strrchr)
+--24095-- REDIR: 0x4ebc6b0 (libc.so.6:malloc) redirected to 0x4c29eec (malloc)
+--24095-- REDIR: 0x4edc920 (libc.so.6:__GI_strstr) redirected to 0x4c32220 (__strstr_sse2)
+--24095-- REDIR: 0x4ecd3c0 (libc.so.6:strchrnul) redirected to 0x4c31ab0 (strchrnul)
+--24095-- REDIR: 0x4ec6ae0 (libc.so.6:__GI_mempcpy) redirected to 0x4c31cc0 (__GI_mempcpy)
+--24095-- REDIR: 0x4ebcad0 (libc.so.6:free) redirected to 0x4c2afe6 (free)
+==24095== 
+==24095== HEAP SUMMARY:
+==24095==     in use at exit: 0 bytes in 0 blocks
+==24095==   total heap usage: 2 allocs, 2 frees, 568 bytes allocated
+==24095== 
+==24095== All heap blocks were freed -- no leaks are possible
+==24095== 
+==24095== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
