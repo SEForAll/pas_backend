@@ -2,6 +2,20 @@ import os
 
 
 def write_makefile(path, warnings, errors, srcs, name='no_name'):
+    """
+    function to write a makefile the way taught in ECE264
+    :param path: path to the makefile
+    :type path: str
+    :param warnings: the warnings desired for the makefile
+    :type warnings: str
+    :param errors: the errors desired for the makefile
+    :type errors: str
+    :param srcs: the source files needed for the makefile
+    :type srcs: str
+    :param name: name of the executable
+    :type name: str
+    :return:
+    """
     make = ''
 
     make += f'WARNING = {warnings}\n'
