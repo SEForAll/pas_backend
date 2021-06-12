@@ -19,24 +19,24 @@ hw17: $(OBJS)
 
 
 test1: hw17
-	./hw17 inputs/input1 | sort > outputs/output1
-	diff outputs/output1 expected/expected1 > grade.txt
+	./hw17 inputs/input1 | sort > output1
+	diff output1 expected/expected1 > grade.txt
 
 test2: hw17
-	./hw17 inputs/input2 | sort > outputs/output2
-	diff outputs/output2 expected/expected2 > grade.txt
+	./hw17 inputs/input2 | sort > output2
+	diff output2 expected/expected2 > grade.txt
 
 test3: hw17
-	./hw17 inputs/input3 | sort > outputs/output3
-	diff outputs/output3 expected/expected3 > grade.txt
+	./hw17 inputs/input3 | sort > output3
+	diff output3 expected/expected3 > grade.txt
 
 test4: hw17
-	./hw17 inputs/input4 | sort > outputs/output4
-	diff outputs/output4 expected/expected4 > grade.txt
+	./hw17 inputs/input4 | sort > output4
+	diff output4 expected/expected4 > grade.txt
 
 test5: hw17
-	./hw17 inputs/input5 | sort > outputs/output5
-	diff outputs/output5 expected/expected5 > grade.txt
+	./hw17 inputs/input5 | sort > output5
+	diff output5 expected/expected5 > grade.txt
 
 
 clean: # remove all machine generated files

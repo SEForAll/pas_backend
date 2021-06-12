@@ -33,6 +33,6 @@ test4: hw09
 test5: hw09
 	./hw09 inputs/input5 outputs/output5
 	diff outputs/output5 expected/expected5 > grade.txt
-
+	
 clean: # remove all machine generated files
 	rm -f hw09 *.o output?

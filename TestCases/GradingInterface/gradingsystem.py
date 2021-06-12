@@ -194,12 +194,12 @@ def memcheck(makefile_dir, valgrindstatements):
     for statement in valgrindstatements:  # run through the valgrind statements
         #os.system(f'valgrind {statement} > {tempfile} 2>&1')
         try:
-            checkfortimeout(os.system, args=[f'valgrind --tool=memcheck --log-file="{tempfile}" --leak-check=full --verbose {statement}'])
+            checkfortimeout(os.system, args=[f'valgrind --tool=memcheck --log-file={tempfile} --leak-check=full --verbose {statement}'])
             # previous statement executes valgrind on the executable and writes the output to the tempfile
         except TimeoutError:
             continue
-
-        p = re.compile(r'in use at exit: ((\d*\,)*\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
+        
+        p = re.compile(r': ((\d*\,)*\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
 
         with open(tempfile, 'r') as f:
             text = f.read()
