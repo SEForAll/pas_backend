@@ -10,6 +10,9 @@ def testInputs(inRootPath, outPath, program):
             outF = open(str(outPath + str(fileNum)), "w")
             outF.write(bytes.decode(output))
         fileNum = fileNum + 1
+    dirIn = os.path.dirname(os.path.realpath(inRootPath))
+    dirOut = os.path.dirname(os.path.realpath(outPath))
+    return [dirIn, dirOut]
 
-     
+
     
