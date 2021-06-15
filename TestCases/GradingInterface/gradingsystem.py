@@ -146,18 +146,27 @@ def grade(path):
     bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)  # check leaked memory for each testcase
 
     # print(bytesLeaked)
-    if bytesLeaked < 0:  # if bytes leaked is negative that means there was something wrong
+    if bytesLeaked == -1:  # if bytes leaked is negative that means there was something wrong
         list_final.append('error when executing Makefile... contact your professor about this issue (valgrind not called correctly)')
         return None, list_final
     # else:
     #     list_final.append('makefile executed correctly!')
 
-    if bytesLeaked > 0:  # if there was memory leak
-        list_final.append(f'{bytesLeaked} byte(s) of memory leak present in the program')
-    if bytesLeaked == 0:  # if there was no memory leak
-        list_final.append('No memory leak!')
+    for i in range(len(bytesLeaked)):
+        if bytesLeaked[i] > 0:  # if there was memory leak
+            list_final.append(f'{bytesLeaked[i]} byte(s) of memory leak present in test case {i+1}')
+        if bytesLeaked[i] == 0:  # if there was no memory leak
+            list_final.append(f'No memory leak in test case {i+1}')
 
-    pointslist.append(bytesLeaked)  # append bytesLeaked in the correct place in the pointslist
+    memleakpoints = 0
+    points = 100 / numberoftestcases
+    for num in bytesLeaked:
+        if points - num <= 0:
+            memleakpoints += points
+        else:
+            memleakpoints += num
+    
+    pointslist.append(memleakpoints)  # append bytesLeaked in the correct place in the pointslist
 
     if debugging:
         print('memcheck finished')
@@ -188,8 +197,8 @@ def memcheck(makefile_dir, valgrindstatements):
 
     tempfile = "tempfile.txt"  # name of the tempfile which will store the valgrind output
 
-    bytesInUse = 0
-    blocks = 0
+    bytesInUse = []
+    blocks = []
 
     for statement in valgrindstatements:  # run through the valgrind statements
         #os.system(f'valgrind {statement} > {tempfile} 2>&1')
@@ -206,8 +215,8 @@ def memcheck(makefile_dir, valgrindstatements):
             match = p.search(text)  # use regex to get number of bytes leaked and in how many blocks
             if match is None:
                 return -1, -1  # return this if valgrind is not called properly (might happen bc i wrote this on mac)
-            bytesInUse += int(match.group(1).replace(',', ''))  # put regex groups from the match into variables and cast to integers
-            blocks += int(match.group(3))
+            bytesInUse.append(int(match.group(1).replace(',', '')))  # put regex groups from the match into variables and cast to integers
+            blocks.append(int(match.group(3)))
 
         os.remove(tempfile)  # remove the files we created as they only pertain to this function
 
