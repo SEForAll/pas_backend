@@ -25,6 +25,7 @@ def populateFiles(codeDir, inputDir):
     genCMake(os.getcwd() + "/copyIn/code/")
     return
 
+<<<<<<< HEAD
 
 def copyfiles(codeDir, inputDir, codeToDir, inputToDir):
     # name of all the files in directories
@@ -60,6 +61,9 @@ def deletefiles(codeToDir, inputToDir, outputDir):
     # os.rmdir(os.getcwd() + "/test/outputs/")
 
 def genCMake(dir_path):
+=======
+def genCMake(dir_path, instrument):
+>>>>>>> 3cba03514ab264efed84a077571abe954755daba
     #@author: leila_i3viefa
 
     #dir_path = os.path.dirname(os.path.realpath('C:/afl/code SAMPLE')) #creates variable of the folder to search
@@ -67,10 +71,12 @@ def genCMake(dir_path):
 
     #list of most of the content for the text file since only the last line of the file changes
     lines = ['cmake_minimum_required(VERSION 3.16)\n', '\n', 'project(binary)\n', '\n', 'set(AFL_FUZZER_DIR "" CACHE STRING "AFL fuzzer binary directory")\n', 'if(AFL_FUZZER_DIR)\n', '    set(CMAKE_C_COMPILER "${AFL_FUZZER_DIR}/afl-clang-lto")\n', 'else()\n', '    set(CMAKE_C_COMPILER afl-clang-lto)\n', 'endif()\n', '\n']
-
+    lineItr = 0;
     for element in lines:
         #writes the lines list to the text file
-        mainfile.write(element)
+        if(instrument == True and element < 5) or element > 4):  
+            mainfile.write(element)
+        lineItr = lineItr + 1
 
     lineLast = "add_executable(${PROJECT_NAME}" #first part of the last line of text file
 
