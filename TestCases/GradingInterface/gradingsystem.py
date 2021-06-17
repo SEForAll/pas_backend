@@ -5,6 +5,9 @@ import re
 import multiprocessing
 import time
 
+
+# line numbers to uncomment: 23, 118, 174, 175, 176
+
 # 4. where do you run the program <-- line 132 of interface.py
 def grade(path):
     """
