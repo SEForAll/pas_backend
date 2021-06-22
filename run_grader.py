@@ -1,4 +1,4 @@
-from TestCases.GradingInterface.interface import grade, grade_submission
+from TestCases.GradingInterface.interface import grade_submission
 import sys
 import os
 
