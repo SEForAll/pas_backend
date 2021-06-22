@@ -8,14 +8,14 @@ def main(args):
 
     if len(args) == 1:
         errormsg = 'ERROR: no student files directory specified\nplease specify the directory contining the student files to be graded'
-        errormsg += f'\nEXAMPLE CALL: python3 {args[1]} users/alex/ECE264/hw01'
+        errormsg += f'\nEXAMPLE CALL: python3 {args[0]} users/alex/ECE264/hw01'
         return errormsg
     elif len(args) == 2:
         student_files = args[1]
         files = os.listdir(student_files)
         if 'MASTER' not in files:
             errormsg = 'ERROR: professor files not specified\nplease specify the directory containing the professor files or place it in the student directory and name it \'MASTER\''
-            errormsg += f'\nEXAMPLE CALL: python3 {args[1]} users/alex/ECE264/hw01 users/alex/ECE264/prof_files/hw01'
+            errormsg += f'\nEXAMPLE CALL: python3 {args[0]} users/alex/ECE264/hw01 users/alex/ECE264/prof_files/hw01'
             return errormsg
         prof_files = os.path.join(student_files, 'MASTER')
     elif len(args) == 3:
@@ -23,7 +23,7 @@ def main(args):
         prof_files = args[2]
     else:
         errormsg = 'ERROR: too many inputs specified\nplease only use 2 inputs maximum'
-        errormsg += f'\nEXAMPLE CALL: python3 {args[1]} users/alex/ECE264/hw01 users/alex/ECE264/prof_files/hw01'
+        errormsg += f'\nEXAMPLE CALL: python3 {args[0]} users/alex/ECE264/hw01 users/alex/ECE264/prof_files/hw01'
         return errormsg
     
     
