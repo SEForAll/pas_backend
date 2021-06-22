@@ -82,7 +82,7 @@ def grade(path):
         num = re.compile(r'test(\d+):')  # pattern to find how many testcases there are
         match = num.findall(text)
         if len(match) != 0:  # if there is at least one match
-            numberoftestcases = int(match[-1])
+            numberoftestcases = int(len(match))
         else:
             list_final.append('error when executing Makefile... contact your '
                               'professor about this issue (number of test cases could not be found)')
@@ -104,6 +104,10 @@ def grade(path):
             temp = elem.split('>>')[0]
             temp = elem.split('|')[0]
             valgrindstatements.append(temp)
+        
+        # removes valgrind statement for the 'testall' case in the makefile, assuming it is at the bottom
+        while len(valgrindstatements) > numberoftestcases:
+            valgrindstatements.pop()
 
     # -------------------------
     # Check diff
