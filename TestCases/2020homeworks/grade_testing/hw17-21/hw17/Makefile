@@ -9,7 +9,7 @@ TESTFALGS = -DTEST_BUILDTREE -DTEST_PRINTPATH
 
 SRCS = main.c tree.c
 OBJS = $(SRCS:%.c=%.o)
-VAL = valgrind --tool=memcheck --log-file=memcheck.txt --leak-check=full --verbose
+VAL = valgrind --tool=memcheck --leak-check=full --track-origins=yes --verbose
 
 hw17: $(OBJS) 
 	$(GCC) $(TESTFALGS) $(OBJS) -o hw17
@@ -38,7 +38,9 @@ test5: hw17
 	./hw17 inputs/input5 | sort > output5
 	diff output5 expected/expected5 > grade.txt
 
-
+memcheck: hw17
+	$(VAL) ./hw17 inputs/input1 | sort > output1
+	
 clean: # remove all machine generated files
 	rm -f hw17 *.o output?
 
