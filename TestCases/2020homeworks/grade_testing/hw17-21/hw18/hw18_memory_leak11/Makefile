@@ -38,6 +38,8 @@ test5: hw18
 	./hw18 inputs/input5 inputs/test5 output5
 	diff -w output5 expected/expected5 > grade.txt
 
+memcheck: hw18
+	$(VAL) ./hw18 inputs/input1 inputs/test1 output1
 
 clean: # remove all machine generated files
 	rm -f hw18 *.o output?
