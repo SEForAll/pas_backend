@@ -14,7 +14,7 @@ def getFlagFromJSON(JSONFile, flag):
 					flag.append(dictionaries[flags])
 	return flag
 
-def getUsernamesFromJSON(JSONFile):
+def getRepoNamesFromJSON(JSONFile):
 	usernames = []
 	with open(JSONFile, "r") as JFile:
 		extractRawJSON = json.load(JFile)
