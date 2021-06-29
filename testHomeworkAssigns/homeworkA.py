@@ -53,8 +53,8 @@ def pullFileFromAllRepos(repositories, fileToPull):
 
 def putGradesInRepos(rootDirGrades, fileName, userList, rootDirRepos, hwName):
 	for user in userlist:
-		srcPath = rootDirGrades + "/" + user + "/" + hwName + "/" fileName
-		dstPath = rootDirRepos + "/" + user + "/" + hwName + "/" + fileName)
+		srcPath = rootDirGrades + "/" + user + "/" + hwName + "/" + fileName
+		dstPath = rootDirRepos + "/" + user + "/" + hwName + "/" + fileName
 		if os.path.exists(srcPath) and os.path.exists(dstPath):
 			shutil.copy(srcPath, dstPath)
 		else:
@@ -73,4 +73,5 @@ def pushChangeToRepos(rootPath, fileName, userList, hwName):
 def startGradingProcess(runFilePath):
 	subprocess.run(["python3", "pas_backend/run_grader.py"], check=True, stdout=subprocess.PIPE).stdout
 	
+#pullFileFromAllRepos(getRepoCloneURLSFromJSON(example.json), "HW01Linux")
 
