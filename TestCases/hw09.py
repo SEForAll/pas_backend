@@ -6,6 +6,8 @@ path = os.getcwd()
 
 #print(path)
 
+# test_weights = {'test1': 1, 'test2': 1, 'test3': 1, 'test4': 1, 'test5': 1000, 'mem_coef': 1}
+
 class TestGradingInterface(unittest.TestCase):
 
     def test_grade_submission(self):

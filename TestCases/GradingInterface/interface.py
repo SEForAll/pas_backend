@@ -115,7 +115,7 @@ class TestCase:
         return self.test_case_path
 
 
-def grade_submission(submission: str, test_case: str, equation="100*(p/t)-m-10*l", hourslate=0) -> GradedSubmission:
+def grade_submission(submission: str, test_case: str, hourslate=0, weights={}) -> GradedSubmission:
     """
     grade the submission and return a GradedSubmission object with all info stored inside, grade is calculated using
     the specified equation (default: 100*(p/t)-m-10*l)
@@ -124,14 +124,11 @@ def grade_submission(submission: str, test_case: str, equation="100*(p/t)-m-10*l
     :type submission: str
     :param test_case: path to the test case (unzipped folder)
     :type test_case: str
-    :param equation: equation to use for grading. Variables: t = num testcases,
-                                                             p = num testcases passed,
-                                                             m = bytes of memory leak,
-                                                             l = hours late
-                                                             default: 100*(p/t)-m-10*l
-    :type equation: str
     :param hourslate: how many hours late the submission was submitted
     :type hourslate: float
+    :param weights: a dictionary that contains the weights of each testcase and the memoryleak (ex: {'test1': 40, 'test2' 60, 'mem_coef': 2})
+        MUST contain 'test[number 1-n]' AND 'mem_coef' to work
+    :type weights: dict
     :return:
     """
 
@@ -141,15 +138,13 @@ def grade_submission(submission: str, test_case: str, equation="100*(p/t)-m-10*l
 
     submission_testcases.copyfiles(user_submission.submission_folder_path)  # copies prof files to submission dir
 
-    pointslist, user_feedback = grade(user_submission.submission_folder_path)  # grades submission and gets point values
+    points, user_feedback = grade(user_submission.submission_folder_path, weights)  # grades submission and gets point values
 
-    if pointslist is None:  # returns none if there was something wrong when grading (student side)
+    if points is None:  # returns none if there was something wrong when grading (student side)
         user_submission.clean_up()  # deletes copied files
         return GradedSubmission(0, user_feedback)
 
-    pointslist.append(hourslate)  # append hourslate to the grading points list
-
     user_submission.clean_up()  # deletes copied files
 
-    return GradedSubmission(calculate_grade(pointslist, equation), user_feedback)
+    return GradedSubmission(round(points, 2), user_feedback)
 

@@ -9,16 +9,17 @@ import time
 # line numbers to uncomment: 23, 118, 174, 175, 176
 
 # 4. where do you run the program <-- line 132 of interface.py
-def grade(path):
+def grade(path, weights):
     """
     :param path: path to the project. ex) /users/alex/myfiles/project
     :type path: str
+    :param weights: a dictionary that contains the weights of each testcase and the memoryleak (ex: {'test1': 40, 'test2' 60, 'mem_coef': 2})
+    :type weights: dict
 
-    :return: pointslist ([testcases, testcases passed, bytes leaked]), feedback
+    :return: points, feedback
     """
 
     list_final = []  # list of feedback for the submission
-    pointslist = []  # list of points for each section. order: [testcases, passed testcases, bytes leaked]
 
     debugging = False  # set to True to enable debugging print statements
 
@@ -92,6 +93,10 @@ def grade(path):
             list_final.append('error when executing Makefile... contact your '
                               'professor about this issue (number of test cases is not correct)')
             return None, list_final
+        
+        if weights == {}:
+            weights = {f'test{i + 1}': 100 / numberoftestcases for i in range(numberoftestcases)}
+            weights['mem_coef'] = 1
 
         # ------------------------
         # get the valgrind statements to run
@@ -120,8 +125,11 @@ def grade(path):
     with open('grade.txt', 'w+') as f:  # make a grading file
         f.write('')
 
+    total_weight = 0  # the total weight given by the professor (incase it does not add up to 100%)
+
     for i in range(1, numberoftestcases + 1):  # run the loop for each testcase
-        # print(f'i is {i}')
+        total_weight += weights[f'test{i}']
+
         os.system('make clean >/dev/null 2>&1')  # get rid of unwanted
         os.system('make >/dev/null 2>&1')  # run 'make' in the console
         #os.system(f'make testcase{i} >/dev/null 2>&1')  # PROF MUST SEND THE OUTPUT OF THE DIFF COMMAND TO grade.txt !!
@@ -140,9 +148,8 @@ def grade(path):
             passed += 1
         else:  # if the files don't mach
             list_final.append(f"Test case {i} is wrong...")
+            weights[f'test{i}'] = 0
 
-    pointslist.append(numberoftestcases)  # put numberoftestcases in the correct place in the pointslist
-    pointslist.append(passed)  # put passed in the correct place in the pointslist
     list_final.append(f'{passed}/{numberoftestcases} test cases passed!')
 
     if debugging:
@@ -165,15 +172,10 @@ def grade(path):
         if bytesLeaked[i] == 0:  # if there was no memory leak
             list_final.append(f'No memory leak in test case {i+1}')
 
-    memleakpoints = 0
-    points = 100 / numberoftestcases
-    for num in bytesLeaked:
-        if points - num <= 0:
-            memleakpoints += points
-        else:
-            memleakpoints += num
-    
-    pointslist.append(memleakpoints)  # append bytesLeaked in the correct place in the pointslist
+    for i in range(numberoftestcases):
+        weights[f'test{i + 1}'] -= weights['mem_coef'] * bytesLeaked[i]
+        if weights[f'test{i + 1}'] < 0:
+            weights[f'test{i + 1}'] = 0
 
     if debugging:
         print('memcheck finished')
@@ -182,7 +184,15 @@ def grade(path):
     os.remove('grade.txt')  # get rid of file now that grading is complete
     os.remove('empty.txt')  # get rid of file now that grading is complete
 
-    return pointslist, list_final
+    points = 0
+    for key in weights.keys():
+        if key.startswith('test'):
+            points += weights[key]
+
+    points /= total_weight  # correct points / the total number of points possible
+    points *= 100  # change to a percentage
+
+    return points, list_final
 
 
 def memcheck(makefile_dir, valgrindstatements):
