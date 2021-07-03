@@ -11,9 +11,7 @@ FEEDBACK_FILE = 'feedback.txt'
 def parse_args(args):
 
     def force_absolute(path):
-        if path[0] != '/':
-            return os.path.join(os.getcwd(), path)
-        return path
+        return path if path[0] == '/' else os.path.join(os.getcwd(), path)
 
     # Checks if the argument is a path to a directory
     def dir_path(path):
