@@ -10,13 +10,21 @@ FEEDBACK_FILE = 'feedback.txt'
 
 def parse_args(args):
 
+    def force_absolute(path):
+        if path[0] != '/':
+            return os.path.join(os.getcwd(), path)
+        return path
+
     # Checks if the argument is a path to a directory
     def dir_path(path):
+        path = force_absolute(path)
         if not os.path.isdir(path):
             raise ValueError
         return path
+
     # Checks if the argument is a path to a zip file
     def zipfile_path(path):
+        path = force_absolute(path)
         if not path.endswith('.zip') or not os.path.isfile(path):
             raise ValueError
         return path
@@ -53,15 +61,11 @@ def write_feedback(feedback: list, hw_tag: str, user_id: str, out_dir: str) -> N
         f.write(f'{feedback}\n')
 
 if __name__ == '__main__':
-    #args = parse_args(sys.argv[1:])
-    #grade, feedback_list = grade_hw(args.submission_zip, args.test_cases_dir)
+    args = parse_args(sys.argv[1:])
+    grade, feedback = grade_hw(args.submission_zip, args.test_cases_dir)
 
-    #write_grade(grade, args.hw_tag, args.user_id, args.out_dir)
-    #write_feedback_list(feedback_list, args.hw_tag, args.user_id, args.out_dir)
+    write_grade(grade, args.hw_tag, args.user_id, args.out_dir)
+    write_feedback(feedback, args.hw_tag, args.user_id, args.out_dir)
 
-    curr_dir = os.getcwd()
-    grade, feedback = grade_hw(os.path.join(curr_dir, 'TestCases/2020homeworks/grade_testing/hw17-21/hw17/hw17.zip'),
-                               os.path.join(curr_dir, 'TestCases/2020homeworks/HW17Huffman1'))
-    write_grade(grade, 'test tag', 'fake user id', curr_dir)
-    write_feedback(feedback, 'test tag', 'fake user id', curr_dir)
+    # ./grade_submission.py TestCases/2020homeworks/grade_testing/hw9-16/hw15/hw15.zip TestCases/2020homeworks/HW15BinaryTree1 fake_tag fake_id .
 
