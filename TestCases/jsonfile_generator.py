@@ -1,7 +1,10 @@
 import json
 import argparse
 
-
+'''
+to use this program, enter command like:
+python3 jsonfile_generator.py --HW_name ECE264-HW2 --case_num 5
+'''
 def get_args():
     parser = argparse.ArgumentParser("please add weights here")
     parser.add_argument("--HW_name", type=str, default="ECE264-HW1", help="name of the homework")
