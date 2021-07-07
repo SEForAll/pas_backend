@@ -27,6 +27,7 @@ def parse_args(args):
             raise ValueError
         return path
 
+    # define the arguments to be used with argparse
     parser = argparse.ArgumentParser(description='CMD line interface for grading a homework submission')
     parser.add_argument('submission_zip', help='HW submission ZIP file', type=zipfile_path)
     parser.add_argument('test_cases_dir', help='Folder with test cases to grade against', type=dir_path)
@@ -65,5 +66,5 @@ if __name__ == '__main__':
     write_grade(grade, args.hw_tag, args.user_id, args.out_dir)
     write_feedback(feedback, args.hw_tag, args.user_id, args.out_dir)
 
-    # ./grade_submission.py TestCases/2020homeworks/grade_testing/hw9-16/hw15/hw15.zip TestCases/2020homeworks/HW15BinaryTree1 fake_tag fake_id .
+ # ./grade_submission.py TestCases/2020homeworks/grade_testing/hw9-16/hw15/hw15.zip TestCases/2020homeworks/HW15BinaryTree1 fake_tag fake_id .
 
