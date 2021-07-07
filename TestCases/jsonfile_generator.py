@@ -32,7 +32,7 @@ def generate_json_file(params):
         test_params['test%d' % (i+1)] = 1 / case_num
 
     '''
-    to indicate weight for each testcase, write code like:
+    to indicate weight for each testcase, comment the for-loop above and add code like:
         test_params['test1'] = 0.1
         test_params['test2'] = 0.2
         ...
