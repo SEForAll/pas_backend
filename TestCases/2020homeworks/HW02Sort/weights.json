@@ -1,0 +1,11 @@
+{
+    "weights": [
+        {
+            "mem_coef": 1,
+            "late_coef": 1,
+            "test1": 1,
+            "test2": 1,
+            "test3": 1
+        }
+    ]
+}

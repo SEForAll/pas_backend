@@ -19,6 +19,8 @@ def grade(path, weights):
     :return: points, feedback
     """
 
+    weights = dict(weights)  # have to make a copy because it's using the changed values from the previous function call for some reason
+
     list_final = []  # list of feedback for the submission
 
     debugging = False  # set to True to enable debugging print statements
@@ -36,21 +38,10 @@ def grade(path, weights):
         list_final.append('no files submitted')
         return None, list_final
 
-    '''
-    compiler = new_compiler()  # make the compiler object
-
-    cmd = "gcc -std=c99 -g -Wall -Wshadow --pedantic -Wvla -Werror "
-    for filename in os.listdir(path):  # For all files in the directory that end with .c
-        if filename.endswith(".c"):
-            cmd += filename+" "
-
-    cmd+="-o new"
-    result = os.system(cmd)   # Run the compile command, get the return value
-    '''
-    result = os.system("make >/dev/null 2>&1")  # Run make
+    result = os.system("make >/dev/null 2>&1")  # Run make to see if files compile
 
     filename = "hw"
-    if result==0:
+    if result == 0:
         list_final.append(f'{filename} compiled correctly! going to next step...')
     else:
         list_final.append(f'{filename} did not compile correctly, please check your files')
@@ -64,19 +55,6 @@ def grade(path, weights):
     with open("Makefile", 'r') as f:  # open the Makefile
         text = f.read()  # read the contents of the Makefile
 
-        # -----------------------
-        # get the name of the executable
-
-        # ex = re.compile(r'-o (\w+)')  # use regex to get the name of the executable made from the Makefile
-        # match = ex.search(text)
-        # if match is not None:
-        #     executable = match.group(1)  # set the name of the executable as long as it is able to find it
-        # else:
-        #     list_final.append(
-        #         'error when executing Makefile... contact your
-        #         professor about this issue (name of executable can not be found)')
-        #     return None, list_final
-
         # ------------------------
         # get the number of test cases to run
 
@@ -84,41 +62,37 @@ def grade(path, weights):
         match = num.findall(text)
         if len(match) != 0:  # if there is at least one match
             numberoftestcases = int(len(match))
-        else:
+        else:  # if there are no matches, stop grading
             list_final.append('error when executing Makefile... contact your '
                               'professor about this issue (number of test cases could not be found)')
             return None, list_final
 
-        if numberoftestcases == 0:  # if there are no testcases
+        if numberoftestcases == 0:  # if there are no testcases, stop grading
             list_final.append('error when executing Makefile... contact your '
                               'professor about this issue (number of test cases is not correct)')
             return None, list_final
-        
-        if weights == {}:
-            weights = {f'test{i + 1}': 100 / numberoftestcases for i in range(numberoftestcases)}
-            weights['mem_coef'] = 1
 
         # ------------------------
         # get the valgrind statements to run
 
         valgrindstatements = []  # statements to run valgrind on (./hw14 inputs/input1)
-        val = re.compile(r'(\./.+)')
-        reglist = val.findall(text)
+        val = re.compile(r'(\./.+)')  # pattern to find statements to run valgrind on
+        reglist = val.findall(text)  # all matches
         for elem in reglist:
-            temp = elem.split('>')[0]
+            temp = elem.split('>')[0]  # get rid of these characters bc they write / append to a different file and we don't want that
             temp = elem.split('>>')[0]
             temp = elem.split('|')[0]
             valgrindstatements.append(temp)
         
         # removes valgrind statement for the 'testall' case in the makefile, assuming it is at the bottom
         while len(valgrindstatements) > numberoftestcases:
-            valgrindstatements.pop()
+            valgrindstatements.pop()  # get rid of extra statements that may have been picked up
 
     # -------------------------
     # Check diff
 
-    passed = 0
-    os.chdir(path)
+    passed = 0  # number of test cases that have passed
+    os.chdir(path)  # change the directory to the path with the submission files
     with open('empty.txt', 'w+') as f:  # make an empty file for comparison
         f.write('')
 
@@ -128,7 +102,7 @@ def grade(path, weights):
     total_weight = 0  # the total weight given by the professor (incase it does not add up to 100%)
 
     for i in range(1, numberoftestcases + 1):  # run the loop for each testcase
-        total_weight += weights[f'test{i}']
+        total_weight += weights[f'test{i}']  # add up the total weight of all the testcases so we can divide later
 
         os.system('make clean >/dev/null 2>&1')  # get rid of unwanted
         os.system('make >/dev/null 2>&1')  # run 'make' in the console
@@ -137,8 +111,8 @@ def grade(path, weights):
         # this must be done by the professor
         # ex) diff output1.txt expected1.txt > grade.txt
         try:
-            checkfortimeout(os.system, args=[f'make test{i} >/dev/null 2>&1'])
-        except TimeoutError:
+            checkfortimeout(os.system, args=[f'make test{i} >/dev/null 2>&1'])  # try to run a test
+        except TimeoutError:  # if it times out, end the process and go to the next testcase
             list_final.append(f'Test case {i} timed out')
             continue
 
@@ -148,9 +122,14 @@ def grade(path, weights):
             passed += 1
         else:  # if the files don't mach
             list_final.append(f"Test case {i} is wrong...")
-            weights[f'test{i}'] = 0
+            weights[f'test{i}'] = 0  # change the points earned to 0
 
     list_final.append(f'{passed}/{numberoftestcases} test cases passed!')
+
+    for key in weights.keys():  # divide each testcase by the total weight and multiply by 100 to make each testcase worth a percentage
+        if key.startswith('test'):
+            weights[key] *= 100 / total_weight 
+        
 
     if debugging:
         print('diff finished\nstarting memcheck')
@@ -161,18 +140,18 @@ def grade(path, weights):
 
     # print(bytesLeaked)
     if bytesLeaked == -1:  # if bytes leaked is negative that means there was something wrong
-        list_final.append('error when executing Makefile... contact your professor about this issue (valgrind not called correctly)')
+        list_final.append('error when executing Makefile... contact your professor about this issue (valgrind not called correctly, make sure it is installed on the server)')
         return None, list_final
     # else:
     #     list_final.append('makefile executed correctly!')
 
-    for i in range(len(bytesLeaked)):
+    for i in range(len(bytesLeaked)):  # go through each testcase and say how many bytes were leaked
         if bytesLeaked[i] > 0:  # if there was memory leak
             list_final.append(f'{bytesLeaked[i]} byte(s) of memory leak present in test case {i+1}')
         if bytesLeaked[i] == 0:  # if there was no memory leak
             list_final.append(f'No memory leak in test case {i+1}')
 
-    for i in range(numberoftestcases):
+    for i in range(numberoftestcases):  # subtract points for memory leak
         weights[f'test{i + 1}'] -= weights['mem_coef'] * bytesLeaked[i]
         if weights[f'test{i + 1}'] < 0:
             weights[f'test{i + 1}'] = 0
@@ -184,13 +163,11 @@ def grade(path, weights):
     os.remove('grade.txt')  # get rid of file now that grading is complete
     os.remove('empty.txt')  # get rid of file now that grading is complete
 
+    # calculate the total grade
     points = 0
     for key in weights.keys():
         if key.startswith('test'):
-            points += weights[key]
-
-    points /= total_weight  # correct points / the total number of points possible
-    points *= 100  # change to a percentage
+            points += weights[key]  # sum up all the points from 
 
     return points, list_final
 
@@ -214,14 +191,15 @@ def memcheck(makefile_dir, valgrindstatements):
 
     tempfile = "tempfile.txt"  # name of the tempfile which will store the valgrind output
 
-    bytesInUse = []
-    blocks = []
+    bytesInUse = []  # bytes that are in use at the end of the program. each entry is a valgrindstatement
+    blocks = []  # how many blocks leak memory. each entry is a valgrindstatement
 
     for statement in valgrindstatements:  # run through the valgrind statements
         #os.system(f'valgrind {statement} > {tempfile} 2>&1')
         try:
             checkfortimeout(os.system, args=[f'valgrind --tool=memcheck --log-file={tempfile} --leak-check=full --verbose {statement} >/dev/null 2>&1'])
             # previous statement executes valgrind on the executable and writes the output to the tempfile
+            # also gets checked for a timeout obviously lmao
         except TimeoutError:
             continue
         

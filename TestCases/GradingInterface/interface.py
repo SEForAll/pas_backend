@@ -3,6 +3,7 @@ import re
 import os
 from .gradingsystem import grade
 from .equation import calculate_grade
+import json
 
 # This is a python module. Outside of this directory:
 # from GradingInterface import interface
@@ -132,11 +133,62 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights={}) -
     :return:
     """
 
+    if weights is {}:
+        if 'weights.json' in os.listdir(test_case):
+            weights = json.load(os.path.join(test_case, 'weights.json'))
+
+    if 'late_coef' in weights.keys():
+        if weights['late_coef'] * hourslate >= 100:
+            return GradedSubmission(0, f'submission submitted {hourslate} hours past the deadline resulting in a 0%')
+
     user_submission = Submission(submission)  # this holds the path to the zip file
     submission_testcases = TestCase(test_case)
     user_submission.setup()  # unzips submission into a folder and sets folder path
 
     submission_testcases.copyfiles(user_submission.submission_folder_path)  # copies prof files to submission dir
+
+    os.chdir(user_submission.submission_folder_path)
+
+    ## get the number of test cases so that we can check if the weights dict is correct
+    numberoftestcases = 0
+    with open("Makefile", 'r') as f:  # open the Makefile
+        text = f.read()  # read the contents of the Makefile
+
+        # get the number of test cases to run
+
+        num = re.compile(r'test(\d+):')  # pattern to find how many testcases there are
+        match = num.findall(text)
+        if len(match) != 0:  # if there is at least one match
+            numberoftestcases = int(len(match))
+        else:  # if the number of test cases can not be found from the makefile
+            user_feedback = 'error when executing Makefile... contact your professor about this issue (number of test cases could not be found)'
+            return GradedSubmission(0, user_feedback)
+
+        if numberoftestcases == 0:  # if there are no testcases
+            user_feedback = 'error when executing Makefile... contact your professor about this issue (number of test cases is not correct)'
+            return GradedSubmission(0, user_feedback)
+    
+    if weights is {}:  # if weights is empty, make it from scratch
+        for num in range(1, numberoftestcases + 1):
+            weights[f'test{num}'] = 1
+        weights['mem_coef'] = 1
+        weights['late_coef'] = 1
+    else:  # if weights is not empty, make sure it has all the right parts
+        keys = weights.keys()
+        for num in range(1, numberoftestcases + 1):
+            if f'test{num}' not in keys:
+                weights[f'test{num}'] = 1
+        if 'mem_coef' not in keys:
+            weights['mem_coef'] = 1
+        if 'late_coef' not in keys:
+            weights['late_coef'] = 1
+
+        for key in keys:
+            try:
+                weights[key] = float(weights[key])
+            except ValueError:
+                user_feedback = 'error when executing Makefile... contact your professor about this issue (weights.json includes non integer or float point values)'
+                return GradedSubmission(0, user_feedback)
 
     points, user_feedback = grade(user_submission.submission_folder_path, weights)  # grades submission and gets point values
 
@@ -146,5 +198,5 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights={}) -
 
     user_submission.clean_up()  # deletes copied files
 
-    return GradedSubmission(round(points, 2), user_feedback)
+    return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback)
 
