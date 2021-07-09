@@ -22,6 +22,7 @@ class GradedSubmission:
         self.graded_score = graded_score
         self.error_file = None
         self.error_list = error_file
+        self.dict = {}
 
     def get_grade(self):
         return self.graded_score
