@@ -15,6 +15,7 @@ def get_args():
                         help="total number of testcases")  # Get total number of testcases from terminal
     parser.add_argument("--mem_coef", type=float, default=0.01,
                         help="the weight for memory leak")  # Get weight of memory leak per byte from terminal
+    parser.add_argument("--late-coef", type=float, default=0.01)  # Get penalty weight of late submission per hour
     # add more arguments here with similar format
 
     args = parser.parse_args()
@@ -29,16 +30,17 @@ def generate_json_file(params):
 
     # if not given specific weight for each testcase, the weights will be equally distributed
     for i in range(case_num):
-        test_params['test%d' % (i+1)] = 1 / case_num
+        test_params['test%d' % (i + 1)] = 1 / case_num
 
     '''
-    to indicate weight for each testcase, comment the for-loop above and add code like:
+    to indicate weight for each testcase, write code like:
         test_params['test1'] = 0.1
         test_params['test2'] = 0.2
         ...
     '''
 
     test_params["mem_coef"] = params.mem_coef
+    test_params["late_coef"] = params.late_coef
     for item in test_params:
         value = test_params[item]
         json_text['weights'].append({item: [value]}, )
