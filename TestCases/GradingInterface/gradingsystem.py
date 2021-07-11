@@ -16,10 +16,12 @@ def grade(path, weights):
     :param weights: a dictionary that contains the weights of each testcase and the memoryleak (ex: {'test1': 40, 'test2' 60, 'mem_coef': 2})
     :type weights: dict
 
-    :return: points, feedback
+    :return: points, feedback, testcases_dict
     """
 
     weights = dict(weights)  # have to make a copy because it's using the changed values from the previous function call for some reason
+
+    testcases_dict = dict()
 
     list_final = []  # list of feedback for the submission
 
@@ -36,7 +38,7 @@ def grade(path, weights):
 
     if len(os.listdir(path)) == 0:  # if there are no files in the directory
         list_final.append('no files submitted')
-        return None, list_final
+        return None, list_final, None
 
     result = os.system("make >/dev/null 2>&1")  # Run make to see if files compile
 
@@ -45,7 +47,7 @@ def grade(path, weights):
         list_final.append(f'{filename} compiled correctly! going to next step...')
     else:
         list_final.append(f'{filename} did not compile correctly, please check your files')
-        return None, list_final
+        return None, list_final, None
         exit
     if debugging:
         print('compile finished\nstarting diff')
@@ -65,12 +67,15 @@ def grade(path, weights):
         else:  # if there are no matches, stop grading
             list_final.append('error when executing Makefile... contact your '
                               'professor about this issue (number of test cases could not be found)')
-            return None, list_final
+            return None, list_final, None
 
         if numberoftestcases == 0:  # if there are no testcases, stop grading
             list_final.append('error when executing Makefile... contact your '
                               'professor about this issue (number of test cases is not correct)')
-            return None, list_final
+            return None, list_final, None
+        
+        testcases_dict = {f'test{i}': dict() for i in range(1, numberoftestcases + 1)}  # initialize dict of dicts
+        testcases_dict['num_testcases'] = numberoftestcases  # add the number of test cases to the dict
 
         # ------------------------
         # get the valgrind statements to run
@@ -114,14 +119,23 @@ def grade(path, weights):
             checkfortimeout(os.system, args=[f'make test{i} >/dev/null 2>&1'])  # try to run a test
         except TimeoutError:  # if it times out, end the process and go to the next testcase
             list_final.append(f'Test case {i} timed out')
+            testcases_dict[f'test{i}']['error_log'] = f'Test case {i} timed out'  # set error_log field for the test[i] dict
+            testcases_dict[f'test{i}']['passed'] = False  # set passed field for the test[i] dict
+
             continue
 
         comp = filecmp.cmp('grade.txt', 'empty.txt', shallow=False)  # compare the files
         if comp is True:  # if the files match
             list_final.append(f"Test case {i} is correct!")
+            testcases_dict[f'test{i}']['error_log'] = f"Test case {i} is correct!"
+            testcases_dict[f'test{i}']['passed'] = True
+
             passed += 1
         else:  # if the files don't mach
             list_final.append(f"Test case {i} is wrong...")
+            testcases_dict[f'test{i}']['error_log'] = "Test case {i} is wrong..."
+            testcases_dict[f'test{i}']['passed'] = False
+
             weights[f'test{i}'] = 0  # change the points earned to 0
 
     list_final.append(f'{passed}/{numberoftestcases} test cases passed!')
@@ -141,7 +155,7 @@ def grade(path, weights):
     # print(bytesLeaked)
     if bytesLeaked == -1:  # if bytes leaked is negative that means there was something wrong
         list_final.append('error when executing Makefile... contact your professor about this issue (valgrind not called correctly, make sure it is installed on the server)')
-        return None, list_final
+        return None, list_final, None
     # else:
     #     list_final.append('makefile executed correctly!')
 
@@ -169,7 +183,7 @@ def grade(path, weights):
         if key.startswith('test'):
             points += weights[key]  # sum up all the points from 
 
-    return points, list_final
+    return points, list_final, testcases_dict
 
 
 def memcheck(makefile_dir, valgrindstatements):

@@ -17,12 +17,12 @@ class GradedSubmission:
     :param error_file: Path to file containing error output from grading process, optional
     :type error_file: str
     """
-    def __init__(self, graded_score, error_file=None):
+    def __init__(self, graded_score, error_file=None, dictionary=None):
 
         self.graded_score = graded_score
         self.error_file = None
         self.error_list = error_file
-        self.dict = {}
+        self.dict = dictionary
 
     def get_grade(self):
         return self.graded_score
@@ -42,6 +42,9 @@ class GradedSubmission:
 
     def get_error_list(self):
         return self.error_list
+
+    def get_dict(self):
+        return self.dict
 
 
 class Submission:
@@ -117,7 +120,7 @@ class TestCase:
         return self.test_case_path
 
 
-def grade_submission(submission: str, test_case: str, hourslate=0, weights={}) -> GradedSubmission:
+def grade_submission(submission: str, test_case: str, hourslate=0, weights=None) -> GradedSubmission:
     """
     grade the submission and return a GradedSubmission object with all info stored inside, grade is calculated using
     the specified equation (default: 100*(p/t)-m-10*l)
@@ -129,24 +132,37 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights={}) -
     :param hourslate: how many hours late the submission was submitted
     :type hourslate: float
     :param weights: a dictionary that contains the weights of each testcase and the memoryleak (ex: {'test1': 40, 'test2' 60, 'mem_coef': 2})
-        MUST contain 'test[number 1-n]' AND 'mem_coef' to work
     :type weights: dict
     :return:
     """
-
-    if weights is {}:
-        if 'weights.json' in os.listdir(test_case):
-            weights = json.load(os.path.join(test_case, 'weights.json'))
-
-    if 'late_coef' in weights.keys():
-        if weights['late_coef'] * hourslate >= 100:
-            return GradedSubmission(0, f'submission submitted {hourslate} hours past the deadline resulting in a 0%')
 
     user_submission = Submission(submission)  # this holds the path to the zip file
     submission_testcases = TestCase(test_case)
     user_submission.setup()  # unzips submission into a folder and sets folder path
 
     submission_testcases.copyfiles(user_submission.submission_folder_path)  # copies prof files to submission dir
+
+    if weights is None:
+        if 'weights.json' in os.listdir(test_case):
+            with open(os.path.join(test_case, 'weights.json')) as f:
+                weights = json.load(f)['weights']  # read the wieghts part from the json
+                weights = {list(elem.keys())[0]: elem[list(elem.keys())[0]] for elem in weights}  # combine the dictionaries (json file params are each their own dict)
+
+                for key in weights.keys():
+                    try:
+                        weights[key] = float(weights[key])
+                    except ValueError:
+                        user_feedback = 'error when executing Makefile... contact your professor about this issue (weights.json includes non integer or float point values)'
+                        return GradedSubmission(0, user_feedback)
+                    except TypeError:
+                        if type(weights[key]) is list:
+                            weights[key] = float(weights[key][0])
+
+    if 'late_coef' in weights.keys():
+        if weights['late_coef'] * hourslate >= 100:
+            return GradedSubmission(0, f'submission submitted {hourslate} hours past the deadline resulting in a 0%')
+    
+    print(weights)
 
     os.chdir(user_submission.submission_folder_path)
 
@@ -169,7 +185,7 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights={}) -
             user_feedback = 'error when executing Makefile... contact your professor about this issue (number of test cases is not correct)'
             return GradedSubmission(0, user_feedback)
     
-    if weights is {}:  # if weights is empty, make it from scratch
+    if weights is None:  # if weights is empty, make it from scratch
         for num in range(1, numberoftestcases + 1):
             weights[f'test{num}'] = 1
         weights['mem_coef'] = 1
@@ -190,8 +206,11 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights={}) -
             except ValueError:
                 user_feedback = 'error when executing Makefile... contact your professor about this issue (weights.json includes non integer or float point values)'
                 return GradedSubmission(0, user_feedback)
+            except TypeError:
+                if type(weights[key]) is list:
+                    weights[key] = float(weights[key][0])
 
-    points, user_feedback = grade(user_submission.submission_folder_path, weights)  # grades submission and gets point values
+    points, user_feedback, testcases_dict = grade(user_submission.submission_folder_path, weights)  # grades submission and gets point values
 
     if points is None:  # returns none if there was something wrong when grading (student side)
         user_submission.clean_up()  # deletes copied files
@@ -199,5 +218,5 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights={}) -
 
     user_submission.clean_up()  # deletes copied files
 
-    return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback)
+    return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback, dictionary=testcases_dict)
 
