@@ -148,21 +148,23 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
                 weights = json.load(f)['weights']  # read the wieghts part from the json
                 weights = {list(elem.keys())[0]: elem[list(elem.keys())[0]] for elem in weights}  # combine the dictionaries (json file params are each their own dict)
 
-                for key in weights.keys():
+                for key in weights.keys():  # make sure each value is a float
                     try:
                         weights[key] = float(weights[key])
-                    except ValueError:
-                        user_feedback = 'error when executing Makefile... contact your professor about this issue (weights.json includes non integer or float point values)'
+                    except ValueError:  # if non integer characters are in the value fields
+                        user_feedback = 'weights.json includes non integer or float point values (ValueError), please contact your professor about this issue'
                         return GradedSubmission(0, user_feedback)
-                    except TypeError:
+                    except TypeError:  # if the value is a list, overwrite it with just the first element
                         if type(weights[key]) is list:
-                            weights[key] = float(weights[key][0])
+                            while type(weights[key]) is list:
+                                weights[key] = float(weights[key][0])
+                        else:
+                            user_feedback = 'weights.json includes non integer or float point values (TypeError), please contact your professor about this issue'
+                            return GradedSubmission(0, user_feedback)
 
-    if 'late_coef' in weights.keys():
+    if 'late_coef' in weights.keys():  # check to see if the program is already late enough to not need to be graded
         if weights['late_coef'] * hourslate >= 100:
             return GradedSubmission(0, f'submission submitted {hourslate} hours past the deadline resulting in a 0%')
-    
-    print(weights)
 
     os.chdir(user_submission.submission_folder_path)
 
@@ -194,21 +196,34 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
         keys = weights.keys()
         for num in range(1, numberoftestcases + 1):
             if f'test{num}' not in keys:
-                weights[f'test{num}'] = 1
+                weights[f'test{num}'] = 1  # add missing testcase with weight of 1
         if 'mem_coef' not in keys:
             weights['mem_coef'] = 1
         if 'late_coef' not in keys:
             weights['late_coef'] = 1
 
-        for key in keys:
+        for key in keys: # make sure each value is a float
             try:
                 weights[key] = float(weights[key])
-            except ValueError:
-                user_feedback = 'error when executing Makefile... contact your professor about this issue (weights.json includes non integer or float point values)'
+            except ValueError:  # if non integer characters are in the value fields
+                user_feedback = 'weights.json includes non integer or float point values (ValueError), please contact your professor about this issue'
                 return GradedSubmission(0, user_feedback)
-            except TypeError:
+            except TypeError:  # if the value is a list, overwrite it with just the first element
                 if type(weights[key]) is list:
-                    weights[key] = float(weights[key][0])
+                    while type(weights[key]) is list:
+                        weights[key] = float(weights[key][0])
+                else:
+                    user_feedback = 'weights.json includes non integer or float point values (TypeError), please contact your professor about this issue'
+                    return GradedSubmission(0, user_feedback)
+
+    keys = list(weights.keys())
+    for i in range(1, numberoftestcases + 1):
+        if f'test{i}' in keys:
+            keys.remove(f'test{i}')
+    
+    for key in keys:  # remove tesecases from weights dict that are not present in the makefile
+        if key.startswith('test'):
+            weights[key] = 0
 
     points, user_feedback, testcases_dict = grade(user_submission.submission_folder_path, weights)  # grades submission and gets point values
 
