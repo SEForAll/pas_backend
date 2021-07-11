@@ -159,7 +159,7 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
                             while type(weights[key]) is list:
                                 weights[key] = float(weights[key][0])
                         else:
-                            user_feedback = 'weights.json includes non integer or float point values (TypeError), please contact your professor about this issue'
+                            user_feedback = f'weights.json includes non integer or float point values (TypeError: {type(weights[key])}), please contact your professor about this issue'
                             return GradedSubmission(0, user_feedback)
 
     if 'late_coef' in weights.keys():  # check to see if the program is already late enough to not need to be graded
@@ -212,8 +212,8 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
                 if type(weights[key]) is list:
                     while type(weights[key]) is list:
                         weights[key] = float(weights[key][0])
-                else:
-                    user_feedback = 'weights.json includes non integer or float point values (TypeError), please contact your professor about this issue'
+                else:  # else the type of the value is unknown so we can't do anything with it
+                    user_feedback = f'weights.json includes non integer or float point values (TypeError: {type(weights[key])}), please contact your professor about this issue'
                     return GradedSubmission(0, user_feedback)
 
     keys = list(weights.keys())
