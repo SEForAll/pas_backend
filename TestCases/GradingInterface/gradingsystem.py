@@ -108,6 +108,7 @@ def grade(path, weights):
 
     for i in range(1, numberoftestcases + 1):  # run the loop for each testcase
         total_weight += weights[f'test{i}']  # add up the total weight of all the testcases so we can divide later
+        testcases_dict[f'test{i}']['weight'] = weights[f'test{i}']  # set the weight field for the ith test in the testcase dict
 
         os.system('make clean >/dev/null 2>&1')  # get rid of unwanted
         os.system('make >/dev/null 2>&1')  # run 'make' in the console
