@@ -215,14 +215,14 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
         keys = weights.keys()
         for num in range(1, numberoftestcases + 1):
             if f'test{num}' not in keys:
-                the_sum = sum([abs(weights[f'test{z}']) for z in range(1, num)])
+                the_sum = sum([abs(weights[f'test{z}']) for z in range(1, num)])  # get total weight of point so far
                 if the_sum == 0:
-                    weights[f'test{num}'] = 1
+                    weights[f'test{num}'] = 1  # add missing test case with weight of 1 because we can't find the average as the sum is 0
                 else:
-                    weights[f'test{num}'] = the_sum / (num - 1)  # add missing testcase with weight of 1
-        if 'mem_coef' not in keys:
+                    weights[f'test{num}'] = the_sum / (num - 1)  # add missing testcase with weight of the average test case so far
+        if 'mem_coef' not in keys:  # if mem_coef doesn't exist yet, add it
             weights['mem_coef'] = 1
-        if 'late_coef' not in keys:
+        if 'late_coef' not in keys:  # # if late_coef doesn't exist yet, add it
             weights['late_coef'] = 5
 
         for key in keys: # make sure each value is a float
@@ -266,5 +266,5 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
 
     user_submission.clean_up()  # deletes copied files
 
-    return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback, dictionary=testcases_dict)
+    return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback, dictionary=testcases_dict)  # returns a GradedSubmission object. this is also where the late penalty is applied
 
