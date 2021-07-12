@@ -7,7 +7,7 @@ path = os.path.join(os.getcwd(), 'TestCases')
 def testhw02():
     graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort.zip'),
                                         os.path.join(path, '2020homeworks/HW02Sort'))
-    print(graded.get_dict())
+    print(f'grade for hw02 is {graded.get_grade()}')
 
     return graded.get_error_list()
 
