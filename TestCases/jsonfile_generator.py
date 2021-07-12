@@ -3,9 +3,8 @@ import argparse
 
 '''
 To use this program, enter command like:
-python3 jsonfile_generator.py --HW_name ECE264-HW2 --case_num 5
+python3 jsonfile_generator.py --HW_name ECE264-HW2 --case_num 5 --mem_coef 1 --late-coef 10
 '''
-
 
 def get_args():
     parser = argparse.ArgumentParser("please add weights here")
@@ -13,9 +12,9 @@ def get_args():
                         help="name of the homework")  # Get name of the homework from terminal
     parser.add_argument("--case_num", type=int, default=5,
                         help="total number of testcases")  # Get total number of testcases from terminal
-    parser.add_argument("--mem_coef", type=float, default=0.01,
+    parser.add_argument("--mem_coef", type=float, default=1,
                         help="the weight for memory leak")  # Get weight of memory leak per byte from terminal
-    parser.add_argument("--late-coef", type=float, default=0.01)  # Get penalty weight of late submission per hour
+    parser.add_argument("--late-coef", type=float, default=5)  # Get penalty weight of late submission per hour
     # add more arguments here with similar format
 
     args = parser.parse_args()

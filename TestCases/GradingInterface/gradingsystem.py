@@ -5,10 +5,7 @@ import re
 import multiprocessing
 import time
 
-
-# line numbers to uncomment: 23, 118, 174, 175, 176
-
-# 4. where do you run the program <-- line 132 of interface.py
+# Important!!!!!! If you want to use grade function, to go interface.py <-- line 132 of interface.py
 def grade(path, weights):
     """
     :param path: path to the project. ex) /users/alex/myfiles/project
@@ -16,7 +13,10 @@ def grade(path, weights):
     :param weights: a dictionary that contains the weights of each testcase and the memoryleak (ex: {'test1': 40, 'test2' 60, 'mem_coef': 2})
     :type weights: dict
 
-    :return: points, feedback, testcases_dict
+    :return points: Final grade of the input homework
+    :type points: float
+    :return list_final: Feedback of the input homework
+    :type list_final: list of string
     """
 
     weights = dict(weights)  # have to make a copy because it's using the changed values from the previous function call for some reason
