@@ -1,12 +1,12 @@
 {
     "weights": [
         {
-            "tests1": [
+            "test1": [
                 0.2
             ]
         },
         {
-            "tests2": [
+            "test2": [
                 0.2
             ]
         },
@@ -16,22 +16,22 @@
             ]
         },
         {
-            "tests4": [
+            "test4": [
                 0.2
             ]
         },
         {
-            "tests5": [
+            "test5": [
                 0.2
             ]
         },
         {
-            "mem_coefs": [
+            "mem_coef": [
                 0.01
             ]
         },
         {
-            "late_coefs": [
+            "late_coef": [
                 0.01
             ]
         }
