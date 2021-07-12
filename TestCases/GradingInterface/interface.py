@@ -142,31 +142,41 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
 
     submission_testcases.copyfiles(user_submission.submission_folder_path)  # copies prof files to submission dir
 
-    if weights is None:
-        if 'weights.json' in os.listdir(test_case):
+    if weights is None:  # if no weights given
+        if 'weights.json' in os.listdir(test_case):  # if jason file exists, read it and convert it to a usable format
             with open(os.path.join(test_case, 'weights.json')) as f:
                 weights = json.load(f)['weights']  # read the wieghts part from the json
                 weights = {list(elem.keys())[0]: elem[list(elem.keys())[0]] for elem in weights}  # combine the dictionaries (json file params are each their own dict)
 
                 for key in weights.keys():  # make sure each value is a float
                     try:
-                        weights[key] = float(weights[key])
+                        weights[key] = float(abs(weights[key]))
                     except ValueError:  # if non integer characters are in the value fields
                         user_feedback = 'weights.json includes non integer or float point values (ValueError), please contact your professor about this issue'
                         return GradedSubmission(0, user_feedback)
-                    except TypeError:  # if the value is a list, overwrite it with just the first element
+                    except TypeError:  # if the value is a list, reduce the list to a single float
                         if type(weights[key]) is list:
-                            while type(weights[key]) is list:
-                                weights[key] = float(weights[key][0])
-                        else:
+                            while type(weights[key]) is list:  # keep convertinr it from a list to a float until it's a float (incase it's a nested list)
+                                try:
+                                    weights[key] = float(weights[key][0])
+                                except ValueError:  # if non integer characters are in the value fields
+                                    user_feedback = 'weights.json includes non integer or float point values (ValueError), please contact your professor about this issue'
+                                    return GradedSubmission(0, user_feedback)
+                                except TypeError:
+                                    if type(weights[key]) is list:
+                                        weights[key] = weights[key][0]  # overwrite the list with it's first element
+                                    else:  # if the value is not a list
+                                        user_feedback = f'weights.json includes non integer or float point values (TypeError: {type(weights[key])}), please contact your professor about this issue'
+                                        return GradedSubmission(0, user_feedback)
+                        else:  # if the value is not a list
                             user_feedback = f'weights.json includes non integer or float point values (TypeError: {type(weights[key])}), please contact your professor about this issue'
                             return GradedSubmission(0, user_feedback)
 
-    if 'late_coef' in weights.keys():  # check to see if the program is already late enough to not need to be graded
-        if weights['late_coef'] * hourslate >= 100:
+    if 'late_coef' in weights.keys():  # check to see if the program is already late enough to not need to be graded. we can remove this if it becomes a feedback tool and not a used for grading
+        if weights['late_coef'] * hourslate >= 100:  # if the penalty is already greater than 100%
             return GradedSubmission(0, f'submission submitted {hourslate} hours past the deadline resulting in a 0%')
 
-    os.chdir(user_submission.submission_folder_path)
+    os.chdir(user_submission.submission_folder_path)  # change the directory to the path of the student files ready to be graded
 
     ## get the number of test cases so that we can check if the weights dict is correct
     numberoftestcases = 0
@@ -196,28 +206,42 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
         keys = weights.keys()
         for num in range(1, numberoftestcases + 1):
             if f'test{num}' not in keys:
-                weights[f'test{num}'] = 1  # add missing testcase with weight of 1
+                the_sum = sum([abs(weights[f'test{z}']) for z in range(1, num)])
+                if the_sum == 0:
+                    weights[f'test{num}'] = 1
+                else:
+                    weights[f'test{num}'] = the_sum / (num - 1)  # add missing testcase with weight of 1
         if 'mem_coef' not in keys:
             weights['mem_coef'] = 1
         if 'late_coef' not in keys:
-            weights['late_coef'] = 1
+            weights['late_coef'] = 5
 
         for key in keys: # make sure each value is a float
             try:
-                weights[key] = float(weights[key])
+                weights[key] = float(abs(weights[key]))
             except ValueError:  # if non integer characters are in the value fields
                 user_feedback = 'weights.json includes non integer or float point values (ValueError), please contact your professor about this issue'
                 return GradedSubmission(0, user_feedback)
-            except TypeError:  # if the value is a list, overwrite it with just the first element
+            except TypeError:  # if the value is a list, reduce the list to a single float
                 if type(weights[key]) is list:
-                    while type(weights[key]) is list:
-                        weights[key] = float(weights[key][0])
-                else:  # else the type of the value is unknown so we can't do anything with it
+                    while type(weights[key]) is list:  # keep convertinr it from a list to a float until it's a float (incase it's a nested list)
+                        try:
+                            weights[key] = float(weights[key][0])
+                        except ValueError:  # if non integer characters are in the value fields
+                            user_feedback = 'weights.json includes non integer or float point values (ValueError), please contact your professor about this issue'
+                            return GradedSubmission(0, user_feedback)
+                        except TypeError:
+                            if type(weights[key]) is list:
+                                weights[key] = weights[key][0]  # overwrite the list with it's first element
+                            else:  # if the value is not a list
+                                user_feedback = f'weights.json includes non integer or float point values (TypeError: {type(weights[key])}), please contact your professor about this issue'
+                                return GradedSubmission(0, user_feedback)
+                else:  # if the value is not a list
                     user_feedback = f'weights.json includes non integer or float point values (TypeError: {type(weights[key])}), please contact your professor about this issue'
                     return GradedSubmission(0, user_feedback)
 
     keys = list(weights.keys())
-    for i in range(1, numberoftestcases + 1):
+    for i in range(1, numberoftestcases + 1):  # get list of test cases and remove ones that get used. list with remaining values is used in the next part
         if f'test{i}' in keys:
             keys.remove(f'test{i}')
     

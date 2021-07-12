@@ -10,7 +10,7 @@ def get_args():
     parser = argparse.ArgumentParser("please add weights here")
     parser.add_argument("--HW_name", type=str, default="ECE264-HW1",
                         help="name of the homework")  # Get name of the homework from terminal
-    parser.add_argument("--case_num", type=int, default=5,
+    parser.add_argument("--case_num", type=int, default=10,
                         help="total number of testcases")  # Get total number of testcases from terminal
     parser.add_argument("--mem_coef", type=float, default=1,
                         help="the weight for memory leak")  # Get weight of memory leak per byte from terminal
