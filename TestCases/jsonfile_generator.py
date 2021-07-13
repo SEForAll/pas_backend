@@ -16,7 +16,7 @@ def get_args():
     parser.add_argument("--mem_coef", type=float, default=1,
                         help="the weight for memory leak")  # Get weight of memory leak per byte from terminal
     parser.add_argument("--late-coef", type=float, default=5,
-                        help="the weight for memory leak")  # Get penalty weight of late submission per hour
+                        help="the weight for late penalty")  # Get penalty weight of late submission per hour
     parser.add_argument("--grade_late_work", type=bool, default=False,
                         help="grade work and give feedback even if the late penalty is greater than 100 points")  # Get if very late work should be graded for feedback or not, even though they will get a 0 no matter what
     parser.add_argument("--destination", type=str, default=os.getcwd(),
