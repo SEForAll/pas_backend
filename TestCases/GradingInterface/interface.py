@@ -55,8 +55,12 @@ class Submission:
 
         :param submission_path: path to the zip file of user's submission
         """
-        self.submission_zip_path = submission_path
-        self.submission_folder_path = ''  # The path to unzipped submission
+        if submission_path.endswith('.zip'):
+            self.submission_zip_path = submission_path
+            self.submission_folder_path = None  # The path to unzipped submission
+        else:
+            self.submission_zip_path = None
+            self.submission_folder_path = submission_path  # The path to unzipped submission
 
     def setup(self):
         """
@@ -64,16 +68,16 @@ class Submission:
 
         :return: None
         """
+        if self.submission_zip_path is not None:  # if the submission is a zip file
+            p = re.compile(r'^(.+).zip$')  # pattern to find the new path (just without .zip)
+            match = p.search(self.submission_zip_path)
+            self.submission_folder_path = match.group(1)  # set the path to the new unzipped folder
 
-        p = re.compile(r'^(.+).zip$')
-        match = p.search(self.submission_zip_path)
-        self.submission_folder_path = match.group(1)
+            if os.path.isdir(self.submission_folder_path) is False:  # if the folder doesn't exist, make it
+                os.makedirs(self.submission_folder_path)
 
-        if os.path.isdir(self.submission_folder_path) is False:
-            os.makedirs(self.submission_folder_path)
-
-        with ZipFile(self.submission_zip_path, 'r') as submission:
-            submission.extractall(self.submission_folder_path)
+            with ZipFile(self.submission_zip_path, 'r') as submission:  # unzip in the specified directory
+                submission.extractall(self.submission_folder_path)
 
         return
 
