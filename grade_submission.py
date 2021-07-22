@@ -21,7 +21,7 @@ def parse_args(args):
         """
         Checks if the argument is a path to a directory
 
-        :param path: path leading to a file
+        :param path: relative or absolute path to a directory
         """
         path = force_absolute(path) #try to obtain correct path
         if not os.path.isdir(path): #if path does not exist, raise an error
@@ -32,16 +32,28 @@ def parse_args(args):
         """
         Checks if the argument is a path to a zip file
 
-        :param path: path leading to a file
+        :param path: relative or absolute path to a zip file
         """
         path = force_absolute(path) #try to obtain correct path
         if not path.endswith('.zip') or not os.path.isfile(path): #if the path is not a zip file or does not exist, raise an error
             raise ValueError
         return path
 
+    def zipfile_or_dir_path(path):
+        """
+        Checks if the argument is a path to a directory or a zip file
+
+        :param path: relative or absolute path to a zip file/directory
+        """
+        try:
+            path = zipfile_path(path)
+        except ValueError as e:
+            path = dir_path(path)
+        return path
+
     # define the arguments to be used with argparse
     parser = argparse.ArgumentParser(description='CMD line interface for grading a homework submission')
-    parser.add_argument('submission_zip', help='HW submission ZIP file', type=zipfile_path)
+    parser.add_argument('submission_path', help='HW submission folder or ZIP file', type=zipfile_or_dir_path)
     parser.add_argument('test_cases_dir', help='Folder with test cases to grade against', type=dir_path)
     parser.add_argument('hw_tag', help='Homework tag')
     parser.add_argument('user_id', help='Student\'s user id')
@@ -60,10 +72,7 @@ def grade_hw(zip_file_path, test_cases_dir_path):
     :return: grade and feedback
     """
     graded_obj = grade_submission(zip_file_path, test_cases_dir_path) #return graded object containing the grade information
-    grade = graded_obj.get_grade() #get grade percentage
-    feedback = graded_obj.get_error_list() #get feedback text
-
-    return grade, feedback
+    return graded_obj.get_grade(), graded_obj.get_error_list()
 
 def write_grade(grade: float, hw_tag: str, user_id: str, out_dir: str) -> None:
     """
@@ -99,7 +108,7 @@ if __name__ == '__main__':
     if valid, take the arguments and call the necessary functions to grade and output the text files
     """
     args = parse_args(sys.argv[1:])
-    grade, feedback = grade_hw(args.submission_zip, args.test_cases_dir) #grade the hw from the zip file
+    grade, feedback = grade_hw(args.submission_path, args.test_cases_dir) #grade the hw from the zip file
 
     write_grade(grade, args.hw_tag, args.user_id, args.out_dir) #grade and write grade info to txt file
     write_feedback(feedback, args.hw_tag, args.user_id, args.out_dir) #obtain feedback and write feedback to txt file
