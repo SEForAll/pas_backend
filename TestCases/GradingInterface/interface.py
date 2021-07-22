@@ -181,13 +181,13 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
                 continue
 
 
-    if 'grade_late_work' not in weights.keys():  # if grade_late_work is not in weights, add it and set it to False
-        weights['grade_late_work'] = False
-    if weights['grade_late_work'] is False:  # if grade_late_work is False then don't grade the work if it's too late to get a non-zero score
-        if 'late_coef' not in weights.keys():  # if late_coef isn't in weights, add it and set it to 5 (defualt value)
-            weights['late_coef'] = 5
-        if weights['late_coef'] * hourslate >= 100:  # if the penalty is already greater than 100% (will get a 0 no matter what)
-            return GradedSubmission(0, f'submission submitted {hourslate} hours past the deadline resulting in a 0%')
+            if 'grade_late_work' not in weights:  # if grade_late_work is not in weights, add it and set it to False
+                weights['grade_late_work'] = False
+            if weights['grade_late_work'] is False:  # if grade_late_work is False then don't grade the work if it's too late to get a non-zero score
+                if 'late_coef' not in weights:  # if late_coef isn't in weights, add it and set it to 5 (defualt value)
+                    weights['late_coef'] = 5
+                if weights['late_coef'] * hourslate >= 100:  # if the penalty is already greater than 100% (will get a 0 no matter what)
+                    return GradedSubmission(0, f'submission submitted {hourslate} hours past the deadline resulting in a 0%')
 
     os.chdir(user_submission.submission_folder_path)  # change the directory to the path of the student files ready to be graded
 
@@ -211,6 +211,7 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
             return GradedSubmission(0, user_feedback)
     
     if weights is None:  # if weights is empty, make it from scratch
+        weights = {}
         for num in range(1, numberoftestcases + 1):
             weights[f'test{num}'] = 1
         weights['mem_coef'] = 1
