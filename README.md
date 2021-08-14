@@ -44,7 +44,7 @@ This folder stores code of grading system, code of grading system interface, cod
 &emsp;- [grade_submission.py](grade_submission.py)   
 &emsp;&emsp;This file contains code of grading system interface as well as the means to input arguments to output two text files, one containing the grade and the other the feedback for a specified homework of a user. It serves as a very streamlined way to run the grading system through a single command. Running the file with the -h or -help argument will show the arguments needed for the code to function.
 
-&emsp;- .[hw.py]
+&emsp;- .[grading](TestCases)
 &emsp;&emsp;there are python files named by hw02 to hw21, such as hw02.py. Run these programs by using command like "python3 hw02.py" to get scores and feedbacks for students' homeworks  
 
 &emsp;- [jsonfile_generator.py](TestCases/jsonfile_generator.py)   
