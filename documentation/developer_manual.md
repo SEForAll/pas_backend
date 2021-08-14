@@ -20,6 +20,7 @@ A TestCase object is used to instantiate the test cases that need to be used in 
 ## How_does_our_code_grade_hw
 &emsp;First of all, you need to open this file, [gradingsystem.py](TestCases/GradingInterface/gradingsystem.py). Basically, we use linux terminal commands to grade students' homework. Instead of manually type it out in a terminal, we will let the grading system do it for us. After the function, grade, be called, this is what our code will do.  
 &emsp; 0. We need a Makefile that had been seted up already by the professor before calling the function. Check the [Makefile template](grading_system_helper/Makefile).    
+&emsp; 0.1 we also need json file that contains information about grading the system. Check the [json file template](TestCaese/weights.json).
 &emsp; 1. (line 17-23) We will create two lists, one is used to store the feedback for submission. The other one is used to store points for each section. 
 Then we change the directory to the path of the project.  
 &emsp; 2. (line 28-83) We will check if everything can compile. There are enough comments in gradingsystem.py to help you understand how to check if everything can compile.  
