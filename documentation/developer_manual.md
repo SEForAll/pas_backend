@@ -41,6 +41,7 @@ An alternative way to grade the submission is through [grade_submission.py] loca
 &emsp;&emsp;[gradingsystem.py](TestCases/GradingInterface/gradingsystem.py)  
 &emsp;&emsp;[interface.py](TestCases/GradingInterface/interface.py)  
 &emsp;&emsp;[equation.py](TestCases/GradingInterface/equation.py)  
-&emsp;&emsp;[Makefile](grading_system_helper/Makefile)  
+&emsp;&emsp;[Makefile](grading_system_helper/Makefile)
+&emsp;&emsp;[json file](TestCases/jsonfile_generator.py)
 
 For detail description, please read [readme](README.md)
