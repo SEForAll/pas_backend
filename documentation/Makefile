@@ -5,7 +5,8 @@
 #   Name of one of the outputfiles = Name of one of the outputfiles. Do not include any pass, just put in the file name.		ex) output1
 #	Name of one of the expected outputfiles = Name of one of the expected outputfiles. Do not include any pass, just put in the file name.  ex) expected1
 # 
-# Replace any <...> with the correct code. Follow the instruction specified above and at the end of this makefile
+# Replace any <...> with the correct code. Follow the instruction specified above and at the end of this makefile. You must not modify anything else, unless you fully understand 
+# how out system works in detail. 
 
 
 WARNING = -Wall -Wshadow --pedantic
