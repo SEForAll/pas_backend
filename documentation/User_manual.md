@@ -5,7 +5,8 @@ If you are interested in understanding our code in detail and be able to add mor
 
 ## Grading_system_interface
 
-&emsp; 
+&emsp; The grading system will be tested under four conditions: correct answer, answer with compile error, answer with memory leak, answer with wrong output.
+check one example of the testcase: [testcase exmaple](https://github.com/PurdueCAM2Project/pas_backend/blob/main/TestCases/hw18.py).  
 
 
 ## Makefile
