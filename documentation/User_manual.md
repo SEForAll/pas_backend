@@ -1,7 +1,7 @@
 ## Introduction
 &emsp;The purpose of this developer manual is to help a user know how to use our grading system by calling functions in [Grading System Interface](https://github.com/PurdueCAM2Project/pas_backend/blob/main/TestCases/GradingInterface/interface.py).  
 If you are interested in understanding our code in detail and be able to add more functions to our grading system, please read the [developer_manual](developer_manual.md).  
-&emsp;In this user manual, we will mainly focuse on introducing [Grading System Interface](TestCases/GradingInterface/interface.py) and the [Makefile template](grading_system_helper/Makefile).    
+&emsp;In this user manual, we will mainly focuse on introducing [Grading System Interface](https://github.com/PurdueCAM2Project/pas_backend/blob/main/TestCases/GradingInterface/interface.py) and the [Makefile template](grading_system_helper/Makefile).    
 
 ## Grading_system_interface
 
