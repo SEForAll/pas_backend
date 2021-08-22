@@ -1,5 +1,5 @@
 ## Introduction
-&emsp;The purpose of this developer manual is to help a user know how to use our grading system by calling functions in [Grading System Interface](pas_backend/TestCases/GradingInterface/interface.py).
+&emsp;The purpose of this developer manual is to help a user know how to use our grading system by calling functions in [Grading System Interface](TestCases/GradingInterface/interface.py).  
 If you are interested in understanding our code in detail and be able to add more functions to our grading system, please read the [developer_manual](developer_manual.md).  
 &emsp;In this user manual, we will mainly focuse on introducing [Grading System Interface](TestCases/GradingInterface/interface.py) and the [Makefile template](grading_system_helper/Makefile).    
 
