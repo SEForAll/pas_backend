@@ -5,14 +5,13 @@ If you are interested in understanding our code in detail and be able to add mor
 
 ## Grading_system_interface
 
+&emsp; 
+
 
 ## Makefile
 &emsp;As a user, you need to set up your own Makefile according to our [Makefile template](https://github.com/PurdueCAM2Project/pas_backend/blob/main/documentation/Makefile) to be able to use our grading system. 
 The Makefile will need Name of the excutable, Name of all the input arguments, Name of all the output files, Name of all the expected output files. There will be
 more instructions on how to set up the Makefile in [Makefile template](https://github.com/PurdueCAM2Project/pas_backend/blob/main/documentation/Makefile).  
-
-## Grading_system_interface_example_code
-
 
 
 ## Makefile_example
