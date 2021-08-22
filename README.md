@@ -1,15 +1,17 @@
 # pas_backend
-Backend has all the functionality code for program analysis. There are three main chunk of code in this repository:  
-&emsp;1. Database (located in 'databasefiles' folder)  
-&emsp;2. Grading system code (located in 'TestCases/GradingInterface' folder)  
-&emsp;3. Grading system interface (located in 'TestCases/GradingInterface' folder)  
+This readme is used to help you allocate where is the code. It is not used to teach you how to use our system. If you want to know how to use our system, go to the [documentation](documentation) folder.
+Backend has all the functionality code for program analysis. There are four main chunk of files in this repository:  
+&emsp;1. Database (located in [databasefiles](databasefiles) folder)  
+&emsp;2. Grading system code (located in [TestCases/GradingInterface](TestCases/GradingInterface) folder)  
+&emsp;3. Grading system interface (located in [TestCases/GradingInterface](TestCases/GradingInterface) folder)  
+&emsp;4. Documentation (located in [documentation](documentation) folder)  
 
-There is also a folder called 'grading_system_helper' used to store draft files of Grading system code and the Makefile template.
+There is also a folder called 'grading_system_trash' folder used to store draft files.
 
 ## Table of folders
 * [databasefiles](#databasefiles)
-* [grading_system_helper](#grading_system_helper)
 * [TestCases](#TestCases)
+* [Documentation](#Documentation)
 
 ## databasefiles
 This folder stores code related to database. We used peewee(sqlite3) to set up our database.  
@@ -18,14 +20,6 @@ This folder stores code related to database. We used peewee(sqlite3) to set up o
 
 &emsp;- addToDB.py  
 &emsp;&emsp;This file contains some helper functions to manage database.  
-
-## grading_system_helper
-This folder does not contain any code that is part of the functionality code. If you are looking for functionality code please move to [TestCases](#TestCases). This folder stores draft code of grading system and the Makefile template.  
-&emsp;- grading_system_helper/draftfiles  
-&emsp;&emsp;This folder stores draft codes of Grading system code, and it does not contain any code that is part of the functionality code.  
-
-&emsp;- [Makefile](grading_system_helper/Makefile)  
-&emsp;&emsp;This is the template for the Makefile that is one of the key elements of the grading system code. Any developer should read   this template before modifying gradingsystem.py. Any professor user should read this template to create the corresponding Makefile of an assignment.
 
 ## TestCases
 This folder stores code of grading system, code of grading system interface, code of changing grading parameters feature, and a test folder of the grading system.  
@@ -49,3 +43,6 @@ This folder stores code of grading system, code of grading system interface, cod
 
 &emsp;- [jsonfile_generator.py](TestCases/jsonfile_generator.py)   
 &emsp;&emsp;this file contains code of generating json file.
+
+## Documentation
+
